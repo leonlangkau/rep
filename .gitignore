@@ -1,0 +1,30 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+package-lock.json
+
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+dist/
+
+# OS / editor
+.DS_Store
+*.swp
+
+# Temp / backups
+*.bak
+*.tmp
+*~
+
+# Claude Code agent worktrees (local only)
+.claude/worktrees/
+
+# Qwen agent workspace (session cache, tmp)
+.qwen/
+_worker.bundle

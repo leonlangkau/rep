@@ -1,11 +1,13 @@
 # PLAN — `rep` → repeater.com.au marketing site
 
-> **Written 2026-10-02** against `aphelion` `main` (migrations up to `028_site_proof.sql`)
-> and `fivestarrepairs` `main` (migrations up to `076_visitor_events.sql`).
-> The `rep` repo has **no commits yet**; remote `https://github.com/leonlangkau/rep`.
+> **Written 2026-10-02, revised the same day after Leo's four decisions** (see §12).
+> Written against `aphelion` `main` (migrations to `028_site_proof.sql`) and
+> `fivestarrepairs` `main` (migrations to `076_visitor_events.sql`).
+> Remote `https://github.com/leonlangkau/rep`; repo root == git root == this folder.
 >
 > Read this whole file before writing code. `docs/AGENT-PROMPT-full-build.md` is the
-> copy-paste run brief; this file is the spec it points at.
+> copy-paste run brief; this file is the spec it points at. **Where they disagree, this
+> file wins** — and say so in your report.
 
 ---
 
@@ -32,29 +34,27 @@ linter, no transpiler. Pages Functions for the three API endpoints.
 
 ---
 
-## 1. ⚠ Task 0 — resolve the repo nesting first
+## 1. ✅ Task 0 — repo nesting: RESOLVED 2026-10-02
 
-The git root is **`C:\Users\admin\Documents\ai\gemini\rep\rep`** (the `.git` lives one
-level *inside* the folder Qwen treats as the project root). This is almost certainly an
-accidental double-nesting from running `git clone` inside a folder already called `rep`.
+**Git root == project root == `C:\Users\admin\Documents\ai\gemini\rep`.** Leo chose to
+move `.git` up one level rather than build inside a nested `rep\rep\`. Done and verified:
 
-The repo has **zero commits**, so nothing is lost either way. Recommended fix, in order
-of preference:
+- `git rev-parse --show-toplevel` → `C:/Users/admin/Documents/ai/gemini/rep`
+- commit `1ab044c` intact, `main` in sync with `origin/main`, tree clean
+- the empty inner `rep\` folder removed
+- `.gitignore` added (copied from aphelion — it carries the `.qwen/` line, which matters
+  now that `.qwen` sits inside the repo root)
 
-1. **Move the git dir up one level** (cleanest — repo root == project root, matches
-   `aphelion` and `fivestarrepairs`):
-   ```bat
-   cd /d C:\Users\admin\Documents\ai\gemini\rep
-   move rep\.git .git
-   rmdir rep
-   git status
-   ```
-2. Or **leave it** and build everything under `rep\rep\`. Works fine, but every future
-   agent will have project-root ≠ git-root and will keep tripping on it.
+⚠ **Gotcha for the future:** `move rep\.git .git` **fails in cmd.exe** with
+*"The system cannot find the file specified"* — cmd does not handle dot-prefixed
+directories as move targets. It failed cleanly (nothing moved, nothing broken), but use:
 
-**Ask Leo which he wants before doing anything destructive.** Option 1 is a `move` of an
-empty `.git`, not a history rewrite, but it is still a structural change to his repo.
-Whichever is chosen, record the decision at the top of `docs/WORKLOG-<date>.md`.
+```powershell
+Move-Item -LiteralPath '<src>\.git' -Destination '<dst>\.git'
+```
+
+Nothing else in this plan is affected by the move. All paths below are relative to the
+repo root.
 
 ---
 
@@ -388,9 +388,19 @@ Only three emails are actually evidenced (`orders@`/`fleet@repeater.com.au` in
 `aphelion/tests/sending-domains.test.mjs`). Everything else is a placeholder.
 
 **(c) Catalogue rows come from the database, never from markup.**
+**Confirmed by Leo 2026-10-02: `DB_REPEATER.products` is NOT populated.** `/catalogue`
+ships with the empty state as its *normal* rendered condition, not as a fallback — the
+grid, the `.breaks` table and `catalogue.js` are all fully built and tested, they simply
+have no rows yet. The empty state is the primary design:
+
+> *"Trade pricing is released to approved accounts — apply and we'll send your price
+> list."* → `.btn--accent` to `/apply`
+
+That is a better B2B page than a sparse catalogue would be, so do not treat it as a
+degraded state or apologise for it in the copy.
+
 `GET /api/catalogue` reads `products` + `price_breaks` from `DB_REPEATER`. Empty or
-unbound → an honest empty state (*"Trade pricing is released to approved accounts —
-apply and we'll send your price list"*), **not** six fake products. Public prices are
+unbound → `{ok:true,categories:[],products:[]}`, **never a 500**. Public prices are
 **GST-exclusive** and, where a `price_list_id` is required, withheld until the account
 exists — respect `trade_accounts.credit_limit` and the price-resolution order recorded
 in `007_b2b_wholesale.sql`:
@@ -446,12 +456,22 @@ optional bindings with a prose paragraph each (house style).
 
 `_`-prefixed files (`_ratelimit.js`, `_alert.js`) are **helpers, not routes**.
 
-**Why same-origin ports rather than calling `https://aphelion.ltd/api/*`:** aphelion's
-`functions/api/t.js` only echoes an `Origin` that exactly matches the registry row's
-`site_url`, never `*`. A cross-origin call would mean widening that allow-list and
-adding preflight handling to a live production project. Two ~120-line ports plus
-`tests/contract.test.mjs` asserting the response shapes match is the smaller risk.
-**Flag this to Leo** — it does duplicate platform code, and he may prefer the CORS route.
+**Decision (Leo, 2026-10-02): same-origin ports.** Do **not** call
+`https://aphelion.ltd/api/*` cross-origin.
+
+Rationale, for the record: aphelion's `functions/api/t.js` only echoes an `Origin` that
+exactly matches the registry row's `site_url`, and never `*`. A cross-origin call would
+mean widening that allow-list and adding preflight handling to a live production project
+that three businesses depend on. Two ~120-line ports plus `tests/contract.test.mjs`
+asserting the response shapes match field-for-field is the smaller risk.
+
+The duplication is the accepted cost. Manage it:
+- Port `proof.js` and `enquiry.js` **verbatim** — do not "improve" them while copying.
+- Copy their header docstrings unchanged and append one line:
+  `Ported verbatim from aphelion/functions/api/<name>.js — keep in sync.`
+- `tests/contract.test.mjs` is the drift alarm. If aphelion's response shape changes,
+  that test is what tells you.
+- `_ratelimit.js`, `_alert.js` and `melbourneDay` come along with `enquiry.js`.
 
 ### 6.3 New schema — `rep` owns it
 
@@ -636,41 +656,76 @@ without Leo's go-ahead — see §11.
 
 ## 11. Registration steps that live outside this repo
 
-These are **Leo's calls**, not an agent's. Prepare them, present them, don't run them.
+These mutate **live production** (`aphelion` + Cloudflare DNS). Steps 1-3 and 5 are
+Leo's calls — prepare them in `docs/SETUP-deploy.md`, present them, don't run them.
+Step 4 is authorised, but **gated** — read it carefully.
 
 1. **`site_url`** — the registry row must carry the deployed origin or the traffic
    beacon silently 204s (aphelion's `/api/t` echoes an `Origin` only on an exact
-   `site_url` match, never `*`).
+   `site_url` match, never `*`). Set it to `https://repeater.com.au`.
 2. **Branding PATCH** — migration `010_business_branding.sql` fields
    (`from_email`, `signature`, `app_url`, `review_url`, `bounce_prefix`). aphelion's
    runbook warns that skipping this leaves `repeater` inheriting `DEFAULT_BRANDING` —
    **FSR's name, from-address and `fsr-` bounce prefix** — which it currently does.
-   Use `PATCH`, never `POST`.
+   Use `PATCH`, never `POST`. Suggested: `from_email` = `Repeater <orders@repeater.com.au>`,
+   `bounce_prefix` = `repeater-`.
 3. **`SESSION_SECRET`** on the new Pages project must be **byte-identical** to
    aphelion's, or the shared `fsr_session` cookie won't cross-verify.
-4. **Custom domain** — bind `repeater.com.au` only on Leo's instruction. Until then the
-   site lives on its unlisted `*.pages.dev` URL. *(Standing preference: anything that
-   changes what the public sees stays off by default or on an unlisted preview until he
-   flips the switch.)*
+4. **Custom domain — AUTHORISED by Leo 2026-10-02, but blocked until the ABN arrives.**
+
+   He chose *"Bind repeater.com.au now"* over the unlisted `*.pages.dev` preview. That
+   decision **collides with the §5(b) content rule**: an Australian B2B site must display
+   its ABN, and `tests/facts.test.mjs` is specified to fail if any `[OWNER TO CONFIRM]`
+   placeholder is live on a custom domain. So the gate is real and must not be weakened
+   to make the deploy go through.
+
+   Resolution order — do **not** skip ahead:
+   1. Build and deploy to the `*.pages.dev` preview URL first. That is free, instant,
+      and lets Leo review the design while the facts are outstanding.
+   2. Ask Leo for the **ABN**, trade **phone**, **address** and **dispatch SLA**.
+   3. Fill `facts.js`, confirm `facts.test.mjs` passes with no placeholders.
+   4. Only then bind `repeater.com.au` (Pages → Custom domains) and set `site_url`.
+
+   If Leo says to bind anyway without an ABN, **stop and say so explicitly** — that is a
+   legal-exposure call, not a build call, and it must be his informed decision rather
+   than something an agent quietly shipped. Never delete or relax the placeholder test to
+   get a green run.
 5. **`status` flip to `live`** — aphelion returns `409 needsProvisioning` until the
    binding exists in `env`. The runbook says: *"that guard is intentional, don't remove
    it."*
 
 ---
 
-## 12. Open questions for Leo
+## 12. Decisions taken, and what's still outstanding
 
-1. **Repo nesting** (§1) — move `.git` up, or build inside `rep\rep\`?
-2. **Same-origin API ports vs. CORS to aphelion.ltd** (§6.2) — recommend ports.
-3. **Real catalogue** — is `DB_REPEATER.products` populated yet, or does `/catalogue`
-   ship behind the empty state on day one?
-4. **Trade tiers** for `.tiers` — `trade_accounts.terms_days` supports Net 7/14/30/60,
-   but tier *names* and what each unlocks are a business decision.
-5. **Domain** — confirm `repeater.com.au` is the target and whether it's already in
-   Cloudflare.
-6. **ABN** — legally required on an AU B2B site; must not be guessed.
-7. **Photography** — team portraits (`.team`) and product shots. Until supplied, `.team`
-   uses monogram tiles and `.show` uses CSS-drawn UI, per §5.
+### Answered by Leo, 2026-10-02 — settled, do not re-litigate
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | Repo nesting (§1) | **`.git` moved up** — git root == project root. Done, commit `1ab044c` intact |
+| 2 | API wiring (§6.2) | **Same-origin ports** in `rep`, binding `DB_APHELION` by `database_id`. No CORS to aphelion.ltd |
+| 3 | Catalogue (§5c) | **`DB_REPEATER.products` is NOT populated** — `/catalogue` ships the empty state as its normal design |
+| 4 | Launch (§11.4) | **Bind `repeater.com.au`** — authorised, but gated on the ABN per §11.4 |
+
+Earlier the same day he also locked: **subject** = Repeater B2B wholesale,
+**stack** = zero-build vanilla (Astro and Next.js both rejected), **look** = light-first
+with dark accents (deliberately *not* the dark canvas both references use),
+**scope** = full multi-page.
+
+### Still outstanding — all facts only Leo has
+
+| # | Needed | Blocks | Interim behaviour |
+|---|---|---|---|
+| 5 | **ABN** | §11.4 domain binding — legally required on an AU B2B site | muted `[OWNER TO CONFIRM]`, `facts.test.mjs` fails on a custom domain |
+| 6 | Trade phone, service/postal address | footer, `/contact`, JSON-LD | ditto. Only `orders@`/`fleet@repeater.com.au` are evidenced |
+| 7 | Dispatch SLA + delivery coverage | hero trust line, `/wholesale` `.steps` | ditto |
+| 8 | Trade-tier names + entitlements | `.tiers` on `/pricing` | Net 7/14/30/60 and GST-exclusive *are* evidenced from `trade_accounts`; names are not |
+| 9 | Logo (SVG) + `og:image` 1200×630 | favicon, nav, social cards | text wordmark; `og:image` is required — aphelion omits it, FSR doesn't, we do |
+| 10 | Team portraits, product photography | `.team`, `.show` | monogram tiles + CSS-drawn UI (§5) |
+| 11 | Testimonials, client logos, headline stats | `.proof`, `.marquee`, `.stats`, `.bars` | **not sent to an agent** — Leo enters these in aphelion **Admin → References**; the site picks them up via `GET /api/proof`, and empty means the block is removed from the DOM |
+| 12 | Blog / case-study content | `/blog`, `.case` on `/about` | Phase 6 builds the machinery; posts stay `draft` until written |
+
+Items 5-10 block nothing before Phase 5. Build Phases 0-4 now.
 
 ---
 

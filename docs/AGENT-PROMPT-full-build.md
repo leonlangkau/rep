@@ -102,19 +102,33 @@ MODE — AUTONOMOUS LONG RUN:
   uncommitted work.
 
 ────────────────────────────────────────────────────────────
-TASK 0 — Repo nesting (ASK FIRST)
+TASK 0 — Already done. Read this, don't redo it.
 ────────────────────────────────────────────────────────────
-The git root is C:\Users\admin\Documents\ai\gemini\rep\rep — one level INSIDE the folder
-the agent treats as project root. The repo has zero commits. PLAN §1 gives the fix
-(move .git up one level, rmdir the empty inner folder). This is a structural change to
-Leo's repo: present both options and get his answer before touching anything. If he
-doesn't answer, take option 2 (build inside rep\rep\) and record the decision at the top
-of the WORKLOG. Do not proceed to Task 1 with this unresolved.
+Repo root == git root == C:\Users\admin\Documents\ai\gemini\rep. The double-nesting is
+resolved (`.git` moved up, inner folder removed, `.gitignore` added). Commit 1ab044c.
+
+FOUR DECISIONS LEO HAS ALREADY MADE — do not re-ask, do not re-litigate:
+ 1. Repo nesting: RESOLVED as above. All paths in this prompt are repo-root relative.
+ 2. API wiring: SAME-ORIGIN PORTS. Port aphelion's proof.js + enquiry.js into rep and
+    bind DB_APHELION by database_id. Do NOT call https://aphelion.ltd/api/* cross-origin.
+ 3. Catalogue: DB_REPEATER.products is NOT populated. `/catalogue` ships the empty state
+    as its normal, primary design — not as a degraded fallback. Build the grid, the
+    `.breaks` table and catalogue.js fully; they just have no rows.
+ 4. Launch: bind repeater.com.au — AUTHORISED but GATED. See Task 8. Deploy to the
+    *.pages.dev preview first and never bind the domain while an "[OWNER TO CONFIRM]"
+    placeholder remains. Do not weaken facts.test.mjs to make a deploy go through.
+
+Also settled earlier: subject = Repeater B2B wholesale; stack = zero-build vanilla
+(Astro and Next.js both rejected); look = LIGHT-FIRST with dark accents (deliberately
+not the dark canvas either reference uses); scope = full multi-page.
+
+Start at Task 1.
 
 ────────────────────────────────────────────────────────────
 TASK 1 — Phase 0: skeleton + tokens
 ────────────────────────────────────────────────────────────
-`.gitignore` (copy aphelion's — it carries the `.qwen/` line), `package.json`
+`.gitignore` ALREADY EXISTS (copied from aphelion, carries the `.qwen/` line) — leave it
+unless something needs adding. Create `package.json`
 (type:module, private, scripts dev/test, NO devDependencies — qrcode isn't needed),
 `wrangler.toml` (PLAN §6.1, verbatim, three bindings + commented optional ones),
 `README.md` (house section order: intro → ## Layout as an ASCII tree with `←` arrows →
@@ -177,9 +191,14 @@ TASK 5 — Phase 4: catalogue, wholesale, pricing
 ────────────────────────────────────────────────────────────
 `functions/api/catalogue.js` reading `products` + `price_breaks` from DB_REPEATER →
 `{ok,categories[],products[]}`, GST-exclusive, quantity breaks only. Degrade to
-`{ok:true,products:[]}` when unbound. `public/assets/catalogue.js` renders the grid and
-the `.breaks` table, or the honest empty state ("Trade pricing is released to approved
-accounts — apply and we'll send your price list").
+`{ok:true,categories:[],products:[]}` when unbound. `public/assets/catalogue.js` renders
+the grid and the `.breaks` table.
+LEO HAS CONFIRMED `products` IS EMPTY — so the empty state is the page's normal design,
+not an error path: "Trade pricing is released to approved accounts — apply and we'll
+send your price list" with a `.btn--accent` to `/apply`. Build the populated rendering
+too and test it with seeded rows in `tests/catalogue.test.mjs`, so the page starts
+working the moment Leo loads products. Don't apologise for the empty state in the copy —
+for B2B wholesale, gated pricing is a feature.
 Build `/catalogue`, `/wholesale` (the `.steps` explainer: apply → price list → order →
 terms, plus the GST-exclusive and Net 7/14/30/60 facts, which ARE evidenced from
 007_b2b_wholesale.sql), and `/pricing` (`.tiers` — tier NAMES and entitlements are
@@ -226,27 +245,41 @@ named import silently kills every route in a file.
 Gates green → commit → push.
 
 ────────────────────────────────────────────────────────────
-TASK 8 — Phase 7: registration + deploy (NEEDS LEO — PREPARE, DON'T EXECUTE)
+TASK 8 — Phase 7: deploy, then the GATED domain bind
 ────────────────────────────────────────────────────────────
-These mutate the LIVE aphelion production project. Write `docs/SETUP-deploy.md` with the
-exact commands and stop. Do NOT run them without an explicit go-ahead:
- 1. Create the Pages project, blank build command, output dir `public`. Bind
-    DB_APHELION (3f6d51f8-7b13-437b-aedb-5af019b62901), DB_REPEATER
-    (60bf7791-8963-4b10-870a-16194e4be0f3), MEDIA_FSR (fivestarrepairs-media).
- 2. Set SESSION_SECRET byte-identical to aphelion's, or the shared fsr_session cookie
-    won't cross-verify.
- 3. In aphelion: set the registry row's `site_url` to the deployed origin — without it
-    the traffic beacon silently 204s, because /api/t echoes an Origin only on an exact
-    site_url match and never `*`.
- 4. In aphelion: PATCH (never POST) the five 010_business_branding fields
-    (from_email, signature, app_url, review_url, bounce_prefix). Skipping this leaves
-    repeater inheriting DEFAULT_BRANDING — FSR's name, from-address and `fsr-` bounce
-    prefix — which is its current state.
- 5. Leave the site on its unlisted *.pages.dev URL. Binding repeater.com.au is Leo's
-    call. `facts.test.mjs` must fail if an "[OWNER TO CONFIRM]" placeholder is live on a
-    custom domain.
- 6. The `status` flip to 'live' returns 409 needsProvisioning until the binding exists
-    in env — aphelion's runbook says "that guard is intentional, don't remove it."
+8a — DEPLOY TO PREVIEW (agent may do this if wrangler is authenticated):
+ Create the Pages project, blank build command, output dir `public`. Bind
+ DB_APHELION (3f6d51f8-7b13-437b-aedb-5af019b62901), DB_REPEATER
+ (60bf7791-8963-4b10-870a-16194e4be0f3), MEDIA_FSR (fivestarrepairs-media).
+ Set SESSION_SECRET byte-identical to aphelion's, or the shared fsr_session cookie
+ won't cross-verify. Ship to the unlisted *.pages.dev URL and give Leo that URL — he
+ judges design visually and may only read your last message.
+ If wrangler isn't logged in, write docs/SETUP-deploy.md with the exact commands and
+ hand it over instead of guessing at credentials.
+
+8b — BIND repeater.com.au: AUTHORISED, BUT DO NOT DO IT YET.
+ Leo chose "bind now" over the unlisted preview. That collides with the content rule:
+ an Australian B2B site must display its ABN, and facts.test.mjs fails if any
+ "[OWNER TO CONFIRM]" placeholder is live on a custom domain. The gate is real.
+   1. Ask Leo for the ABN, trade phone, address and dispatch SLA.
+   2. Fill public/assets/facts.js, confirm facts.test.mjs passes with zero placeholders.
+   3. ONLY THEN bind the domain (Pages → Custom domains).
+ NEVER delete, skip or relax facts.test.mjs to get a green run. If Leo says bind anyway
+ without an ABN, stop and put it to him explicitly as a legal-exposure decision — that
+ is his informed call, not something to ship quietly.
+
+8c — APHELION-SIDE REGISTRY (MUTATES LIVE PRODUCTION — PREPARE, DON'T EXECUTE):
+ Write these into docs/SETUP-deploy.md and stop. Do not run them without a go-ahead:
+   - Set the registry row's `site_url` to https://repeater.com.au. Without it the
+     traffic beacon silently 204s, because /api/t echoes an Origin only on an exact
+     site_url match and never `*`.
+   - PATCH (never POST) the five 010_business_branding fields. Skipping this leaves
+     repeater inheriting DEFAULT_BRANDING — FSR's name, from-address and `fsr-` bounce
+     prefix — which is its current state. Suggest from_email
+     "Repeater <orders@repeater.com.au>", bounce_prefix "repeater-".
+   - The `status` flip to 'live' returns 409 needsProvisioning until the binding exists
+     in env — aphelion's runbook says "that guard is intentional, don't remove it."
+
 Verify after deploy: `/` → 200, `/api/proof` → 200 with ok:true, `/api/enquiry` GET →
 405 with allow:POST, an unknown path → 404.html, `/sitemap.xml` → 200.
 
@@ -272,19 +305,19 @@ Run from the repo root, working tree clean, after `git fetch origin`.
 
 **Claude Code:**
 ```bash
-cd /c/Users/admin/Documents/ai/gemini/rep/rep && git status --short && git fetch origin
+cd /c/Users/admin/Documents/ai/gemini/rep && git status --short && git fetch origin
 claude -p "$(cat docs/AGENT-PROMPT-full-build.md)" --dangerously-skip-permissions --max-turns 2000
 ```
 
 **Codex CLI:**
 ```bash
-cd /c/Users/admin/Documents/ai/gemini/rep/rep && git status --short && git fetch origin
+cd /c/Users/admin/Documents/ai/gemini/rep && git status --short && git fetch origin
 codex exec --full-auto "$(cat docs/AGENT-PROMPT-full-build.md)"
 ```
 
 **OpenCode:**
 ```bash
-cd /c/Users/admin/Documents/ai/gemini/rep/rep && git status --short && git fetch origin
+cd /c/Users/admin/Documents/ai/gemini/rep && git status --short && git fetch origin
 opencode run "$(cat docs/AGENT-PROMPT-full-build.md)"
 ```
 
@@ -292,6 +325,3 @@ opencode run "$(cat docs/AGENT-PROMPT-full-build.md)"
 > runs until the phases are done, not to a turn count. If the CLI dies mid-run, re-run
 > the same command: the prompt is idempotent, `docs/WORKLOG-<date>.md` says where it got
 > to, and everything committed is already verified.
->
-> Adjust the `cd` path if Task 0's nesting question was answered by moving `.git` up one
-> level (then it is `/c/Users/admin/Documents/ai/gemini/rep`).
