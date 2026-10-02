@@ -1,0 +1,12 @@
+{
+  "name": "rep",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Repeater wholesale site (repeater.com.au). Static HTML + dependency-free Pages Functions; no build step, no framework, and no runtime npm dependency.",
+  "scripts": {
+    "dev": "wrangler pages dev",
+    "test": "node --test tests/*.test.mjs",
+    "test:imports": "node tests/imports.test.mjs"
+  }
+}

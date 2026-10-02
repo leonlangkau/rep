@@ -1,0 +1,59 @@
+name = "repeater-site"
+compatibility_date = "2026-06-29"
+pages_build_output_dir = "public"
+
+# Repeater's own business database: products, price_breaks, price_lists,
+# wholesale_* and the orders table. Provisioned from the fivestarrepairs
+# schema.sql plus aphelion's migrations/007_b2b_wholesale.sql — this repo only
+# ever ADDS its own site tables (see schema.sql), never touches those.
+[[d1_databases]]
+binding = "DB_REPEATER"
+database_name = "repeater"
+database_id = "60bf7791-8963-4b10-870a-16194e4be0f3"
+
+# Aphelion-owned platform tables this site reads/writes by contract:
+#   leads       (aphelion migration 027) — the trade application / enquiry form
+#   site_proof  (aphelion migration 028) — owner-entered references
+#   rate_limits (aphelion migration 006) — the enquiry rate limiter
+#
+# Declared with the SAME database_id the aphelion project uses so the site
+# stays same-origin: no CORS surface, and credentials:"same-origin" just works.
+# The alternative (calling https://aphelion.ltd/api/*) was considered and
+# rejected on 2026-10-02 — aphelion's /api/t echoes an Origin only on an exact
+# site_url match and never "*", so it would mean widening a live production
+# allow-list that three businesses depend on.
+[[d1_databases]]
+binding = "DB_APHELION"
+database_name = "aphelion-admin"
+database_id = "3f6d51f8-7b13-437b-aedb-5af019b62901"
+
+# Shared media bucket. The business registry already points repeater at
+# MEDIA_FSR (wrangler.toml in aphelion declares no MEDIA_REPEATER), so the
+# binding name here matches what the registry expects rather than inventing one.
+[[r2_buckets]]
+binding = "MEDIA_FSR"
+bucket_name = "fivestarrepairs-media"
+
+# --- Aspirational bindings, deliberately commented out (house style: document
+# --- the option rather than deleting it) ---
+#
+# Owner alerts on a new trade application use the Email Service REST API with
+# the CF_ACCOUNT_ID + CF_EMAIL_API_TOKEN secrets, because Pages Functions can't
+# declare a send_email binding yet; functions/api/_alert.js checks for a binding
+# named EMAIL first, so if this project ever moves to Workers with static
+# assets, uncomment this and the API token becomes unnecessary:
+# [[send_email]]
+# binding = "EMAIL"
+#
+# A scheduled digest of the trade applications (Workers only — Pages Functions
+# cannot declare a cron trigger; aphelion solves this with a separate Worker):
+# [triggers]
+# crons = ["0 21 * * *"]   # 07:00 Australia/Melbourne, give or take DST
+
+# Secrets are NOT here (Pages project -> Settings -> Environment variables, or
+# .dev.vars locally). All optional, and every one degrades gracefully:
+#   SESSION_SECRET     only if this project ever grows an admin
+#   PUSHOVER_TOKEN     owner push alerts; unset -> the lead still stores
+#   PUSHOVER_USER
+#   BOOKING_EMAIL_TO   email failsafe recipient list
+#   CF_ACCOUNT_ID + CF_EMAIL_API_TOKEN   sending via Cloudflare Email Service
