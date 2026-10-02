@@ -8,14 +8,30 @@ deliberate.
 
 ---
 
-## 0. The gate: the ABN is still unknown
+## 0. The gate: two facts short of a domain bind
 
-`public/assets/facts.js` carries `[OWNER TO CONFIRM]` for the ABN, the phone
-number, the address, the dispatch SLA, the delivery coverage, the warranty and
-the minimum order value. Only two facts are evidenced: `orders@repeater.com.au`
-and `fleet@repeater.com.au` (from `aphelion/tests/sending-domains.test.mjs`),
-plus GST-exclusive pricing and the 7/14/30/60 day terms (from
-`aphelion/migrations/007_b2b_wholesale.sql`).
+**The ABN arrived on 2026-10-03: `50 702 477 361` (Aphileon LTD's).** It is now written
+*literally* into the footer of all 12 pages and into `/terms` — not injected by JavaScript,
+because an ABN is a legal disclosure and it has to survive scripting being off. It was
+verified against the official ATO checksum before being committed (weights 10/1/3/5/7/9/11/13/15/17/19
+with the first digit minus one; weighted sum 445; 445 % 89 = 0 — valid).
+
+What still keeps the gate shut:
+
+| Missing | Needed for |
+|---|---|
+| **Trade phone** | the footer order line, `/contact`, and JSON-LD `telephone` |
+| **Service or postal address** | `/contact`, JSON-LD, and the `/terms` registered address |
+
+And four facts that are placeholdered but **do not have to be filled** — they belong to the
+trade-supply pages, which the umbrella restructure demotes to supporting depth. If Leo would
+rather not publish them, **delete the blocks** and the gate closes honestly, which beats
+inventing or placeholdering a warranty period:
+
+`DISPATCH_SLA` · `DELIVERY` · `WARRANTY` · `MIN_ORDER`
+
+Real and evidenced: `orders@` / `fleet@repeater.com.au`, GST-exclusive pricing, and the
+7/14/30/60 day terms (from `aphelion/migrations/007_b2b_wholesale.sql`).
 
 `tests/facts.test.mjs` refuses to let those placeholders reach a live domain.
 The switch is one environment variable:
@@ -34,9 +50,11 @@ or weaken that test to make a deploy go green.** If you want the site live
 without an ABN, that is a legal-exposure decision — make it explicitly, not by
 editing a test.
 
-**To clear the gate:** fill these keys in `public/assets/facts.js`:
-`ABN`, `TEL`, `TEL_DISPLAY`, `ADDRESS`, `DISPATCH_SLA`, `DELIVERY`, `WARRANTY`,
-`MIN_ORDER`. Then set `REPEATER_CUSTOM_DOMAIN` and confirm `npm test` is green.
+**To clear the gate:** fill `TEL`, `TEL_DISPLAY` and `ADDRESS` in
+`public/assets/facts.js` — the ABN is already done. Then either fill or delete the four
+trade-supply keys listed above, set `REPEATER_CUSTOM_DOMAIN`, and confirm `npm test` is
+green. `tests/facts.test.mjs` has a companion rule that a *resolved* fact must appear
+literally in the static markup, so a fact cannot be known-but-invisible-without-JS.
 
 ---
 
@@ -65,6 +83,9 @@ Production + preview env vars (**Settings → Environment variables**):
 | `PUSHOVER_TOKEN` | **Set this.** Without it there is no alert channel at all, so `/api/enquiry` answers 503 instead of accepting a trade application. See §4. |
 | `PUSHOVER_USER` | The recipient key(s). Comma or space separated. |
 | `BOOKING_EMAIL_TO` | Only needed if the email failsafe is added back (see §4). |
+| `REVOLUT_SECRET_KEY` | Only needed for phase U4. Server-side only — it must never reach the browser. |
+| `REVOLUT_WEBHOOK_SIGNING_SECRET` | The `wsk_…` value returned when you create the webhook. Without it `/api/shop-os/revolut-webhook` answers 401 rather than trusting a payload. |
+| `REVOLUT_ENVIRONMENT` | `sandbox` or `production`. Defaults to sandbox so a misconfigured deploy cannot take real money. |
 
 Bindings are already declared in `wrangler.toml`, so a dashboard-connected build
 picks them up; the table above is for the CLI-created project.

@@ -152,6 +152,55 @@ for (const p of pages) {
   if (bad.length) bad.forEach(([, key]) => console.log("       missing placeholder for " + key));
 }
 
+/* ---------------- the mirror rule: resolved facts must NOT be JS-only ------- */
+
+// The placeholder rule above stops a fact looking real when it isn't. This is
+// the other half, and it is the more dangerous direction: a fact that IS known
+// but only gets injected by facts.js is INVISIBLE to anyone without JavaScript,
+// to most crawlers, and to a screen reader that doesn't run scripts.
+//
+// That is exactly how the ABN shipped — as a JS-filled placeholder in the footer
+// of a live commercial site, when an ABN is a legal disclosure.
+console.log("\n--- resolved facts are in the static markup, not just injected ---");
+
+// Facts that must be readable with scripting disabled. Add to this list when a
+// fact becomes legally or commercially load-bearing.
+const MUST_BE_STATIC = ["ABN"];
+
+if (R) {
+  for (const key of MUST_BE_STATIC) {
+    const v = R[key];
+    if (R.unresolved(v)) {
+      console.log(`     ${key} is still unresolved — nothing to assert yet`);
+      continue;
+    }
+    for (const p of pages) {
+      const html = readFileSync(p, "utf8");
+      check(`${rel(p)}: ${key} (${v}) appears literally in the markup`,
+        html.includes(String(v)));
+    }
+  }
+
+  // No page may still carry a placeholder span for a fact we now know.
+  for (const p of pages) {
+    const html = readFileSync(p, "utf8");
+    const stale = [];
+    for (const [key] of html.matchAll(/data-fact="([^"]+)"/g)) {
+      const v = R[key];
+      if (v != null && !R.unresolved(v)) stale.push(key);
+    }
+    const staleWithPlaceholder = stale.filter((key) => {
+      const re = new RegExp(`data-fact="${key}"[\\s\\S]{0,140}?class="placeholder"`);
+      return re.test(html);
+    });
+    check(`${rel(p)}: no placeholder remains for a resolved fact`,
+      staleWithPlaceholder.length === 0);
+    if (staleWithPlaceholder.length) {
+      console.log("       stale placeholder for: " + staleWithPlaceholder.join(", "));
+    }
+  }
+}
+
 /* ---------------- the deploy gate ---------------- */
 
 console.log("\n--- deploy gate ---");

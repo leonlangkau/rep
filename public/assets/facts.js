@@ -42,8 +42,10 @@
     LOCALE: "en-AU",
     TIMEZONE: "Australia/Melbourne",
 
-    /* --- Owner to supply. Do not guess. --- */
-    ABN: PLACEHOLDER,
+    /* --- Owner to supply. Do not guess. ABN and LEGAL_NAME are now known. --- */
+    ABN: "50 702 477 361",              /* verified against the ATO checksum */
+    ABN_PLAIN: "50702477361",  /* unspaced, for forms and invoices */
+    LEGAL_NAME: "Aphileon LTD",
     TEL: PLACEHOLDER,
     TEL_DISPLAY: PLACEHOLDER,
     ADDRESS: PLACEHOLDER,

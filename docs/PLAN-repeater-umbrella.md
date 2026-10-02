@@ -20,7 +20,7 @@
 | The hero sells | screens, batteries, boards | phones for tradies, AI call answering, Repair Shop OS |
 | Parts wholesale | the whole pitch | supporting depth (`/catalogue`, `/wholesale`, `/pricing` kept) |
 | SaaS | not mentioned on this site | a rebuilt in-site product with real pricing |
-| Payments | n/a here | Square (see §5) — not Stripe |
+| Payments | n/a here | Revolut Merchant (see §5) — not Square, not Stripe |
 
 ## 1. The three pillars, as Leo described them
 
@@ -106,51 +106,104 @@ silently rebrand a live product with paying tenants) and present it as *"Repair 
 Repeater"*. Flagged for Leo. The six capability pillars carry over as-is: Workshop,
 Inventory, Accounting, Marketing, B2B wholesale, Wealth.
 
-## 5. Payments — Square, not Stripe
+## 5. Payments — Revolut Merchant, not Square or Stripe
 
-Leo, 2026-10-03: *"setup compatibility with square, ill create a new square bussiness name and
-also make a webhook for it."*
+Leo, 2026-10-03: *"setup compatibility with square, ill create a new square bussiness name
+and also make a webhook for it."* — then, later the same day: **"actually we're moving to
+revolut merchant for repeater after that."**
 
-**This is the right call, and it is consistency rather than a new dependency.** Square is
-already the live payment rail across aphelion: `SQUARE_ACCESS_TOKEN`, a shared
-`squareConfig()` / `sq()` helper in `functions/api/admin/square-order.js`,
-`functions/api/shop/webhook.js` marking orders paid, `orders.square_order_id` /
-`square_payment_id`, Square discount sync in `_deals.js`, and Square status reported by
-`_integrations.js`. Stripe appears in exactly one place — the OS subscription. Square
-removes the outlier.
+**So the rail is Revolut Merchant, not Square.** This supersedes the earlier Square decision;
+it is recorded here only so nobody re-derives it.
 
-**What to build**
+Unlike Square, **Revolut appears nowhere in the stack today** — `revolut|REVOLUT_|merchant.revolut`
+returns no matches across `aphelion`, `fivestarrepairs` and `rep` — so this is a genuinely new
+integration rather than a second rail bolted onto an existing one. It is still the more
+coherent choice for a new site: it keeps Repeater's own money separate from FSR's Square
+account, which is what "a new business name" was about.
+
+### ⚠ The one thing that is NOT a like-for-like swap
+
+**Revolut Merchant is an orders-and-payment-links API. It is not a subscriptions engine.**
+What is verified from Revolut's own docs: create an order, get a `checkout_url`, take a
+one-off payment, fulfil on a webhook. That covers phones and any one-off charge perfectly.
+
+The **OS is a monthly subscription** (Starter $49 / Business $149 / Enterprise $399, billed
+monthly). Stripe *is* a subscriptions engine and already has live tenants on it. So moving
+the OS subscription onto Revolut is not a swap, and there are two real options that are not
+equivalent:
+
+1. **Recurring built on top of Revolut orders** — a payment link per period, re-charged on a
+   schedule. Aphelion already runs a `scheduler/` Worker, so the cron host exists; but this
+   means owning billing logic ourselves, including dunning, failed-card retries and the whole
+   `past_due` state machine Stripe currently supplies for free.
+2. **Keep Stripe for the OS subscription only, use Revolut for everything else** (phones,
+   any one-off). Nothing is rebuilt, no tenant is disturbed, and Revolut still becomes
+   Repeater's rail for the new products.
+
+**Recommendation: option 2 now, option 1 as its own project.** Rebuilding recurring billing to
+prove a point is the kind of work that quietly costs a quarter. **This needs Leo's call and is
+the most important open question on this page.**
+
+### What to build
 
 | Route | File | Behaviour |
 |---|---|---|
 | `GET /api/shop-os/checkout` | `functions/api/shop-os/checkout.js` | Config probe: reports which rail is live, so the page can hide a button it cannot honour |
-| `POST /api/shop-os/checkout` | same | Creates the Square order + payment link for a plan, records a `saas_customers` row as `trial`, returns the redirect URL |
-| `POST /api/shop-os/square-webhook` | `functions/api/shop-os/square-webhook.js` | Signature-verified; flips `saas_customers.status` to `active` and writes `saas_subscriptions` |
+| `POST /api/shop-os/checkout` | same | Creates the Revolut order, records a `saas_customers` row, returns `checkout_url` |
+| `POST /api/shop-os/revolut-webhook` | `functions/api/shop-os/revolut-webhook.js` | Signature-verified; flips `saas_customers.status` to `active` and writes `saas_subscriptions` |
 
-**Reuse, do not reinvent.** Import the same `squareConfig(env)` / `sq()` shape aphelion
-already uses; the request signing, the API version header and the error surface are already
-solved there. Square signs webhooks with `x-square-hmacsha256-signature` over
-`notificationUrl + rawBody` — HMAC-SHA256 with the signature key, and **verify against the
-raw body before parsing it**, exactly as aphelion's Stripe handler is careful to do.
+### Revolut Merchant API — verified from `developer.revolut.com`, not guessed
 
-**Secrets** (Leo creates the Square business and webhook, then sets these on the Pages
-project): `SQUARE_ACCESS_TOKEN`, `SQUARE_LOCATION_ID`, `SQUARE_SIGNATURE_KEY`,
-`SQUARE_ENVIRONMENT` (`sandbox`|`production`), `SQUARE_WEBHOOK_URL`.
+**Create an order** — **server-side only**; the secret key must never reach the browser.
+Required: `amount` in the **smallest denomination** (cents) and `currency` (ISO 4217).
+Useful optionals: `description`, `customer.email`, `redirect_url`,
+`merchant_order_data.reference` (put the plan and a correlation id there). The response
+carries `id`, `token`, `state: "pending"` and the shareable `checkout_url` —
+`https://checkout.revolut.com/payment-link/<token>`.
 
-**Non-negotiable:**
-- Unconfigured Square must never break the customer flow. `/api/shop-os/checkout` reports
+**Webhook verification** — the part that must be exactly right:
+
+- Headers are `Revolut-Signature` (`v1=<hex>`, **comma-separated during key rotation**) and
+  `Revolut-Request-Timestamp`, a UNIX timestamp in **milliseconds**.
+- The signed string is `"v1." + timestamp + "." + rawBody` — **the raw body, byte for byte.**
+  Re-serialising JSON breaks it, so read the body as text once and verify *before* parsing.
+- `HMAC-SHA256(signing_secret, signed_string)`, hex, compared **constant-time**, and accept if
+  **any** of the listed `v1=` values matches — that is what makes rotation non-breaking.
+- **Replay protection:** reject a timestamp outside a **5-minute** window of UTC now. A valid
+  signature with a stale timestamp is a replay, not a payment.
+- The signing secret is the `wsk_…` value returned when the webhook is created.
+- Fulfil on `ORDER_COMPLETED` (or `ORDER_AUTHORISED` under manual capture); handle
+  `ORDER_CANCELLED`, `ORDER_FAILED`, `ORDER_PAYMENT_DECLINED`, `ORDER_PAYMENT_FAILED`.
+  **Never fulfil on the browser redirect** — it is not proof of payment.
+
+One third-party page describes a Stripe-style `t=…,v1=…` scheme over `"<timestamp>.<body>"`.
+It contradicts Revolut's own documentation; follow `developer.revolut.com`.
+
+**Secrets** (Leo creates the Revolut merchant account and the webhook, then sets these on the
+Pages project): `REVOLUT_SECRET_KEY`, `REVOLUT_WEBHOOK_SIGNING_SECRET`,
+`REVOLUT_ENVIRONMENT` (`sandbox` | `production`).
+
+### Non-negotiable
+
+- Unconfigured Revolut must never break the customer flow. `/api/shop-os/checkout` reports
   `{ok:false, skip:true, reason:"not_configured"}` and the page falls back to the enquiry
   form — the same degradation doctrine as every other endpoint here.
-- **Do not touch aphelion's Stripe path.** It has live tenants. Square is added alongside,
-  and `saas_customers.stripe_customer_id` / `saas_subscriptions.stripe_subscription_id`
-  stay exactly as they are. A Square subscription needs its own column or its own table —
-  **do not overload a `stripe_*` column with a Square id**, which would silently corrupt
-  reconciliation. Add `square_order_id` / `square_payment_id` by migration, mirroring the
-  columns `orders` already carries.
-- Signature verification failure → 401, never a silent accept.
-- This integration **cannot be end-to-end tested here** — it needs Leo's Square credentials
-  and a real webhook delivery. Build it, unit-test the signature and the state transitions
-  against fixtures, and say plainly in the report that the live path is unverified.
+- **Do not touch aphelion's Stripe path.** It has live tenants.
+  `saas_customers.stripe_customer_id` and `saas_subscriptions.stripe_subscription_id` stay
+  exactly as they are, and **no Revolut id may ever be written into a `stripe_*` column** —
+  that would silently corrupt reconciliation. Add `revolut_order_id` / `revolut_payment_id`
+  by migration, mirroring the `square_order_id` / `square_payment_id` columns `orders`
+  already carries.
+- Signature failure, stale timestamp, or unparseable body → **401**, never a silent accept.
+  A payment webhook is the one place a permissive default is indefensible.
+- **Idempotency:** a webhook can be delivered more than once. Guard the `active` transition
+  the way aphelion's `shop/webhook.js` guards `markOrderPaid` — a conditional UPDATE that
+  only fires from the pre-paid state.
+- This integration **cannot be end-to-end tested here** — it needs Leo's Revolut credentials
+  and a real webhook delivery. Build it, unit-test the signature (correct, rotated, stale and
+  tampered) plus the state transitions against fixtures, and say plainly in the report that
+  the live path is unverified.
+
 
 ## 6. Content honesty, unchanged and now more load-bearing
 
@@ -190,7 +243,7 @@ Veto any of these and the change is small — they are framing decisions, not st
 | **U1** | Home page rewrite: umbrella hero, three pillar blocks, trade-supply demoted to a section | renders complete with `site_proof` empty |
 | **U2** | `/phones` and `/ai` — full pages, placeholders where facts are unknown | `chrome` + `site` green; no invented fact |
 | **U3** | `/shop-os` landing + `/shop-os/pricing` rebuilt on this design system | pricing figures match §4 exactly |
-| **U4** | `/shop-os/checkout` + Square endpoints + migration for `square_*` columns | signature + state-transition tests green; live path explicitly unverified |
+| **U4** | `/shop-os/checkout` + Revolut endpoints + migration for `revolut_*` columns | signature (valid / rotated / stale / tampered) + state-transition tests green; live path explicitly unverified; **blocked on Leo's recurring-billing call (§5)** |
 | **U5** | Reframe `/catalogue`, `/wholesale`, `/pricing`, `/about`; sitemap + `_redirects`; tests | full suite + `imports` green |
 
 Same discipline as before: one coherent commit per phase, pushed to `main`, `WORKLOG`
