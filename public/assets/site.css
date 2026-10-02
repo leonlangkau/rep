@@ -102,9 +102,15 @@
   --space-20: 80px;
   --space-24: 96px;
 
-  /* Layout */
+  /* Layout.
+     --maxw was 1180px; widened to 1320px so the desktop view fills more of a
+     1440 screen (60px gutters rather than 130px). Only ever affects wide
+     viewports — below 1199px the grids collapse and .wrap is simply 100%, so the
+     phone layout is untouched. --maxw-narrow stays narrow on purpose: it governs
+     reading width for the FAQ and article body, which should not stretch just
+     because the shell did. */
   --section: clamp(56px, 8vw, 104px);
-  --maxw: 1180px;
+  --maxw: 1320px;
   --maxw-narrow: 760px;
   --gutter: 24px;
   --nav-h: 72px;
