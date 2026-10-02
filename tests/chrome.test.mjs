@@ -254,5 +254,71 @@ for (const p of pages) {
 }
 check("every page with a FAQ declares FAQPage", FAQ_JSONLD_ERROR.length === 0);
 
+/* ---------------- client module wiring ---------------- */
+
+// Each client module declares which markup hook it needs. A page that carries
+// the hook but never loads the module fails SILENTLY: the block simply stays
+// hidden forever, which looks exactly like "there is no content yet". That is
+// how /about, /catalogue and /pricing shipped without proof.js/catalogue.js on
+// the first pass — the chrome was perfect and the page was still dead.
+console.log("\n--- client modules match their markup hooks ---");
+const HOOKS = [
+  { script: "/assets/proof.js", attr: "data-proof" },
+  { script: "/assets/catalogue.js", attr: "data-catalogue" },
+  { script: "/assets/posts.js", attr: "data-posts" },
+  { script: "/assets/form.js", attr: 'class="qform"' },
+];
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  for (const h of HOOKS) {
+    if (!html.includes(h.attr)) continue;
+    check(`${label}: uses ${h.attr}, so it loads ${h.script}`,
+      new RegExp(`src="${h.script.replace(/[.]/g, "\\.")}"`).test(html));
+  }
+}
+
+/* ---------------- the CTA band's per-page copy ---------------- */
+
+// The band is allowed to differ per page — that is the point of it — but two
+// failure modes are not allowed: a CTA whose button links to the page it is
+// already on (which is what /contact did while inheriting 404.html's copy), and
+// copy so thoroughly inherited that every page makes the same pitch.
+console.log("\n--- CTA band copy ---");
+const ctaHeadlines = new Map();
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const sec = /<section class="sec sec--band cta">([\s\S]*?)<\/section>/.exec(html);
+  if (!sec) continue;
+
+  const href = (/<a class="btn btn--solid" href="([^"]*)"/.exec(sec[1]) || [, null])[1];
+
+  // "/" for index.html, else the directory.
+  const selfPath = label === "public/index.html" ? "/" : "/" + label
+    .replace(/^public\//, "").replace(/\/index\.html$/, "");
+  check(`${label}: CTA button does not link to its own page (-> ${href})`, href !== selfPath);
+
+  const h2 = (/<h2>([\s\S]*?)<\/h2>/.exec(sec[1]) || [, null])[1];
+  if (h2) {
+    const key = norm(h2);
+    if (!ctaHeadlines.has(key)) ctaHeadlines.set(key, []);
+    ctaHeadlines.get(key).push(label);
+  }
+}
+
+// Reusing a headline is fine — the home page and the blog share the brand's
+// primary line, which is deliberate. What is NOT fine is the whole site making
+// one inherited pitch: that is exactly how seven pages ended up shipping
+// 404.html's "The order line is faster than a form."
+const worst = [...ctaHeadlines.entries()].sort((a, b) => b[1].length - a[1].length)[0];
+console.log("     " + ctaHeadlines.size + " distinct headline(s); most common covers " +
+  (worst ? worst[1].length : 0) + " page(s)");
+if (worst && worst[1].length > 3) console.log("     over-used: " + JSON.stringify(worst[0]));
+check("no single CTA headline is inherited by more than 3 pages",
+  !worst || worst[1].length <= 3);
+check(`the CTA makes a distinct pitch on most pages (${ctaHeadlines.size} headlines)`,
+  ctaHeadlines.size >= Math.ceil(pages.length / 2));
+
 console.log(failures ? `\n${failures} FAILED` : `\nall chrome assertions passed across ${pages.length} page(s)`);
 process.exit(failures ? 1 : 0);
