@@ -121,35 +121,58 @@ integration rather than a second rail bolted onto an existing one. It is still t
 coherent choice for a new site: it keeps Repeater's own money separate from FSR's Square
 account, which is what "a new business name" was about.
 
-### ⚠ The one thing that is NOT a like-for-like swap
+### Correction, 2026-10-03: Revolut Merchant DOES do subscriptions
 
-**Revolut Merchant is an orders-and-payment-links API. It is not a subscriptions engine.**
-What is verified from Revolut's own docs: create an order, get a `checkout_url`, take a
-one-off payment, fulfil on a webhook. That covers phones and any one-off charge perfectly.
+**I got this wrong in the first draft of this page and it changed the recommendation, so it is
+recorded rather than quietly edited.** I asserted that Revolut Merchant was an orders-and-
+payment-links API and "not a subscriptions engine". That is false. Revolut shipped a native
+**Subscriptions API** in January 2026, and it covers what the OS actually needs:
 
-The **OS is a monthly subscription** (Starter $49 / Business $149 / Enterprise $399, billed
-monthly). Stripe *is* a subscriptions engine and already has live tenants on it. So moving
-the OS subscription onto Revolut is not a swap, and there are two real options that are not
-equivalent:
+| The OS needs | Revolut provides |
+|---|---|
+| Recurring monthly billing | Plans → **variations** (e.g. monthly / yearly) → **phases**, each phase carrying an `amount` in minor units and a `cycle_duration` as an ISO-8601 duration (`P1M`) |
+| A **free trial**, which the pricing page already promises | Multi-phase variations — a zero-price first phase is exactly how trials are expressed |
+| Retrying a failed charge | Automatic charging **with retries for failed payments**, plus automated payment reminders |
+| Card-on-file without re-entry | The setup order saves the payment method; it can later be updated or the subscription cancelled |
+| Reacting to state changes | Webhook events, plus retrieval of subscriptions and billing cycles |
 
-1. **Recurring built on top of Revolut orders** — a payment link per period, re-charged on a
-   schedule. Aphelion already runs a `scheduler/` Worker, so the cron host exists; but this
-   means owning billing logic ourselves, including dunning, failed-card retries and the whole
-   `past_due` state machine Stripe currently supplies for free.
-2. **Keep Stripe for the OS subscription only, use Revolut for everything else** (phones,
-   any one-off). Nothing is rebuilt, no tenant is disturbed, and Revolut still becomes
-   Repeater's rail for the new products.
+Flow: create a **subscription plan** → create a **subscription** against a plan variation
+(starts `pending`, and Revolut raises a setup order) → collect the first payment on hosted
+checkout or an embedded widget → the subscription **activates** and charges each cycle →
+monitor via webhooks.
 
-**Recommendation: option 2 now, option 1 as its own project.** Rebuilding recurring billing to
-prove a point is the kind of work that quietly costs a quarter. **This needs Leo's call and is
-the most important open question on this page.**
+`POST /api/subscription-plans` on `merchant.revolut.com`, `Authorization: Bearer <key>`,
+`Content-Type: application/json`, **and a pinned API version header** — Revolut's own example
+uses `Revolut-Api-Version: 2026-08-17`. Pin it explicitly; do not float.
+
+**What this changes.** The earlier recommendation ("keep Stripe for the subscription and use
+Revolut only for one-offs") was based on a false premise, so it is withdrawn. Subscriptions on
+Revolut is now the supported path, and there is one product rail instead of two.
+
+**What still genuinely argues for keeping Stripe on the existing tenants** — this is now a
+migration question, not a capability question:
+
+- `saas_customers` / `saas_subscriptions` already carry live tenants with Stripe ids and card
+  mandates. Moving them means re-collecting payment details, because a mandate does not
+  transfer between processors.
+- Revolut's Subscriptions is **about nine months old**. It retries failed payments, but the
+  docs do not describe a dunning state machine as granular as Stripe's `past_due` /
+  `unpaid` lifecycle. Treat the exact state semantics as needing a read of
+  `developer.revolut.com` before committing a tenant to it.
+- Two processors for one product is fine for a while; two for the *same* customers is not.
+
+**Recommendation, revised:** new subscriptions on Revolut; existing Stripe tenants stay where
+they are until Leo decides on a migration. That is a strictly smaller decision than the one I
+framed before, and it no longer needs an answer before U4 can be built.
+
 
 ### What to build
 
 | Route | File | Behaviour |
 |---|---|---|
 | `GET /api/shop-os/checkout` | `functions/api/shop-os/checkout.js` | Config probe: reports which rail is live, so the page can hide a button it cannot honour |
-| `POST /api/shop-os/checkout` | same | Creates the Revolut order, records a `saas_customers` row, returns `checkout_url` |
+| `POST /api/shop-os/checkout` | same | **One-off** path (phones, anything single-charge): creates a Revolut order, returns `checkout_url` |
+| `POST /api/shop-os/subscribe` | same | **Recurring** path: creates/reuses the Revolut subscription plan for a tier, creates the subscription against its monthly variation, records `saas_customers`, returns the setup-payment URL. Plan and variation ids are cached, not recreated per signup |
 | `POST /api/shop-os/revolut-webhook` | `functions/api/shop-os/revolut-webhook.js` | Signature-verified; flips `saas_customers.status` to `active` and writes `saas_subscriptions` |
 
 ### Revolut Merchant API — verified from `developer.revolut.com`, not guessed
@@ -243,7 +266,7 @@ Veto any of these and the change is small — they are framing decisions, not st
 | **U1** | Home page rewrite: umbrella hero, three pillar blocks, trade-supply demoted to a section | renders complete with `site_proof` empty |
 | **U2** | `/phones` and `/ai` — full pages, placeholders where facts are unknown | `chrome` + `site` green; no invented fact |
 | **U3** | `/shop-os` landing + `/shop-os/pricing` rebuilt on this design system | pricing figures match §4 exactly |
-| **U4** | `/shop-os/checkout` + Revolut endpoints + migration for `revolut_*` columns | signature (valid / rotated / stale / tampered) + state-transition tests green; live path explicitly unverified; **blocked on Leo's recurring-billing call (§5)** |
+| **U4** | `/shop-os/checkout` (one-off) + `/shop-os/subscribe` (recurring) + Revolut webhook + migration for `revolut_*` columns | signature (valid / rotated / stale / tampered) + state-transition tests green; plan/variation reuse asserted; live path explicitly unverified. **No longer blocked** — see the §5 correction |
 | **U5** | Reframe `/catalogue`, `/wholesale`, `/pricing`, `/about`; sitemap + `_redirects`; tests | full suite + `imports` green |
 
 Same discipline as before: one coherent commit per phase, pushed to `main`, `WORKLOG`
