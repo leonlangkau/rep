@@ -5,6 +5,14 @@
 > `fivestarrepairs` `main` (migrations to `076_visitor_events.sql`).
 > Remote `https://github.com/leonlangkau/rep`; repo root == git root == this folder.
 >
+> ⚠ **Read `PLAN-repeater-umbrella.md` first.** On 2026-10-03 Leo described the actual
+> offering — fleet phones for tradies with repairs included, AI call answering, and the
+> Repair Shop OS — so the wholesale-only positioning below is superseded as *business
+> framing*. This file still owns the **craft**: the design system (§2), the block
+> catalogue (§3), the content-honesty rules (§5), the API contracts (§6) and the test
+> strategy (§9). Where the two disagree about what the business sells, the umbrella plan
+> wins; where they disagree about how to build it, this one does.
+>
 > Read this whole file before writing code. `docs/AGENT-PROMPT-full-build.md` is the
 > copy-paste run brief; this file is the spec it points at. **Where they disagree, this
 > file wins** — and say so in your report.
