@@ -1,0 +1,23 @@
+# Redirects for Cloudflare Pages. Format: source target 301
+# Clean URLs already work via directory-index behaviour; these only cover the
+# obvious aliases someone might type or that an old link might carry.
+
+# Trade-account wording we'll all reach for eventually, pointed at one page so
+# there is a single URL to put on a business card.
+/trade        /wholesale  301
+/trade-account /apply     301
+/signup       /apply      301
+/register     /apply      301
+/apply-now    /apply      301
+
+# Prices / catalogue aliases
+/prices       /pricing    301
+/shop         /pricing    301
+/products     /catalogue  301
+/parts        /catalogue  301
+
+# Housekeeping
+/contact-us   /contact    301
+/faqs         /pricing    301
+/about-us     /about      301
+/home         /           301

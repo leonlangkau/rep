@@ -1,0 +1,7 @@
+# Repeater — repeater.com.au
+# Everything is public. Nothing to disallow.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://repeater.com.au/sitemap.xml

@@ -1,0 +1,258 @@
+/**
+ * Chrome parity and head hygiene.
+ *
+ * Run with: node tests/chrome.test.mjs
+ *
+ * There are no includes in this house — the nav, footer and CTA band are
+ * copy-pasted into every page, and there is no build step that could template
+ * them. So parity is enforced here instead, by extracting the chrome from each
+ * page and comparing it against public/404.html. This is exactly the job
+ * aphelion's tests/site-root.test.mjs does for its public pages, and it is the
+ * only thing standing between "copy-pasted" and "drifted".
+ *
+ * A page that adds a nav link, drops the skip link, or forgets og:image fails
+ * the build rather than shipping a subtly different header on one page.
+ */
+
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join, dirname, extname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
+const publicDir = join(repo, "public");
+
+let failures = 0;
+function check(name, cond) {
+  console.log((cond ? "PASS" : "FAIL") + " " + name);
+  if (!cond) failures++;
+}
+
+function walk(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) walk(p, out);
+    else out.push(p);
+  }
+  return out;
+}
+
+const pages = walk(publicDir).filter((p) => extname(p) === ".html").sort();
+/** Repo-relative, forward-slashed, no leading slash — "public/index.html". */
+const rel = (p) => p.replace(repo, "").replace(/\\/g, "/").replace(/^\//, "");
+
+/** Collapse whitespace so indentation differences don't read as drift. */
+const norm = (s) => String(s).replace(/\s+/g, " ").trim();
+
+/** The article template renders through a Function, so its slots differ. */
+const isTemplate = (p) => rel(p) === "public/blog/article.html";
+
+console.log(`\n--- ${pages.length} page(s) ---`);
+pages.forEach((p) => console.log("  " + rel(p)));
+
+/* ---------------- chrome parity ---------------- */
+
+const reference = readFileSync(join(publicDir, "404.html"), "utf8");
+
+function extract(html, tag, className) {
+  const re = new RegExp(`<${tag}[^>]*class="${className}"[^>]*>[\\s\\S]*?</${tag}>`, "i");
+  const m = re.exec(html);
+  return m ? norm(m[0]) : null;
+}
+
+const refNav = extract(reference, "header", "nav").replace(/\s*nav__link--here/g, "");
+const refFoot = extract(reference, "footer", "foot");
+const refCta = extract(reference, "section", "sec sec--band cta");
+
+console.log("\n--- chrome parity against 404.html ---");
+check("the reference page has a nav, a footer and a CTA band",
+  !!refNav && !!refFoot && !!refCta);
+
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+
+  const nav = extract(html, "header", "nav");
+  const foot = extract(html, "footer", "foot");
+  const cta = extract(html, "section", "sec sec--band cta");
+
+  check(`${label}: has the shared <header class="nav">`, !!nav);
+  check(`${label}: has the shared <footer class="foot">`, !!foot);
+  check(`${label}: has the shared CTA band`, !!cta);
+
+  if (nav) {
+    const same = nav.replace(/\s*nav__link--here/g, "") === refNav;
+    check(`${label}: nav is identical to the reference`, same);
+  }
+  if (foot) check(`${label}: footer is identical to the reference`, foot === refFoot);
+
+  // The CTA band is deliberately NOT byte-identical: its headline is per-page
+  // copy ("Order wholesale, without the chaos." on the home page, "Ask before
+  // you apply." on privacy), which is the point of it. What must not drift is
+  // its STRUCTURE — the same wrapper, the same eyebrow, one headline, one lede,
+  // and exactly one solid button.
+  if (cta) {
+    check(`${label}: CTA band uses the shared wrapper class`, /class="wrap cta__in"/.test(cta));
+    check(`${label}: CTA band has an eyebrow, an h2 and a lede`,
+      /class="eyebrow"/.test(cta) && /<h2>/.test(cta) && /<p>/.test(cta));
+    const buttons = (cta.match(/class="btn btn--solid"/g) || []).length;
+    check(`${label}: CTA band has exactly one solid button`, buttons === 1);
+  }
+
+  check(`${label}: nav arrives before the main content`,
+    html.indexOf('class="nav"') < html.indexOf("<main"));
+  check(`${label}: footer comes after the CTA band`,
+    html.indexOf('class="foot"') > html.indexOf("sec--band cta"));
+}
+
+/* ---------------- head hygiene ---------------- */
+
+console.log("\n--- head hygiene ---");
+
+const titles = new Map();
+const descriptions = new Map();
+// The article template is excluded from the description check (its description
+// is written per post by functions/blog/[slug].js), so uniqueness is asserted
+// against the pages that actually declare one.
+let descriptionsChecked = 0;
+
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const template = isTemplate(p);
+  const notFound = label.endsWith("404.html");
+
+  check(`${label}: <html lang="en-AU">`, /<html lang="en-AU">/.test(html));
+  check(`${label}: <meta charset="utf-8">`, /<meta charset="utf-8">/.test(html));
+  check(`${label}: viewport meta`, /<meta name="viewport" content="width=device-width, initial-scale=1">/.test(html));
+
+  const t = /<title[^>]*>([\s\S]*?)<\/title>/.exec(html);
+  check(`${label}: has a <title>`, !!t && t[1].trim().length > 8);
+  if (t) {
+    const key = norm(t[1]);
+    if (titles.has(key)) check(`${label}: title is unique (also on ${titles.get(key)})`, false);
+    else titles.set(key, label);
+  }
+
+  // blog/article.html is a server-rendered template: a Function fills its
+  // description, canonical and JSON-LD per post (see functions/blog/[slug].js),
+  // so the static defaults are deliberately generic and are not asserted here.
+  if (!template) {
+    const d = /<meta name="description"[^>]*content="([^"]+)"/.exec(html);
+    check(`${label}: has a meta description`, !!d && d[1].trim().length > 30);
+    if (d) {
+      descriptionsChecked++;
+      const key = norm(d[1]);
+      if (descriptions.has(key)) check(`${label}: description is unique (also on ${descriptions.get(key)})`, false);
+      else descriptions.set(key, label);
+    }
+
+    // A 404 is noindex and has no canonical entity, so the canonical is
+    // deliberately absent there. Every other page must carry one.
+    if (!notFound) {
+      check(`${label}: has a canonical`, /<link rel="canonical" href="https:\/\/repeater\.com\.au/.test(html));
+    } else {
+      check(`${label}: 404 is marked noindex`, /<meta name="robots" content="noindex/.test(html));
+    }
+  }
+
+  check(`${label}: theme-color is set`, /<meta name="theme-color" content="#ffffff">/.test(html));
+  check(`${label}: links favicon.svg`, /<link rel="icon" type="image\/svg\+xml" href="\/favicon\.svg">/.test(html));
+  check(`${label}: preloads the latin Inter woff2`, /preload" as="font" type="font\/woff2" href="\/assets\/fonts\/inter-latin\.woff2"/.test(html));
+  check(`${label}: preloads the latin Jost woff2`, /preload" as="font" type="font\/woff2" href="\/assets\/fonts\/jost-latin\.woff2"/.test(html));
+  check(`${label}: links site.css`, /<link rel="stylesheet" href="\/assets\/site\.css">/.test(html));
+  check(`${label}: loads facts.js`, /<script defer src="\/assets\/facts\.js"><\/script>/.test(html));
+  check(`${label}: loads site.js`, /<script defer src="\/assets\/site\.js"><\/script>/.test(html));
+
+  check(`${label}: carries og:image`, /og:image" content="https:\/\/repeater\.com\.au\/assets\/img\/og\.png"/.test(html));
+  check(`${label}: declares og:locale en_AU`, /og:locale" content="en_AU"/.test(html));
+  check(`${label}: declares a twitter card`, /name="twitter:card" content="summary_large_image"/.test(html));
+
+  check(`${label}: has a skip link immediately after <body>`,
+    /<body>\s*<a class="skip" href="#main">Skip to content<\/a>/.test(html));
+  check(`${label}: has a <main id="main">`, /<main id="main">/.test(html));
+
+  check(`${label}: no Google Fonts reference`, !/fonts\.(googleapis|gstatic)\.com/.test(html));
+  check(`${label}: no retired brand colour`, !/#c4f666|#b3db6a|#b3db69|#00ff86|#f5b301|#ffc633|#d99e00|#ffd873|#7c6cff|#35e0d0/i.test(html));
+}
+
+check("every page has a distinct title", titles.size === pages.length);
+check("every page that declares a description has a distinct one",
+  descriptions.size === descriptionsChecked && descriptionsChecked > 8);
+
+/* ---------------- the active nav link ---------------- */
+
+console.log("\n--- active nav link ---");
+const EXPECTED_ACTIVE = {
+  "public/index.html": null,
+  "public/404.html": null,
+  "public/privacy.html": null,
+  "public/terms.html": null,
+  "public/catalogue/index.html": "Catalogue",
+  "public/wholesale/index.html": "Wholesale",
+  "public/pricing/index.html": "Pricing",
+  "public/about/index.html": "About",
+  "public/blog/index.html": "Blog",
+  "public/blog/article.html": "Blog",
+  "public/contact/index.html": null,
+  "public/apply/index.html": null,
+};
+
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const want = EXPECTED_ACTIVE[label];
+  const m = /<a class="nav__link nav__link--here" href="([^"]+)">([^<]+)<\/a>/.exec(html);
+  const got = m ? m[2] : null;
+  if (want === undefined) {
+    console.log("  (no expectation recorded for " + label + ")");
+    continue;
+  }
+  check(`${label}: active nav link is ${want === null ? "none" : want}`, got === want);
+}
+
+/* ---------------- JSON-LD ---------------- */
+
+console.log("\n--- structured data ---");
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+
+  // The 404 has no entity to describe (it is noindex, and there is no "page"
+  // here), and the article template's JSON-LD is written per post by
+  // functions/blog/[slug].js. Both are deliberate omissions, not oversights.
+  if (isTemplate(p)) {
+    check(`${label}: carries a JSON-LD slot for the Function to fill`, blocks.length === 1);
+    continue;
+  }
+  if (label.endsWith("404.html")) continue;
+
+  check(`${label}: has a JSON-LD block`, blocks.length > 0);
+  for (const [, body] of blocks) {
+    let ok = true;
+    let err = "";
+    try { JSON.parse(body); } catch (e) { ok = false; err = e.message; }
+    check(`${label}: JSON-LD parses${ok ? "" : " -> " + err}`, ok);
+  }
+}
+
+const home = readFileSync(join(publicDir, "index.html"), "utf8");
+check("the home page declares WholesaleStore structured data", /"@type":\s*"WholesaleStore"/.test(home));
+
+// FAQPage markup is worth having on every page that actually shows a FAQ —
+// Google reads it, and it costs nothing because the text is already there.
+console.log("\n--- FAQ structured data ---");
+const FAQ_JSONLD_ERROR = [];
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const faqItems = (html.match(/class="faq__item"/g) || []).length;
+  if (!faqItems) continue;
+  const hasFaqSchema = /"@type":\s*"FAQPage"/.test(html);
+  check(`${label}: shows ${faqItems} FAQ item(s) and carries FAQPage schema`, hasFaqSchema);
+  if (!hasFaqSchema) FAQ_JSONLD_ERROR.push(label);
+}
+check("every page with a FAQ declares FAQPage", FAQ_JSONLD_ERROR.length === 0);
+
+console.log(failures ? `\n${failures} FAILED` : `\nall chrome assertions passed across ${pages.length} page(s)`);
+process.exit(failures ? 1 : 0);

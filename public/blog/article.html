@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-slot="title">Article — Repeater</title>
+  <meta name="description" data-slot="description" content="A note from the Repeater trade desk.">
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" data-slot="canonical" href="https://repeater.com.au/blog">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Repeater">
+  <meta property="og:title" data-slot="ogtitle" content="Repeater">
+  <meta property="og:description" data-slot="ogdescription" content="A note from the Repeater trade desk.">
+  <meta property="og:url" data-slot="ogurl" content="https://repeater.com.au/blog">
+  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_AU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-slot="ogtitle" content="Repeater">
+  <meta name="twitter:description" data-slot="ogdescription" content="A note from the Repeater trade desk.">
+  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/og-square.png">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script defer src="/assets/facts.js"></script>
+  <script defer src="/assets/site.js"></script>
+  <script type="application/ld+json" data-slot="jsonld">{}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link" href="/catalogue">Catalogue</a>
+      <a class="nav__link" href="/wholesale">Wholesale</a>
+      <a class="nav__link" href="/pricing">Pricing</a>
+      <a class="nav__link" href="/about">About</a>
+      <a class="nav__link nav__link--here" href="/blog">Blog</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--accent btn--sm" href="/apply">Apply for a trade account</a>
+    </div>
+    <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/catalogue">Catalogue</a></li>
+        <li><a href="/wholesale">Wholesale</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/apply">Apply for a trade account</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="sm"><a href="/blog" style="color:var(--accent-strong);text-decoration:none">&larr; All posts</a></p>
+      <div class="article__meta" style="margin-top:var(--space-6)" data-slot="meta"></div>
+      <h1 data-slot="h1">Article</h1>
+    </div>
+  </section>
+
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <article class="article">
+        <div class="article__body" data-slot="body">
+          <p class="muted">This is the article template. A published post rendered by
+          <code class="mono">/blog/&lt;slug&gt;</code> replaces this region.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Trade accounts</span>
+      <h2>Order wholesale, without the chaos.</h2>
+      <p>Apply for a trade account and the price list comes back with it.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/apply">Apply for a trade account</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Wholesale parts, screens and consumables for Australian repair businesses.</p>
+        <p class="foot__abn">ABN <span data-fact="ABN"><span class="placeholder">[owner to confirm]</span></span></p>
+      </div>
+      <div class="foot__col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/catalogue">Catalogue</a></li>
+          <li><a href="/pricing">Trade pricing</a></li>
+          <li><a href="/wholesale">How it works</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

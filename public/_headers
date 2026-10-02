@@ -1,0 +1,35 @@
+# Cache-Control rules for Cloudflare Pages
+# HTML: always revalidate so visitors get the latest page
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Static assets (images, fonts): long-lived, immutable
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS / JS: filenames aren't content-hashed, so revalidate to avoid serving
+# stale assets to returning visitors (edge still caches; 304s are cheap).
+/assets/site.css
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/site.js
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/facts.js
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/proof.js
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/catalogue.js
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/form.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Baseline security headers. No CSP: this site inlines a small JSON-LD block and
+# a couple of inline styles, and a CSP broad enough to allow those would not be
+# worth the false confidence. Set one deliberately or not at all.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
