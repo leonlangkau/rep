@@ -121,6 +121,7 @@
   --r-md: 16px;
   --r-lg: 24px;
   --r-pill: 999px;
+  --r-full: 50%;
 
   /* Shadows */
   --shadow-xs: 0 1px 11px rgba(0, 0, 0, 0.10);
@@ -137,6 +138,60 @@
 
   /* The marquee edge fade (Businity's mask, reused here) */
   --edge-mask: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 12.5%, #000 87.5%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ---------------- Themes ----------------
+   Five palettes, selectable at runtime. The base :root above IS "Trade", so the
+   default needs no attribute and no JavaScript.
+
+   Contrast is not decorative here: tests/tokens.test.mjs runs the same battery
+   against every theme below and fails the build if any one drops under AA. If
+   you add a theme, add it there too.
+
+   --fg-on-accent exists so a dark theme can put INK on a light accent instead of
+   white; that is the token that makes .btn--accent legible on both canvases. */
+
+:root[data-theme="ink"] {
+  color-scheme: dark;
+  --bg: #121212; --bg-sunken: #1c1c1c; --bg-raised: #171717;
+  --band: #000000; --band-fg: #ffffff; --band-fg-2: rgba(255, 255, 255, 0.66); --band-line: rgba(255, 255, 255, 0.16);
+  --fg: #f5f5f5; --fg-2: #b4b4b4; --fg-3: #9a9a9a;
+  --fg-on-accent: #0b1220;
+  --line: #2a2a2a; --line-2: #242424; --line-strong: #3a3a3a;
+  --accent: #6fa4ff; --accent-strong: #8fb9ff; --accent-pressed: #a9caff;
+  --accent-soft: rgba(111, 164, 255, 0.14); --accent-ring: rgba(111, 164, 255, 0.40);
+  --shadow-xs: 0 1px 11px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 40px 40px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 20px rgba(111, 164, 255, 0.30);
+}
+
+:root[data-theme="harbour"] {
+  --bg: #ffffff; --bg-sunken: #eef2f8; --bg-raised: #fafcfe;
+  --band: #0f172a; --band-fg: #ffffff; --band-fg-2: rgba(255, 255, 255, 0.62); --band-line: rgba(255, 255, 255, 0.14);
+  --fg: #0f172a; --fg-2: #52627a; --fg-3: #67788f;
+  --line: #dde5f0; --line-2: #e8eef7; --line-strong: #c3d0e2;
+  --accent: #2563eb; --accent-strong: #1d4ed8; --accent-pressed: #1e40af;
+  --accent-soft: rgba(37, 99, 235, 0.10); --accent-ring: rgba(37, 99, 235, 0.35);
+}
+
+:root[data-theme="bone"] {
+  --bg: #fbfaf7; --bg-sunken: #f2eee7; --bg-raised: #fdfcfa;
+  --band: #1c1917; --band-fg: #ffffff; --band-fg-2: rgba(255, 255, 255, 0.62); --band-line: rgba(255, 255, 255, 0.14);
+  --fg: #1c1917; --fg-2: #6b645c; --fg-3: #79726a;
+  --line: #e6e0d6; --line-2: #efeae2; --line-strong: #cfc7ba;
+  --accent: #b45309; --accent-strong: #92400e; --accent-pressed: #7c2d12;
+  --accent-soft: rgba(180, 83, 9, 0.10); --accent-ring: rgba(180, 83, 9, 0.35);
+}
+
+:root[data-theme="grove"] {
+  --bg: #ffffff; --bg-sunken: #eff4ef; --bg-raised: #fafcfa;
+  --band: #14201a; --band-fg: #ffffff; --band-fg-2: rgba(255, 255, 255, 0.62); --band-line: rgba(255, 255, 255, 0.14);
+  --fg: #14201a; --fg-2: #55655c; --fg-3: #69786f;
+  --line: #dbe6dd; --line-2: #e7efe8; --line-strong: #c2d3c6;
+  --accent: #15803d; --accent-strong: #166534; --accent-pressed: #14532d;
+  --accent-soft: rgba(21, 128, 61, 0.10); --accent-ring: rgba(21, 128, 61, 0.35);
 }
 
 /* ---------------- Base ---------------- */
@@ -173,7 +228,7 @@ button { font: inherit; }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 200;
-  background: var(--fg); color: #fff; padding: 12px 18px; border-radius: var(--r-sm);
+  background: var(--fg); color: var(--bg); padding: 12px 18px; border-radius: var(--r-sm);
 }
 .skip:focus { left: 16px; top: 16px; }
 
@@ -257,9 +312,9 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
               border-color var(--dur-fast) var(--ease-out),
               color var(--dur-fast) var(--ease-out);
 }
-.btn--solid { background: var(--fg); color: #fff; }
+.btn--solid { background: var(--fg); color: var(--bg); } /* inverse pair - survives a dark theme */
 .btn--solid:hover { background: #2b2b2b; }
-.btn--accent { background: var(--accent-strong); color: #fff; }
+.btn--accent { background: var(--accent-strong); color: var(--fg-on-accent); }
 .btn--accent:hover { background: var(--accent-pressed); }
 .btn--line { background: transparent; border-color: var(--line-strong); color: var(--fg); }
 .btn--line:hover { border-color: var(--fg); }
@@ -520,7 +575,7 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 }
 .tier__flag {
   position: absolute; top: -11px; left: var(--space-8);
-  background: var(--accent-strong); color: #fff;
+  background: var(--accent-strong); color: var(--fg-on-accent);
   font-family: var(--font-mono); font-size: 0.625rem; font-weight: 600;
   letter-spacing: 0.12em; text-transform: uppercase;
   padding: 4px 10px; border-radius: var(--r-pill);
@@ -682,7 +737,7 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 .cta .eyebrow { display: block; margin-bottom: var(--space-4); }
 .cta h2 { color: var(--band-fg); max-width: 22ch; margin-bottom: var(--space-4); }
 .cta p { color: var(--band-fg-2); max-width: 52ch; }
-.cta .btn--solid { background: #fff; color: var(--fg); }
+.cta .btn--solid { background: var(--band-fg); color: var(--band); } /* white on every band, ink on every band */
 .cta .btn--solid:hover { background: #e8e8e8; }
 .cta .btn--line { border-color: var(--band-line); color: var(--band-fg); }
 .cta .btn--line:hover { border-color: var(--band-fg); }
@@ -713,6 +768,58 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
   transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
   transition-delay: var(--d, 0ms);
 }
+
+/* ---------------- Theme switcher ----------------
+   Progressive enhancement, in both directions: with JavaScript off the button
+   does not exist and the site is simply the default theme, and the <html> tag
+   carries no data-theme so nothing shifts. */
+.nav__right { display: flex; align-items: center; gap: var(--space-3); flex: none; }
+.themer { position: relative; flex: none; }
+.themer__btn {
+  width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  padding: 0; background: transparent; border: 1px solid var(--line);
+  border-radius: var(--r-sm); color: var(--fg-2); cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.themer__btn:hover { border-color: var(--fg); color: var(--fg); }
+.themer__btn-dot { width: 16px; height: 16px; border-radius: var(--r-full); background: var(--accent); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
+
+.themer__panel {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 150;
+  width: 262px; padding: var(--space-5);
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg); display: none;
+}
+.themer.is-open .themer__panel { display: block; }
+.themer__title {
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3);
+  margin-bottom: var(--space-4);
+}
+.themer__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2); margin-bottom: var(--space-5); }
+.themer__swatch {
+  position: relative; width: 100%; aspect-ratio: 1; padding: 0;
+  background: var(--sw-bg); border: 1px solid var(--line-strong);
+  border-radius: var(--r-full); cursor: pointer;
+}
+.themer__swatch::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  width: 11px; height: 11px; border-radius: var(--r-full); background: var(--sw-ac);
+}
+.themer__swatch[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent-strong); }
+.themer__row { display: flex; align-items: center; gap: var(--space-3); }
+.themer__row label { font-size: 0.875rem; font-weight: 500; flex: 1; }
+.themer__row input[type="color"] {
+  width: 44px; height: 36px; padding: 0; cursor: pointer;
+  background: transparent; border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+}
+.themer__reset {
+  width: 100%; margin-top: var(--space-3); padding: 10px 14px;
+  background: transparent; border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+  color: var(--fg-2); font: 500 0.8125rem/1 var(--font-sans); cursor: pointer;
+}
+.themer__reset:hover { border-color: var(--fg); color: var(--fg); }
+.themer__note { margin-top: var(--space-4); font-size: 0.75rem; line-height: 1.45; color: var(--fg-3); }
 
 /* ---------------- Responsive ---------------- */
 
@@ -763,6 +870,8 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 
 @media (max-width: 559px) {
   :root { --gutter: 20px; }
+  .themer__panel { width: min(262px, calc(100vw - 40px)); right: -6px; }
+
   .foot__in { grid-template-columns: minmax(0, 1fr); }
   .foot__base { justify-content: flex-start; }
   .card, .tier, .quote { padding: var(--space-6); }

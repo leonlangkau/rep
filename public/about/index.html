@@ -24,6 +24,17 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <script>
+  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
+     render-blocking: a deferred script would let the page paint in the default
+     palette and then snap to the chosen one, which reads as a broken toggle
+     rather than a saved preference. It stores already-derived token values, so
+     none of the contrast logic is duplicated here. */
+  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
+  if(t)d.setAttribute("data-theme",t);
+  var a=localStorage.getItem("rep:accent");
+  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
+  </script>
   <link rel="stylesheet" href="/assets/site.css">
   <script defer src="/assets/facts.js"></script>
   <script defer src="/assets/site.js"></script>
@@ -63,10 +74,33 @@
       <a class="nav__link nav__link--here" href="/about">About</a>
       <a class="nav__link" href="/blog">Blog</a>
     </nav>
-    <div class="nav__cta">
-      <a class="btn btn--accent btn--sm" href="/apply">Apply for a trade account</a>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/apply">Apply for a trade account</a>
+      </div>
+      <div class="themer" data-themer>
+        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
+          <span class="themer__btn-dot"></span>
+        </button>
+        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
+          <p class="themer__title">Colour theme</p>
+          <div class="themer__grid" data-themer-grid>
+            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
+            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
+            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
+          </div>
+          <div class="themer__row">
+            <label for="themerCustom">Custom accent</label>
+            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
+          </div>
+          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
+          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
+        </div>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
     </div>
-    <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
   </div>
   <div class="wrap nav__panel" id="navPanel">
     <div>

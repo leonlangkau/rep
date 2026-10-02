@@ -113,10 +113,89 @@ check("white on --fg (the .btn--solid fill) is AAA", contrast(WHITE, hex("fg")) 
 check("--fg on --bg-sunken is still AA", contrast(hex("fg"), SUNKEN) >= 4.5);
 check("--fg-2 on --bg-sunken is still AA", contrast(hex("fg-2"), SUNKEN) >= 4.5);
 
-/* ---------------- retired colours ---------------- */
+/* ---------------- every theme passes the battery ---------------- */
 
+// A theme switcher is a way to ship a palette nobody checked. These five are
+// selectable at runtime by any visitor, so each one has to clear the same bar
+// the default does — a dark theme in particular inverts the button fill, which
+// is why --fg-on-accent exists as a token rather than a hardcoded white.
+//
+// RETIRED_COLOURS is declared here rather than further down because the batched
+// colour assertion below needs it; a `const` used before its declaration is a
+// TDZ ReferenceError, not `undefined`.
 const RETIRED_COLOURS =
-  /#c4f666|#b3db6a|#b3db69|#b3db6a|#00ff86|#f5b301|#ffc633|#d99e00|#ffd873|#d9a613|#7c6cff|#35e0d0/i;
+  /#c4f666|#b3db6a|#b3db69|#00ff86|#f5b301|#ffc633|#d99e00|#ffd873|#d9a613|#7c6cff|#35e0d0/i;
+
+console.log("\n--- every selectable theme ---");
+
+/** All --x: value; pairs in a block. */
+const tokenMap = (body) => {
+  const out = {};
+  for (const m of body.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) out[m[1]] = m[2].trim();
+  return out;
+};
+
+const baseTokens = tokenMap(root);
+
+// ":root[data-theme=...]" blocks, kept in file order.
+const themeBlocks = [...css.matchAll(/:root\[data-theme="([a-z0-9-]+)"\]\s*\{([\s\S]*?)\n\}/gi)]
+  .map((m) => ({ name: m[1], tokens: tokenMap(m[2]) }));
+
+const EXPECTED_THEMES = ["ink", "harbour", "bone", "grove"];
+check(`site.css defines ${EXPECTED_THEMES.length} extra themes`,
+  themeBlocks.length === EXPECTED_THEMES.length);
+for (const want of EXPECTED_THEMES) {
+  check(`theme "${want}" has a block`, themeBlocks.some((t) => t.name === want));
+}
+
+// The dark theme is the one that can invert a button fill, so it must be real.
+const inkBlock = themeBlocks.find((t) => t.name === "ink");
+check("the dark theme declares color-scheme so native controls follow it",
+  /:root\[data-theme="ink"\]\s*\{[\s\S]*?color-scheme:\s*dark/i.test(css));
+
+const GRID = [
+  ["fg", "bg", 7, "body copy (AAA)"],
+  ["fg-2", "bg", 4.5, "ledes (AA)"],
+  ["fg-3", "bg", 4.5, "captions (AA)"],
+  ["fg-2", "bg-sunken", 4.5, "secondary on a sunken panel"],
+  ["accent-strong", "bg", 4.5, "links and small accent text (AA)"],
+  ["fg-on-accent", "accent-strong", 4.5, "the .btn--accent label"],
+  ["fg-on-accent", "accent", 3, "ink/white on the raw accent fill"],
+  ["band-fg", "band", 7, "the CTA band (AAA)"],
+  ["accent", "bg", 3, "decorative accent (large type, icons)"],
+];
+
+const THEMES = [{ name: "trade (default)", tokens: baseTokens }, ...themeBlocks];
+
+for (const theme of THEMES) {
+  const t = Object.assign({}, baseTokens, theme.tokens);
+  const val = (key) => {
+    const v = t["--" + key] || "";
+    const m = /^#([0-9a-f]{6})$/i.exec(v);
+    return m ? "#" + m[1].toLowerCase() : "";
+  };
+
+  console.log("\n  === " + theme.name + "  (bg " + (val("bg") || "?") + ") ===");
+  for (const [a, b, min, label] of GRID) {
+    const ca = val(a), cb = val(b);
+    if (!ca || !cb) {
+      check(`${theme.name}: --${a} and --${b} are both resolvable 6-digit hex`, false);
+      continue;
+    }
+    const got = contrast(ca, cb);
+    const ok = got >= min;
+    console.log("    " + (ok ? "ok  " : "FAIL") + "  " + (a + " on " + b).padEnd(30) +
+      got.toFixed(2) + ":1  (min " + min + ")  " + label);
+    check(`${theme.name}: ${a} on ${b} >= ${min}:1`, ok);
+  }
+
+  // A theme must not be able to remove the token the accent button depends on.
+  check(`${theme.name}: resolves --fg-on-accent`, !!t["--fg-on-accent"]);
+
+  // And the retired-brand ban applies to the themes too.
+  const body = JSON.stringify(theme.tokens);
+  check(`${theme.name}: carries no retired brand colour`, !RETIRED_COLOURS.test(body));
+}
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -155,6 +234,33 @@ console.log("\n--- stylesheet structure ---");
 const braces = (css.match(/\{/g) || []).length - (css.match(/\}/g) || []).length;
 console.log("  brace balance: " + braces);
 check("site.css braces balance", braces === 0);
+
+/* An undefined custom property fails SILENTLY: the declaration is dropped, the
+   element simply doesn't get the style, and nothing appears in the console.
+   That is exactly how --r-full shipped referenced by four rules and declared by
+   none, so every theme swatch rendered as a square instead of a circle and the
+   only way to notice was to look at it. */
+{
+  const declared = new Set([...css.matchAll(/(--[a-z0-9-]+)\s*:/gi)].map((m) => m[1]));
+  const used = new Set([...css.matchAll(/var\(\s*(--[a-z0-9-]+)/gi)].map((m) => m[1]));
+  // Set at runtime by site.js or inline in markup, never declared in the sheet.
+  const FROM_RUNTIME = new Set(["--w", "--d", "--sw-bg", "--sw-ac"]);
+  const missing = [...used].filter((u) => !declared.has(u) && !FROM_RUNTIME.has(u));
+  missing.forEach((m) => console.log("     undefined custom property: " + m));
+  check(`every var(--token) in site.css is declared (${used.size} used)`, missing.length === 0);
+
+  // Same check across the markup, since pages set tokens inline.
+  const pageVars = new Set();
+  for (const p of walk(join(repo, "public"))) {
+    if (!/\.[ch]tml$|\.css$/.test(p)) continue;
+    const text = readFileSync(p, "utf8");
+    for (const m of text.matchAll(/var\(\s*(--[a-z0-9-]+)/gi)) pageVars.add(m[1]);
+  }
+  const pageMissing = [...pageVars].filter((u) => !declared.has(u) && !FROM_RUNTIME.has(u));
+  pageMissing.forEach((m) => console.log("     undefined custom property in markup: " + m));
+  check(`every var(--token) used in public/ markup is declared (${pageVars.size} used)`,
+    pageMissing.length === 0);
+}
 
 check("site.css declares @font-face for Jost", /@font-face[^}]*font-family:\s*'Jost'/.test(css));
 check("site.css declares @font-face for Inter", /@font-face[^}]*font-family:\s*'Inter'/.test(css));
