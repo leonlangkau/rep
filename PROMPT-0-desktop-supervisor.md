@@ -17,11 +17,11 @@ verify-then-escalate ladder (element clicks → pixels → foreground only on re
 
 ## The plan
 - **Window A (repo `rep`)**: paste **PROMPT-1** (content restructure). When it has fully
-  finished — final report printed and the qwen input prompt idle — start a FRESH qwen
-  session in that window (exit the session or `/new`), then paste **PROMPT-4** (Revolut
-  port). PROMPT-1 and PROMPT-4 must never run simultaneously or interleaved; they touch
-  the same files. If PROMPT-1 is still going after ~4 hours, still wait — do not paste
-  PROMPT-4 early.
+  finished — final report printed and the qwen input prompt idle — STOP: leave the window
+  idle and note it in the report. **PROMPT-4 (Revolut port) is DEFERRED to tomorrow with
+  Leo present — do NOT paste it tonight, do NOT start any further task in Window A.**
+  PROMPT-1 and PROMPT-4 must never run simultaneously or interleaved; they touch the same
+  files.
 - **Window B (repo `aphelion`)**: paste **PROMPT-2** now, in parallel with Window A.
   Different repo, no overlap.
 - **Window C (repo `fivestarrepairs`)**: NOTHING to run tonight. Revolut is already live
@@ -45,8 +45,8 @@ verify-then-escalate ladder (element clicks → pixels → foreground only on re
 ## Monitoring loop (repeat every 15–20 min until all tasks finish)
 1. Capture each active window. Compare with the previous capture:
    - **Progressing** (new output, tool calls, file edits) → log one line, continue.
-   - **Idle at the qwen prompt with a final report visible** → task done. Window A: start
-     PROMPT-4 per above. Window B: mark done, stop touching it.
+   - **Idle at the qwen prompt with a final report visible** → task done. Both windows:
+     mark done, stop touching them.
    - **Stalled** (identical screen for 3 consecutive checks ≈ 45–60 min, no output growth,
      no spinner) → send a gentle nudge into that qwen session: `continue` or
      `keep going, you have not finished the task`. If it stays dead after two nudges,
