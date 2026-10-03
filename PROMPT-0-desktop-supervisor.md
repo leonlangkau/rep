@@ -30,6 +30,12 @@ verify-then-escalate ladder (element clicks → pixels → foreground only on re
   started in it.
 
 ## Pasting into qwen
+0. **Before pasting anything**, capture each window and read which model the qwen CLI is
+   running (it shows in the banner/prompt line). Write it to LOG.md as
+   `window=<A|B|C> model=<name>`. If a session must be restarted later (crash/stall),
+   relaunch qwen in that repo's directory, then type `/model` and select the same model
+   recorded in LOG.md before re-pasting the prompt. `/model` is the qwen CLI command for
+   changing models — there is no command-line flag to rely on.
 1. `capture` the window first (app="WindowsTerminal" or whatever list_windows shows as the
    terminal host). Identify the correct window by its cwd/prompt line or title, not by
    position alone.
