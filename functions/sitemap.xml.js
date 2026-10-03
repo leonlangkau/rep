@@ -19,16 +19,22 @@ const ORIGIN = "https://repeater.com.au";
 /** path, changefreq, priority. Order is the order in the sitemap. */
 const ROUTES = [
   ["/", "weekly", "1.0"],
-  ["/catalogue", "weekly", "0.9"],
-  ["/wholesale", "monthly", "0.9"],
-  ["/pricing", "monthly", "0.9"],
-  ["/apply", "monthly", "0.8"],
-  ["/about", "monthly", "0.7"],
+  ["/phones", "monthly", "0.9"],
+  ["/ai", "monthly", "0.9"],
+  ["/shop-os", "monthly", "0.9"],
+  ["/shop-os/pricing", "monthly", "0.8"],
+  ["/catalogue", "weekly", "0.7"],
+  ["/wholesale", "monthly", "0.7"],
+  ["/pricing", "monthly", "0.7"],
+  ["/apply", "monthly", "0.6"],
+  ["/about", "monthly", "0.6"],
   ["/blog", "weekly", "0.6"],
-  ["/contact", "monthly", "0.6"],
+  ["/contact", "monthly", "0.5"],
   ["/privacy", "yearly", "0.2"],
   ["/terms", "yearly", "0.2"],
 ];
+// /shop-os/checkout is deliberately absent: it is noindex and every real entry
+// point is the pricing page.
 
 function esc(s) {
   return String(s == null ? "" : s)

@@ -46,6 +46,11 @@ console.log("\n--- declared routes resolve to a file ---");
 
 const ROUTES = [
   ["/", "public/index.html"],
+  ["/phones", "public/phones/index.html"],
+  ["/ai", "public/ai/index.html"],
+  ["/shop-os", "public/shop-os/index.html"],
+  ["/shop-os/pricing", "public/shop-os/pricing/index.html"],
+  ["/shop-os/checkout", "public/shop-os/checkout/index.html"],
   ["/catalogue", "public/catalogue/index.html"],
   ["/wholesale", "public/wholesale/index.html"],
   ["/pricing", "public/pricing/index.html"],
@@ -66,7 +71,7 @@ for (const [route, file] of ROUTES) {
 console.log("\n--- function routes ---");
 for (const f of ["functions/_middleware.js", "functions/sitemap.xml.js", "functions/blog/[slug].js",
                  "functions/api/proof.js", "functions/api/enquiry.js", "functions/api/catalogue.js",
-                 "functions/api/posts.js"]) {
+                 "functions/api/posts.js", "functions/api/shop-os/checkout.js"]) {
   check(`${f} exists`, existsSync(join(repo, f)));
 }
 // The "_" convention is what stops a helper being served as an endpoint.
@@ -137,12 +142,21 @@ for (const p of pages) {
   }
 }
 
-check("there are two qform forms (contact and apply)", forms.length === 2);
+check("there are three qform forms (contact, apply and the shop-os checkout)",
+  forms.length === 3);
+
+// Each form owns its attribution. The leads vocabulary is aphelion's
+// ('fleet' | 'wholesale' | 'software' | 'other'), so the checkout — which is a
+// software enquiry — must send 'software', not 'wholesale'.
+const FORM_META = {
+  "public/contact/index.html": { interest: "wholesale", source: "contact:enquiry" },
+  "public/apply/index.html": { interest: "wholesale", source: "apply:trade" },
+  "public/shop-os/checkout/index.html": { interest: "software", source: "checkout:enquiry" },
+};
 
 for (const f of forms) {
   check(`${f.page}: form posts to /api/enquiry`, /action="\/api\/enquiry"/.test(f.tag));
   check(`${f.page}: form method is post`, /method="post"/.test(f.tag));
-  check(`${f.page}: sends interest=wholesale`, /name="interest" value="wholesale"/.test(f.body));
   check(`${f.page}: sends business_slug=repeater`, /name="business_slug" value="repeater"/.test(f.body));
   check(`${f.page}: sends a source for attribution`, /name="source" value="[^"]+"/.test(f.body));
   check(`${f.page}: carries the honeypot field`, /name="company"/.test(f.body));
@@ -156,6 +170,15 @@ for (const f of forms) {
   // novalidate would let an invalid form post natively and return raw JSON to a
   // visitor with JavaScript off. Native validation must stay on.
   check(`${f.page}: does NOT disable native validation`, !/novalidate/.test(f.tag));
+
+  const meta = FORM_META[f.page];
+  check(`${f.page}: is a known form with recorded attribution`, !!meta);
+  if (meta) {
+    check(`${f.page}: sends interest=${meta.interest}`,
+      new RegExp(`name="interest" value="${meta.interest}"`).test(f.body));
+    check(`${f.page}: sends source=${meta.source}`,
+      new RegExp(`name="source" value="${meta.source}"`).test(f.body));
+  }
 }
 
 check("the apply form asks for an ABN", forms.some((f) => /name="abn"/.test(f.body)));

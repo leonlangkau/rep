@@ -73,8 +73,10 @@
               // A honeypot submission also lands here, deliberately: the server
               // answers 200 so a bot believes it worked. A real person never
               // fills that field, so there is nothing to disambiguate.
+              var okMsg = form.getAttribute("data-success") ||
+                "Thanks \u2014 that's with the trade desk. We'll come back to you shortly.";
               form.reset();
-              setStatus(status, "ok", "Thanks \u2014 that's with the trade desk. We'll come back to you shortly.");
+              setStatus(status, "ok", okMsg);
               return;
             }
 

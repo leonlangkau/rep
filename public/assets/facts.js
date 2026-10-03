@@ -31,7 +31,9 @@
   var REPEATER = {
     NAME: "Repeater",
     DOMAIN: "repeater.com.au",
-    TAGLINE: "Wholesale parts, screens and consumables for Australian repair businesses.",
+    /* The umbrella pitch: three products, in the order the plan fixes them.
+       Shown in the footer and the JSON-LD; keep it in step with the pages. */
+    TAGLINE: "Fleet phones for tradies, AI call answering, and Repair Shop OS.",
 
     /* --- Evidence-backed --- */
     EMAIL_ORDERS: "orders@repeater.com.au",
@@ -53,6 +55,17 @@
     DELIVERY: PLACEHOLDER,
     WARRANTY: PLACEHOLDER,
     MIN_ORDER: PLACEHOLDER,
+
+    /* --- Fleet phones (pillar 1). The SHAPE is Leo's own description and is
+       safe to state; every NUMBER is unknown, so it stays a placeholder. --- */
+    PHONES_PRICE: PLACEHOLDER,      /* monthly per-handset price */
+    PHONES_COVER: PLACEHOLDER,      /* what a bundled repair covers */
+    PHONES_TERM: PLACEHOLDER,       /* minimum term */
+    PHONES_EXCESS: PLACEHOLDER,     /* excess per repair, if any */
+
+    /* --- AI call answering (pillar 2). Shape is known, numbers are not. --- */
+    AI_PRICE: PLACEHOLDER,          /* monthly price */
+    AI_TRIAL: PLACEHOLDER,          /* trial length, if any */
 
     PLACEHOLDER: PLACEHOLDER
   };

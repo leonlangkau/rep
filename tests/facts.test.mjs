@@ -83,6 +83,8 @@ if (R) {
   check("GST is declared exclusive", R.GST === "exclusive");
   check("currency is AUD and locale is en-AU", R.CURRENCY === "AUD" && R.LOCALE === "en-AU");
   check("timezone is Australia/Melbourne", R.TIMEZONE === "Australia/Melbourne");
+  check("TAGLINE leads with the three products in the order the plan fixes",
+    R.TAGLINE === "Fleet phones for tradies, AI call answering, and Repair Shop OS.");
 
   console.log("\n--- unresolved facts ---");
   const unresolvedKeys = R.placeholderKeys().filter((k) => k !== "PLACEHOLDER");

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Repair Shop OS — bookings, workshop, inventory and more — Repeater</title>
+  <meta name="description" content="Repair Shop OS, by Repeater: bookings, workshop, inventory, accounting, marketing, B2B wholesale and wealth in one panel. From $49 a month, GST-exclusive, with a free trial and no card to start.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Repeater">
+  <meta property="og:title" content="Repair Shop OS — bookings, workshop, inventory and more — Repeater">
+  <meta property="og:description" content="Repair Shop OS, by Repeater: bookings, workshop, inventory, accounting, marketing, B2B wholesale and wealth in one panel. From $49 a month, GST-exclusive, with a free trial and no card to start.">
+  <meta property="og:url" content="https://repeater.com.au/shop-os">
+  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_AU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Repair Shop OS — bookings, workshop, inventory and more — Repeater">
+  <meta name="twitter:description" content="Repair Shop OS, by Repeater: bookings, workshop, inventory, accounting, marketing, B2B wholesale and wealth in one panel. From $49 a month, GST-exclusive, with a free trial and no card to start.">
+  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
+  <link rel="canonical" href="https://repeater.com.au/shop-os">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <script>
+  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
+     render-blocking: a deferred script would let the page paint in the default
+     palette and then snap to the chosen one, which reads as a broken toggle
+     rather than a saved preference. It stores already-derived token values, so
+     none of the contrast logic is duplicated here. */
+  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
+  if(t)d.setAttribute("data-theme",t);
+  var a=localStorage.getItem("rep:accent");
+  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script defer src="/assets/facts.js"></script>
+  <script defer src="/assets/site.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Repair Shop OS",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://repeater.com.au/shop-os",
+        "description": "Bookings, workshop, inventory, accounting, marketing, B2B wholesale and wealth in one panel for repair shops.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Repeater",
+          "url": "https://repeater.com.au/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "49",
+          "priceCurrency": "AUD",
+          "description": "From $49 AUD per month, GST-exclusive, free trial."
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is Repair Shop OS for?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Repair shops. It is the software side of the business — the panel that runs bookings, the workshop, stock, the books, marketing and wholesale. It is not the fleet-phone deal, which is for trades."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does it replace?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The pile of disconnected tools a shop usually runs on — a booking app, a spreadsheet for stock, another for the books, and a folder of supplier prices. It puts them in one panel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does it cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Starter is from $49, Business from $149 and Enterprise from $399 per month, in AUD and GST-exclusive. Every plan starts with a free trial, and you only pay after it ends."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link" href="/phones">Phones</a>
+      <a class="nav__link" href="/ai">AI Calls</a>
+      <a class="nav__link nav__link--here" href="/shop-os">Shop OS</a>
+      <a class="nav__link" href="/wholesale">Trade supply</a>
+      <a class="nav__link" href="/about">About</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
+      </div>
+      <div class="themer" data-themer>
+        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
+          <span class="themer__btn-dot"></span>
+        </button>
+        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
+          <p class="themer__title">Colour theme</p>
+          <div class="themer__grid" data-themer-grid>
+            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
+            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
+            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
+          </div>
+          <div class="themer__row">
+            <label for="themerCustom">Custom accent</label>
+            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
+          </div>
+          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
+          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
+        </div>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+    </div>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/phones">Phones</a></li>
+        <li><a href="/ai">AI Calls</a></li>
+        <li><a href="/shop-os">Shop OS</a></li>
+        <li><a href="/wholesale">Trade supply</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero__in">
+      <div class="hero__copy">
+        <span class="eyebrow hero__eyebrow">Repair Shop OS, by Repeater</span>
+        <h1 class="display">Run the shop, not the paperwork.</h1>
+        <p class="lede hero__lede">Bookings, the workshop, stock, the books, marketing, B2B wholesale and the numbers you care about &mdash; one panel instead of six tools that don't talk to each other.</p>
+        <div class="btn-row">
+          <a class="btn btn--accent" href="/shop-os/pricing">See the plans</a>
+          <a class="btn btn--line" href="/contact">Book a walkthrough</a>
+        </div>
+        <div class="hero__trust">
+          <span>From <b>$49</b>/mo</span>
+          <span class="dot"></span>
+          <span><b>Free trial</b>, no card</span>
+          <span class="dot"></span>
+          <span>GST-exclusive</span>
+        </div>
+      </div>
+
+      <div class="hero__plate rv">
+        <div class="show__plate">
+          <div class="show__bar">
+            <span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span>
+            <span class="show__title">Today in the shop</span>
+          </div>
+          <div class="show__tiles">
+            <div class="show__tile"><b>6</b><span>bookings</span></div>
+            <div class="show__tile"><b>3</b><span>on the bench</span></div>
+            <div class="show__tile"><b>2</b><span>waiting on parts</span></div>
+          </div>
+          <div class="show__rows">
+            <div class="show__row"><span>Booking in</span><i>walk-in, iPhone 13</i><span class="show__tag">new</span></div>
+            <div class="show__row"><span>Workshop</span><i>screen + battery</i><span class="show__tag">in progress</span></div>
+            <div class="show__row"><span>Inventory</span><i>stock reserved</i><span class="show__tag">auto</span></div>
+            <div class="show__row"><span>Invoice</span><i>issued on completion</i><span class="show__tag">BAS-ready</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">What you actually get</span>
+          <h2>Six jobs, one panel.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Every part of a repair business that usually lives in its own app, spreadsheet or shoebox. Nothing here needs a second subscription to be useful.</p>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        <article class="card rv">
+          <span class="card__num">01</span>
+          <h3>Workshop</h3>
+          <p>Bookings, jobs and the bench in one view, so you can see what's in, what's waiting and what's ready for pickup.</p>
+        </article>
+        <article class="card rv" style="--d:80ms">
+          <span class="card__num">02</span>
+          <h3>Inventory</h3>
+          <p>Parts and stock tracked against the jobs that consume them, with the levels that actually matter at a glance.</p>
+        </article>
+        <article class="card rv" style="--d:160ms">
+          <span class="card__num">03</span>
+          <h3>Accounting</h3>
+          <p>Invoices and figures kept in order, with BAS-ready numbers rather than a shoebox of receipts at the end of the quarter.</p>
+        </article>
+        <article class="card rv">
+          <span class="card__num">04</span>
+          <h3>Marketing</h3>
+          <p>Blog posts, deals and an AI writer to keep the shop visible without spending an evening on it.</p>
+        </article>
+        <article class="card rv" style="--d:80ms">
+          <span class="card__num">05</span>
+          <h3>B2B wholesale</h3>
+          <p>Trade accounts, quotes and orders for shops that supply other businesses too &mdash; credit limits, price lists and terms included.</p>
+        </article>
+        <article class="card rv" style="--d:160ms">
+          <span class="card__num">06</span>
+          <h3>Wealth</h3>
+          <p>A dashboard of what the business is actually making, plus a lender pack when it's time to talk to a bank.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Pricing</span>
+          <h2>Real plans, published.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Starter, Business and Enterprise, in AUD and GST-exclusive. Every plan starts with a free trial &mdash; you only pay after it ends, and there's no card to start.</p>
+        </div>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--line" href="/shop-os/pricing">See the plans and what's included</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap wrap--narrow">
+      <div class="head">
+        <span class="eyebrow head__eyebrow">Questions</span>
+        <h2>The OS, asked plainly.</h2>
+      </div>
+      <div class="faq">
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Who is Repair Shop OS for?</button>
+          <div class="faq__a"><div><p>Repair shops. It's the software side of the business &mdash; the panel that runs bookings, the workshop, stock, the books, marketing and wholesale. It isn't the fleet-phone deal, which is for trades.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What does it replace?</button>
+          <div class="faq__a"><div><p>The pile of disconnected tools a shop usually runs on &mdash; a booking app, a spreadsheet for stock, another for the books, and a folder of supplier prices. It puts them in one panel.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">How much does it cost?</button>
+          <div class="faq__a"><div><p>Starter is from $49, Business from $149 and Enterprise from $399 per month, in AUD and GST-exclusive. Every plan starts with a free trial, and you only pay after it ends.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Is this the same as the wholesale parts supply?</button>
+          <div class="faq__a"><div><p>No. B2B wholesale is one module inside the OS for shops that supply other businesses. The trade-supply side of Repeater is separate &mdash; see <a href="/wholesale" style="color:var(--accent-strong)">Trade supply</a>.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Repair Shop OS</span>
+      <h2>Run the shop, not the paperwork.</h2>
+      <p>See the plans, start a free trial, and put the whole shop in one panel.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/shop-os/pricing">See the plans</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Fleet phones for tradies, AI call answering, and Repair Shop OS &mdash; supplied from Melbourne.</p>
+        <p class="foot__abn">ABN 50 702 477 361</p>
+      </div>
+      <div class="foot__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/phones">Fleet phones</a></li>
+          <li><a href="/ai">AI call answering</a></li>
+          <li><a href="/shop-os">Repair Shop OS</a></li>
+          <li><a href="/wholesale">Trade supply</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/contact">Book a call</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

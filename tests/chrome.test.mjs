@@ -59,7 +59,31 @@ function extract(html, tag, className) {
   return m ? norm(m[0]) : null;
 }
 
-const refNav = extract(reference, "header", "nav").replace(/\s*nav__link--here/g, "");
+/*
+ * The nav is byte-identical on every page except two deliberate slots: the
+ * `nav__link--here` active marker, and the CTA. The umbrella pages invite a
+ * conversation ("Book a call"); the trade-supply pages invite an application.
+ * Normalise both slots before comparing, and assert the CTA's exact value
+ * separately below — parity still covers everything else, byte for byte.
+ */
+const NAV_CTA_RE = /<a class="btn btn--accent (btn--sm|btn--block)" href="[^"]*">[^<]*<\/a>/g;
+const normalizeNav = (s) => String(s)
+  .replace(/\s*nav__link--here/g, "")
+  .replace(NAV_CTA_RE, (_, cls) => `<a class="btn btn--accent ${cls}" href="CTA">CTA</a>`);
+
+/** Trade-supply pages keep the application CTA; everything else books a call. */
+const TRADE_PAGES = new Set([
+  "public/catalogue/index.html",
+  "public/wholesale/index.html",
+  "public/pricing/index.html",
+  "public/apply/index.html",
+]);
+const NAV_CTA = {
+  umbrella: { href: "/contact", label: "Book a call" },
+  trade: { href: "/apply", label: "Apply for a trade account" },
+};
+
+const refNav = normalizeNav(extract(reference, "header", "nav"));
 const refFoot = extract(reference, "footer", "foot");
 const refCta = extract(reference, "section", "sec sec--band cta");
 
@@ -80,8 +104,13 @@ for (const p of pages) {
   check(`${label}: has the shared CTA band`, !!cta);
 
   if (nav) {
-    const same = nav.replace(/\s*nav__link--here/g, "") === refNav;
-    check(`${label}: nav is identical to the reference`, same);
+    const same = normalizeNav(nav) === refNav;
+    check(`${label}: nav is identical to the reference (bar the CTA variant)`, same);
+
+    const cm = /<a class="btn btn--accent btn--sm" href="([^"]+)">([^<]+)<\/a>/.exec(nav);
+    const want = TRADE_PAGES.has(label) ? NAV_CTA.trade : NAV_CTA.umbrella;
+    check(`${label}: nav CTA is "${want.label}" -> ${want.href}`,
+      !!cm && cm[1] === want.href && cm[2] === want.label);
   }
   if (foot) check(`${label}: footer is identical to the reference`, foot === refFoot);
 
@@ -187,14 +216,19 @@ const EXPECTED_ACTIVE = {
   "public/404.html": null,
   "public/privacy.html": null,
   "public/terms.html": null,
-  "public/catalogue/index.html": "Catalogue",
-  "public/wholesale/index.html": "Wholesale",
-  "public/pricing/index.html": "Pricing",
+  "public/catalogue/index.html": null,
+  "public/wholesale/index.html": "Trade supply",
+  "public/pricing/index.html": null,
   "public/about/index.html": "About",
-  "public/blog/index.html": "Blog",
-  "public/blog/article.html": "Blog",
+  "public/blog/index.html": null,
+  "public/blog/article.html": null,
   "public/contact/index.html": null,
   "public/apply/index.html": null,
+  "public/phones/index.html": "Phones",
+  "public/ai/index.html": "AI Calls",
+  "public/shop-os/index.html": "Shop OS",
+  "public/shop-os/pricing/index.html": "Shop OS",
+  "public/shop-os/checkout/index.html": "Shop OS",
 };
 
 for (const p of pages) {
