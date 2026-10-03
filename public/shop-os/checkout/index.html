@@ -144,9 +144,26 @@
         </div>
 
         <div class="card rv" style="--d:80ms">
-          <h3 style="margin-bottom:var(--space-4)">Request your setup</h3>
-          <p class="muted" data-checkout-note>Card payment is being switched on. Leave your details and a person will put your trial in place and be in touch &mdash; you will not be charged here.</p>
-          <a class="btn btn--accent btn--block" data-checkout-pay hidden href="/contact" style="margin-bottom:var(--space-5)">Continue to payment</a>
+          <h3 style="margin-bottom:var(--space-4)">Start your free trial</h3>
+
+          <!-- The backend decides what happened; the page only reports it. This
+               line is filled by checkout.js on the return from Revolut and never
+               says "active" unless the server said so. -->
+          <p class="qform__status" data-checkout-state role="status" aria-live="polite" hidden></p>
+
+          <p class="muted" data-checkout-note>Card payment isn't switched on yet. Leave your details and a person will put your trial in place and be in touch &mdash; you will not be charged here.</p>
+
+          <!-- Revealed only when the config probe says the rail is live. The
+               subscription is the primary action; a prepaid month is the
+               alternative. Both hand off to Revolut's own hosted page — this
+               page never sees or stores a card. -->
+          <div data-checkout-pay hidden style="margin-bottom:var(--space-6)">
+            <button class="btn btn--accent btn--block" type="button" data-checkout-subscribe>Continue to Revolut</button>
+            <p class="qform__hint" style="margin-top:var(--space-3)">You'll add your card on Revolut's secure page. The free trial is not charged; billing starts when it ends. <a href="#" data-checkout-oneoff style="color:var(--accent-strong)">Or pay for one month up front</a>.</p>
+            <p class="qform__status" data-checkout-pay-status role="status" aria-live="polite"></p>
+          </div>
+
+          <h4 style="margin-bottom:var(--space-4)">Or ask us to set it up</h4>
           <form class="qform" method="post" action="/api/enquiry" data-success="Thanks — we'll be in touch about your setup.">
             <input type="hidden" name="interest" value="software">
             <input type="hidden" name="business_slug" value="repeater">
@@ -181,7 +198,7 @@
             </div>
             <p class="qform__hint">Leave an email address or a phone number &mdash; one of the two is required. We'll be in touch to set up the trial; nothing is charged on this page.</p>
             <div class="qform__foot">
-              <button class="btn btn--accent" type="submit">Request setup</button>
+              <button class="btn btn--line" type="submit">Request setup</button>
               <p class="qform__status" role="status" aria-live="polite"></p>
             </div>
           </form>

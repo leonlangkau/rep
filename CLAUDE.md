@@ -4,11 +4,15 @@ Guidance for agents working in this repository.
 
 ## What this is
 
-The public marketing site for **Repeater**, Aphileon LTD's B2B wholesale business
-(`repeater.com.au`). Static HTML in `public/`, dependency-free Cloudflare Pages Functions
-in `functions/`, D1 for data, R2 for media. **No build step, no framework, no linter, no
-transpiler, and no runtime npm dependency.** The whole design system is one hand-written
-stylesheet.
+The public site for **Repeater**, Aphileon LTD's umbrella brand (`repeater.com.au`): fleet
+phones for tradies, AI call answering, and the Repair Shop OS — with the original B2B
+wholesale parts supply demoted to one side of the business. Static HTML in `public/`,
+dependency-free Cloudflare Pages Functions in `functions/`, D1 for data, R2 for media.
+**No build step, no framework, no linter, no transpiler, and no runtime npm dependency.**
+The whole design system is one hand-written stylesheet.
+
+Money on the Repair Shop OS is taken by **Revolut Merchant** (ported from
+`../fivestarrepairs`, which owns the rail) — see `docs/SETUP-revolut-payments.md`.
 
 It is the third site in a family — siblings are `../aphelion` (owner control centre) and
 `../fivestarrepairs` (retail). Read them: they are the style guide, and several files
@@ -79,8 +83,36 @@ Wholesale tab reads and writes them. **Never recreate, alter or drop them here.*
 Likewise: never expose `cost_plus_rules`, `negotiated_prices` or another account's pricing
 in a public response. `/api/catalogue` publishes quantity breaks only, GST-exclusive.
 
-Writes to `DB_APHELION` are limited to the `leads` insert in `/api/enquiry` and the
-`rate_limits` helper. Nothing else.
+The one exception to "never alter them" is `migrations/003_revolut_payments.sql`, which
+adds the two **neutral** processor columns to `orders` (`processor_order_id`,
+`processor_payment_id`) that the Repair Shop OS rail writes its shadow rows into. That
+matches fivestarrepairs migration 081, adds nothing destructive, and is the only ALTER this
+repo is allowed to run against the shared schema. The `square_*` columns stay unread and
+unwritten.
+
+### What this repo writes in DB_APHELION (extended 2026-10-04)
+
+`DB_APHELION` writes are limited to four things, and nothing else:
+
+- the `leads` insert in `/api/enquiry` (aphelion migration 027);
+- the `rate_limits` helper (`functions/api/_ratelimit.js`);
+- **`saas_customers` and `saas_subscriptions`** (aphelion migrations 026 + 029), written
+  only by `functions/api/shop-os/subscribe.js` and `functions/api/shop-os/webhook.js` —
+  the Repair Shop OS subscription rail. This is the extension of the old "leads and
+  rate_limits only" rule.
+
+On those two SaaS tables, this repo may write only the `revolut_*` columns
+(`revolut_customer_id`, `revolut_subscription_id`) plus the tenant lifecycle columns it
+needs: `business_name`, `contact_email`, `plan`, `status`, `trial_ends_at` on customers;
+`customer_id`, `plan`, `amount_cents`, `interval`, `current_period_start`,
+`current_period_end`, `status` on subscriptions.
+
+**NEVER write `stripe_customer_id` / `stripe_subscription_id`.** Stripe stays authoritative
+for existing tenants — aphelion migration 029 says so explicitly — and
+`tests/shop-os-payments.test.mjs` fails if any code path names a stripe column. If
+migration 029's columns are missing, the endpoints degrade with
+`{ ok:false, skip:true, reason:"schema_pending" }`; this repo must never ALTER an aphelion
+table itself.
 
 ### Content honesty
 

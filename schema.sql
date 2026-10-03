@@ -33,3 +33,24 @@ CREATE TABLE IF NOT EXISTS site_posts (
   updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_site_posts_status ON site_posts (status, published_at DESC);
+
+-- Revolut Merchant rail. Ours to own.
+--
+-- Cache of the Revolut subscription plan and variation ids per Repair Shop OS
+-- tier, so /api/shop-os/subscribe creates the plan once and reuses it, rather
+-- than POSTing a new plan on every signup. One row per tier.
+CREATE TABLE IF NOT EXISTS revolut_plan_cache (
+  tier         TEXT PRIMARY KEY,            -- 'starter' | 'business' | 'enterprise'
+  plan_id      TEXT NOT NULL DEFAULT '',
+  variation_id TEXT NOT NULL DEFAULT '',
+  updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- The two neutral processor columns on the shared `orders` table
+-- (`processor_order_id`, `processor_payment_id`) and the
+-- `idx_orders_processor_order` index are NOT mirrored here: `orders` is not this
+-- site's table, and `ALTER TABLE ADD COLUMN` cannot be written idempotently for
+-- a CREATE-only file. A fresh install gets them from
+-- ../fivestarrepairs/schema.sql (fsr migration 081); an existing `repeater`
+-- database gets them from migrations/003_revolut_payments.sql. This repo only
+-- ever writes the two neutral names — never square_order_id/square_payment_id.

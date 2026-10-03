@@ -71,7 +71,10 @@ for (const [route, file] of ROUTES) {
 console.log("\n--- function routes ---");
 for (const f of ["functions/_middleware.js", "functions/sitemap.xml.js", "functions/blog/[slug].js",
                  "functions/api/proof.js", "functions/api/enquiry.js", "functions/api/catalogue.js",
-                 "functions/api/posts.js", "functions/api/shop-os/checkout.js"]) {
+                 "functions/api/posts.js", "functions/api/shop-os/checkout.js",
+                 "functions/api/shop-os/subscribe.js", "functions/api/shop-os/webhook.js",
+                 "functions/api/_revolut.js", "functions/api/shop-os/_tiers.js",
+                 "functions/api/shop-os/_store.js"]) {
   check(`${f} exists`, existsSync(join(repo, f)));
 }
 // The "_" convention is what stops a helper being served as an endpoint.

@@ -40,8 +40,10 @@ check("the probe is never cached (config can change)",
 
 r = await J(mod.onRequest({ request: getReq("https://repeater.com.au/api/shop-os/checkout") }));
 check("GET via onRequest -> 200", r.status === 200);
-r = await J(mod.onRequest({ request: jsonReq({}, "https://repeater.com.au/api/shop-os/checkout") }));
-check("POST -> 405 with allow: GET", r.status === 405 && r.headers.get("allow") === "GET");
+// POST is the one-off purchase now (see tests/shop-os-payments.test.mjs), so an
+// unsupported verb is what still has to be refused, naming both allowed ones.
+r = await J(mod.onRequest({ request: new Request("https://repeater.com.au/api/shop-os/checkout", { method: "DELETE" }) }));
+check("an unsupported verb -> 405 with allow: GET, POST", r.status === 405 && r.headers.get("allow") === "GET, POST");
 
 /* ================= OS pricing figures ================= */
 
@@ -79,6 +81,20 @@ check("the payment action ships hidden until the rail is configured",
   /data-checkout-pay hidden/.test(checkout));
 check("the fallback note is present in the markup (honest with JS off)",
   /data-checkout-note/.test(checkout));
+
+// The script that talks to the payment rail must be just as careful: the only
+// success wording it may reach is "active", and only after the server says so.
+{
+  // The script's own comments name the forbidden phrases in order to forbid
+// them, so the code is what is scanned.
+  const js = read("public/assets/checkout.js")
+    .split(/\r?\n/).filter((l) => !/^\s*(\*|\/\/|\/\*)/.test(l)).join("\n");
+  const jsHit = BANNED.exec(js);
+  check("the checkout script never promises a completed payment either" +
+    (jsHit ? " (found: " + jsHit[0] + ")" : ""), !jsHit);
+  check("the checkout script reads state from the backend, never assumes it",
+    /\/api\/shop-os\/subscribe\?ref=/.test(js) && /s === "active"/.test(js));
+}
 
 /* ================= the home page leads with the three products ============= */
 
