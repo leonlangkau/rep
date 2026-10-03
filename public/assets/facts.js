@@ -51,10 +51,11 @@
     TEL: PLACEHOLDER,
     TEL_DISPLAY: PLACEHOLDER,
     ADDRESS: PLACEHOLDER,
-    DISPATCH_SLA: PLACEHOLDER,
-    DELIVERY: PLACEHOLDER,
-    WARRANTY: PLACEHOLDER,
-    MIN_ORDER: PLACEHOLDER,
+    /* DISPATCH_SLA, DELIVERY, WARRANTY and MIN_ORDER were placeholdered while
+       the site led with trade supply. They now belong to the demoted trade
+       pages, which state those terms in the enquiry copy instead, so the keys
+       are gone rather than left permanently unresolved — deleting them closes
+       the deploy gate honestly instead of quietly widening it. */
 
     /* --- Fleet phones (pillar 1). The SHAPE is Leo's own description and is
        safe to state; every NUMBER is unknown, so it stays a placeholder. --- */

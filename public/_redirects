@@ -21,3 +21,12 @@
 /faqs         /pricing    301
 /about-us     /about      301
 /home         /           301
+
+# Umbrella aliases — the three products, for whatever people actually type.
+/shopos         /shop-os   301
+/os             /shop-os   301
+/repair-shop-os /shop-os   301
+/ai-calls       /ai        301
+/aicalls        /ai        301
+/phone          /phones    301
+/fleet-phones   /phones    301
