@@ -271,7 +271,9 @@ for (const p of pages) {
 }
 
 const home = readFileSync(join(publicDir, "index.html"), "utf8");
-check("the home page declares WholesaleStore structured data", /"@type":\s*"WholesaleStore"/.test(home));
+// The home page is the umbrella brand now, not a wholesale store, so it
+// describes an Organization — WholesaleStore would re-claim the old positioning.
+check("the home page declares Organization structured data", /"@type":\s*"Organization"/.test(home));
 
 // FAQPage markup is worth having on every page that actually shows a FAQ —
 // Google reads it, and it costs nothing because the text is already there.

@@ -80,6 +80,32 @@ check("the payment action ships hidden until the rail is configured",
 check("the fallback note is present in the markup (honest with JS off)",
   /data-checkout-note/.test(checkout));
 
+/* ================= the home page leads with the three products ============= */
+
+console.log("\n--- the umbrella home ---");
+const home = read("public/index.html");
+
+check("the hero names all three products",
+  /Fleet phones/.test(home) && /AI call answering/.test(home) && /Repair Shop OS/.test(home));
+
+// Order matters: phones, then AI calls, then Repair Shop OS, everywhere the
+// three appear in sequence. Find the first occurrence of each in the hero copy.
+{
+  const hero = /<h1 class="display">([\s\S]*?)<\/h1>[\s\S]*?<div class="hero__trust">([\s\S]*?)<\/div>/.exec(home);
+  const hay = hero ? hero[1] + " " + hero[2] : home;
+  const iP = hay.indexOf("Fleet phones");
+  const iA = hay.indexOf("AI call answering");
+  const iO = hay.indexOf("Repair Shop OS");
+  check("the three products appear in the fixed order (phones, AI, OS)",
+    iP > -1 && iA > -1 && iO > -1 && iP < iA && iA < iO);
+}
+
+check("the trade-supply pages are framed as depth, not as what Repeater is",
+  /We also supply parts/.test(home) && /depth behind the OS/.test(home));
+
+check("the old parts-counter hero is gone",
+  !/Stock the counter/.test(home));
+
 /* ================= facts.js ================= */
 
 console.log("\n--- facts.js umbrella line ---");
