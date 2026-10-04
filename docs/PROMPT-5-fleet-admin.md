@@ -32,12 +32,15 @@ never invent or "improve" them.
     funds (~$500–600 landed), delivery days after signing · no repair services included:
     manufacturer-warranty faults administered free; accidental damage at standard price,
     quoted and approved first · no loaner swap, no included service events.
-  - **PA-2 Managed Fleet (device + care):** $622 day one per device + $5.50/week per
-    device · quantity tiers on the weekly fee: 2–4 $5.50 · 5–9 $5.00 · 10–19 $4.60 ·
-    20–49 $4.20 · 50+ $3.80 (all + GST, per device per week) `[OWNER TO CONFIRM]` · the
-    $622 day-one never discounts · **pay-in-full option: $1,075 + GST per device on
-    signing** — the full 24-month term in one payment (normally $1,194 — saves $119),
-    flat, no tier discount `[OWNER TO CONFIRM]` · **Repeater keeps title for the whole
+  - **PA-2 Managed Fleet (device + care):** $622 day one per device · **fleet
+    administration fee $27.50 per device, capped at $110 per plan for the whole term,
+    collected in equal weekly instalments alongside the weekly fee** · **weekly care fee
+    per device: 2–4 $5.60 · 5–9 $5.10 · 10–19 $4.70 · 20–49 $4.30 · 50+ $3.90** (all +
+    GST) `[OWNER TO CONFIRM]` · the $622 day-one never discounts · standard per-phone
+    total at 2–4 devices: **$1,231.90** ($622 + $27.50 admin + $5.60 × 104) ·
+    **pay-in-full option: 10% off the standard total for your tier, per device on
+    signing — $1,109 (2–4) · $1,057 (5–9) · $1,010 (10–19) · $967 (20–49) · $927 (50+)**
+    `[OWNER TO CONFIRM]`; the stepper computes it live so it is never upside-down ·
     term — the client never owns the device; no buyout** · MDM enrolment is a condition
     (non-negotiable) · PPSR-registered before delivery · devices ordered on cleared funds
     (single-unit supplier, ~$500–600 landed), delivery days after signing ·
@@ -121,25 +124,29 @@ The only permitted additions are new HTML blocks styled with existing classes.
      Quantity stepper starting at 2: live "today" line ($622 per device × count), with
      the fleet-admin cap noted under it (2–4 devices pay $27.50 each; from 5 devices
      the admin fee is $110 total for the whole term).
-   - **Managed Fleet (PA-2):** "$622 upfront per device · $5.50 a week per device ·
-     24 months · the phone stays Repeater's property — you never own it, we manage
-     everything · repairs included: 2 service events per quarter, plus 1 extra per
-     quarter for every 4 devices on the plan, $0 each · past the cap? $60 flat per extra
-     repair · first 2 call-outs free every 12 months, then $19 within 20 km · can't fix
-     it same day? You get a loaner phone the same visit · MDM-managed and
-     PPSR-registered · at term end hand it back and start fresh on the current model."
-     State plainly: devices are ordered on cleared funds and arrive within days of
-     signing; deliberate damage is quoted before any work; theft and loss remain the
-     client's risk per the agreement. Pay-in-full option under the card: "$1,075 + GST
-     for the full 24 months, paid once — saves you $119 `[OWNER TO CONFIRM]`."
+   - **Managed Fleet (PA-2):** "$622 upfront per device · from $5.60 a week per device
+     — that is the care: repairs, call-outs and the loaner swap — plus fleet
+     administration spread across your weekly payments ($27.50 per device for the whole
+     term, capped at $110 per plan) · 24 months · the phone stays Repeater's property —
+     you never own it, we manage everything · repairs included: 2 service events per
+     quarter, plus 1 extra per quarter for every 4 devices on the plan, $0 each · past
+     the cap? $60 flat per extra repair · first 2 call-outs free every 12 months, then
+     $19 within 20 km · can't fix it same day? You get a loaner phone the same visit ·
+     MDM-managed and PPSR-registered · at term end hand it back and start fresh on the
+     current model." State plainly: devices are ordered on cleared funds and arrive
+     within days of signing; deliberate damage is quoted before any work; theft and
+     loss remain the client's risk per the agreement. Pay-in-full option under the
+     card: "$1,109 + GST for the full 24 months, paid once — saves you $123
+     `[OWNER TO CONFIRM]`. Bigger fleets prepay less — 10% off your tier's total."
    - **Managed Fleet stepper (PA-2 block):** quantity control starting at 2 devices with
      plus/minus buttons. As the count changes, the per-device weekly fee steps per §0
-     tiers ($5.50/$5.00/$4.60/$4.20/$3.80) and the page shows live: devices, per-device
-     weekly fee, weekly total, and a "today" line ($622 per device). Tier table displayed
-     below the stepper so every step is visible without interaction. Headline for the
-     section: "from $5.50 a week per device" (the real 2-device price) — never the
-     50+-device price, per ACCC misleading-price rules. Show all amounts with GST. Solo
-     tradies (1 device) are steered to FSR walk-in repairs.
+     tiers ($5.60/$5.10/$4.70/$4.30/$3.90) and the page shows live: devices, per-device
+     weekly fee (care + admin share), weekly total, the "today" line ($622 per device),
+     and the pay-in-full figure (10% off that tier's standard total). Tier table
+     displayed below the stepper so every step is visible without interaction. Headline
+     for the section: "from $5.60 a week per device" (the real 2-device price) — never
+     the 50+-device price, per ACCC misleading-price rules. Show all amounts with GST.
+     Solo tradies (1 device) are steered to FSR walk-in repairs.
    - **Fleet Connect (PA-8) — coming-soon card:** static card between PA-2 and the
      services list. Copy: "Device + Care + SIM. One plan, one weekly fee. Coming soon."
      No pricing, no form, no capture, nothing wired.
@@ -186,8 +193,9 @@ cookies). Port the pattern; rep stays dependency-free.
    admin_fee_oneoff 27.50 capped at admin_fee_plan_cap 110 per plan for the whole term,
    recurring_fee null, end-of-term election is return or renew (NO buyout — title never
    transfers), fleet-loss fee $300 on stolen/lost. device_care: dayone_amount 622,
-   admin_fee_oneoff null, recurring_fee per weekly tier, prepaid option per §0,
-   return/renew only.
+   admin fee $27.50/device capped $110 per plan but COLLECTED WEEKLY (instalments across
+   the term), recurring_fee per weekly care tier (5.60 base ladder), prepaid = 10% off
+   the tier's standard total, return/renew only.
    `service_events` (id, lease_id?, device_id, event_type, fee_charged (0 included /
    60 over-cap), parts_cost, status CHECK('booked','in_progress','done','declined'),
    approved_by_client INTEGER, opened_at, resolved_at, notes)
