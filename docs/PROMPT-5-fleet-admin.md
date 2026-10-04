@@ -250,7 +250,25 @@ cookies). Port the pattern; rep stays dependency-free.
 - Never weaken a test to go green; extend the suite instead.
 - PA-1/PA-2/PA-3..7 prices and terms are locked canon — render, don't reinterpret.
 
-## 6. Finish gates
+## 6. Owner stats endpoint (addendum — consumed by the aphelion owner panel)
+
+Add a read-only aggregate endpoint for the Aphileon owner control centre:
+
+`GET /api/owner/fleet-stats` — guarded by an `OWNER_TOKEN` env (bearer header; if unset,
+return `{ok:false, skip:true, reason:"not_configured"}`). Aggregates ONLY, no PII beyond
+company names: active leases (count by weekly/prepaid), devices in field by status,
+care-plan device count, service events this quarter vs cap, devices at 3+ paid events
+(rolling 12mo), PPSR registrations expiring within 90 days, lease end-of-term elections
+due within 60 days, `call_requests` queue count by status, and computed MRR (sum of
+active weekly fees + prepaid amortised over remaining term). Response shape:
+`{ok:true, generated_at, fleet:{...}, mrr:{...}, watchlists:{...}}` — document the exact
+JSON shape in a comment at the top of the file so the consumer and producer never drift.
+Also `GET /api/owner/digest-data` returning the same payload plus: failed-payment-prone
+accounts (from billing metadata where present — read-only), for the weekly digest.
+No writes, no auth beyond the bearer token, no new dependencies. Extend the test suite
+for the aggregate queries.
+
+## 7. Finish gates
 
 1. `npm test` and `npm run test:imports` green on the final tree.
 2. Push to main (push = production deploy) and verify the Pages deployment.
