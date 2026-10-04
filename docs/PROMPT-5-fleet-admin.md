@@ -36,11 +36,11 @@ never invent or "improve" them.
     administration fee $27.50 per device, capped at $110 per plan for the whole term,
     collected in equal weekly instalments alongside the weekly fee** · **weekly care fee
     per device: 2–4 $5.60 · 5–9 $5.10 · 10–19 $4.70 · 20–49 $4.30 · 50+ $3.90** (all +
-    GST) `[OWNER TO CONFIRM]` · the $622 day-one never discounts · standard per-phone
+    GST) · the $622 day-one never discounts · standard per-phone
     total at 2–4 devices: **$1,231.90** ($622 + $27.50 admin + $5.60 × 104) ·
     **pay-in-full option: 10% off the standard total for your tier, per device on
-    signing — $1,109 (2–4) · $1,057 (5–9) · $1,010 (10–19) · $967 (20–49) · $927 (50+)**
-    `[OWNER TO CONFIRM]`; the stepper computes it live so it is never upside-down ·
+    signing — $1,109 (2–4) · $1,057 (5–9) · $1,010 (10–19) · $967 (20–49) · $927 (50+)** —
+    the stepper computes it live so it is never upside-down ·
     term — the client never owns the device; no buyout** · MDM enrolment is a condition
     (non-negotiable) · PPSR-registered before delivery · devices ordered on cleared funds
     (single-unit supplier, ~$500–600 landed), delivery days after signing ·
@@ -136,8 +136,8 @@ The only permitted additions are new HTML blocks styled with existing classes.
      current model." State plainly: devices are ordered on cleared funds and arrive
      within days of signing; deliberate damage is quoted before any work; theft and
      loss remain the client's risk per the agreement. Pay-in-full option under the
-     card: "$1,109 + GST for the full 24 months, paid once — saves you $123
-     `[OWNER TO CONFIRM]`. Bigger fleets prepay less — 10% off your tier's total."
+     card: "$1,109 + GST for the full 24 months, paid once — saves you $123. Bigger
+     fleets prepay less — 10% off your tier's total."
    - **Managed Fleet stepper (PA-2 block):** quantity control starting at 2 devices with
      plus/minus buttons. As the count changes, the per-device weekly fee steps per §0
      tiers ($5.60/$5.10/$4.70/$4.30/$3.90) and the page shows live: devices, per-device
