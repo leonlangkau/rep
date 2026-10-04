@@ -153,6 +153,11 @@ The only permitted additions are new HTML blocks styled with existing classes.
 4. Update nav/footer copy from wholesale-parts-only to the 7-product Repeater. Keep the
    wholesale side intact — demoted, not deleted. Run every new string past the §0 voice
    rules; zero tolerance on insurance vocabulary and exclamation marks.
+5. Read `public/privacy.html` for accuracy. No new page this pass collects personal
+   information (the call-request field is client-side only and stores nothing), so the
+   policy's substance must NOT be rewritten — only flag in the report if anything the
+   new pages do contradicts what it says. The full privacy-policy rewrite is a separate
+   contract-drafter deliverable, not this agent's job.
 
 ## 4. Admin panel (full build, `/admin`)
 
