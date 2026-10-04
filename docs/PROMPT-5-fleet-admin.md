@@ -26,6 +26,11 @@ never invent or "improve" them.
     a few days · **repairs included:** screen, back-glass and manufacturer-warranty faults
     repaired at $0 (legally safe because the device is Repeater's own asset — this is
     maintenance of our own property); deliberate/reckless damage quoted before any work ·
+    **pay-in-full option:** the client may instead pay **$1,180 + GST per device on
+    signing** `[OWNER TO CONFIRM]` — the full 24-month term in one payment (upfront +
+    establishment + all management fees, normally $1,318 — saves $138); no further
+    recurring amounts for that device, early-exit refunds the unused management-fee
+    component less the device amortisation in the lease terms ·
     **same-day swap:** if a device can't be repaired same day it is swapped from the
     loaner pool (2 refurb loaners on hand; loaners are older-model iPhones, not new
     stock) · end of term: device returns to Repeater, wiped and either resold or
@@ -111,7 +116,9 @@ Single source of truth stays `public/assets/site.css` `:root`:
      visit · MDM-managed and PPSR-registered · at term end hand it back and start fresh
      on the current model." State plainly: devices are ordered on cleared funds and
      arrive within days of signing; deliberate damage is quoted before any work; theft
-     and loss remain the client's risk per the agreement.
+     and loss remain the client's risk per the agreement. Pay-in-full option shown under
+     the card: "$1,180 + GST for the full 24 months, paid once — saves you $138
+     `[OWNER TO CONFIRM]`."
    - **Device Care Plan (PA-2):** "$622 day one + $5.50/week per device · $60 per service
      event · 2 events per quarter included (+1 per 4 devices) · same-day target for
      pre-2pm bookings · 90-day workmanship warranty · your devices, your ownership."
@@ -143,7 +150,8 @@ cookies). Port the pattern; rep stays dependency-free.
    condition, ownership CHECK('repeater','client'), mdm_enrolled INTEGER, enrolled_at,
    landed_cost, notes),
    `leases` (id, device_id, company_id, upfront_amount, establishment_fee, monthly_fee,
-   start_date, term_months DEFAULT 24, ppsr_registration_number,
+   payment_plan CHECK('monthly','prepaid'), prepaid_total, start_date, term_months
+   DEFAULT 24, ppsr_registration_number,
    ppsr_registered_at, ppsr_expiry, election_status
    CHECK('active','returned','renewed','holdover'), holdover_started_at, notes)
    — NOTE: no buyout column; the client never takes title under the Managed Fleet model.
