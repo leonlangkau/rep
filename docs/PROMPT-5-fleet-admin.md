@@ -20,17 +20,18 @@ never invent or "improve" them.
   signing for the whole 24-month term — care can never be added mid-term, only at
   renewal on a new term. Minimum 2 devices on every plan; solo tradies (1 device) are
   steered to FSR walk-in repairs — no plan.**
-  - **PA-1 Fleet Phones (device only, NO care — care cannot be added later):** $622
-    all-in per device, payable on signing (device + establishment in one line — no split)
-    · **management fee $27.50 per phone per month, capped at $110 per month per account**
-    — every phone beyond the fourth carries no management fee; marketing line: "your
-    whole fleet managed for $110 a month" `[OWNER TO CONFIRM]` · 24-month term ·
-    **$300 end-of-term buyout — title transfers on payment** (this is the only plan with
-    a buyout) · MDM enrolment is a condition (non-negotiable) · PPSR-registered
-    before delivery · devices ordered on cleared funds (~$500–600 landed), delivery days
-    after signing · no repair services included: manufacturer-warranty faults are
-    administered free; accidental damage is repaired at standard price, quoted and
-    approved first · no loaner swap, no included service events.
+  - **PA-1 Fleet Phones (device only, NO care — care cannot be added later; PA-1 v1.4
+    as drafted by the contract writer is the adopted baseline):** $622 per device
+    payable on signing — $572 device + $50 establishment + $27.50 fleet-administration
+    fee, the admin fee **one-off and capped at $110 per plan for the whole term** (every
+    device beyond the fourth carries no admin fee) · **nil weekly fee** · 24-month term
+    · **NO buyout — title never transfers; end of term is return and renew** (holdover
+    $11.50/wk pending return) · stolen or lost device: one-off **$300 fleet loss fee**,
+    that device's lease ends, no remaining-term payout · MDM enrolment is a condition
+    (non-negotiable) · PPSR-registered before delivery · devices ordered on cleared
+    funds (~$500–600 landed), delivery days after signing · no repair services included:
+    manufacturer-warranty faults administered free; accidental damage at standard price,
+    quoted and approved first · no loaner swap, no included service events.
   - **PA-2 Managed Fleet (device + care):** $622 day one per device + $5.50/week per
     device · quantity tiers on the weekly fee: 2–4 $5.50 · 5–9 $5.00 · 10–19 $4.60 ·
     20–49 $4.20 · 50+ $3.80 (all + GST, per device per week) `[OWNER TO CONFIRM]` · the
@@ -108,16 +109,18 @@ The only permitted additions are new HTML blocks styled with existing classes.
 
 1. **Pricing page (`public/pricing/`)** — three sections, each product on its own line
    with its own terms (no menu framing):
-   - **Fleet Phones (PA-1):** "$622 all-in per device · $27.50 a month per phone for
-     management — capped at $110 a month however big your fleet · 24 months · $300
-     buyout at term end if you want to keep the phones · MDM-managed and
-     PPSR-registered · warranty faults handled for you free · any other repair quoted
-     before work starts · care is not available on this plan — choose Managed Fleet if
-     you want repairs included · your plan is fixed for the term; care can be added at
-     renewal." State plainly: devices are ordered on cleared funds and arrive within
-     days of signing; theft and loss remain the client's risk. Quantity stepper
-     starting at 2: live "today" line ($622 per device × count) and live monthly line
-     (min of count × $27.50, $110) with the cap spelled out under it.
+   - **Fleet Phones (PA-1):** "$622 all-in per device on signing — device, setup and
+     fleet administration for the whole term · no weekly fee · 24 months · hand the
+     phones back at term end and start fresh on the current model, or renew · warranty
+     faults handled for you free · any other repair quoted before work starts · phone
+     stolen or lost? A $300 fleet loss fee ends that device's lease — no payout of the
+     remaining term · MDM-managed and PPSR-registered · care is not available on this
+     plan — choose Managed Fleet if you want repairs included · your plan is fixed for
+     the term." State plainly: devices are ordered on cleared funds and arrive within
+     days of signing; theft and loss remain the client's risk per the agreement.
+     Quantity stepper starting at 2: live "today" line ($622 per device × count), with
+     the fleet-admin cap noted under it (2–4 devices pay $27.50 each; from 5 devices
+     the admin fee is $110 total for the whole term).
    - **Managed Fleet (PA-2):** "$622 upfront per device · $5.50 a week per device ·
      24 months · the phone stays Repeater's property — you never own it, we manage
      everything · repairs included: 2 service events per quarter, plus 1 extra per
@@ -173,16 +176,18 @@ cookies). Port the pattern; rep stays dependency-free.
    condition, ownership CHECK('repeater','client'), mdm_enrolled INTEGER, enrolled_at,
    landed_cost, notes),
    `leases` (id, device_id, company_id, plan CHECK('phones_only','device_care'),
-   dayone_amount, recurring_fee, recurring_cap, buyout_amount,
-   payment_plan CHECK('weekly','monthly','prepaid'),
+   dayone_amount, admin_fee_oneoff, admin_fee_plan_cap, recurring_fee,
+   payment_plan CHECK('weekly','prepaid'),
    prepaid_total, start_date, term_months DEFAULT 24, ppsr_registration_number,
    ppsr_registered_at, ppsr_expiry, election_status
-   CHECK('active','buyout','return','renew','holdover'), holdover_started_at, notes)
-   — one lease row per device; plan fixed at signing (there is no separate care_plans
-   table — care lives inside the device_care lease). phones_only: recurring_fee 27.50
-   monthly, recurring_cap 110 per account per month (account-level cap), buyout_amount
-   300, end-of-term election is buyout or return. device_care: recurring_fee per weekly
-   tier, recurring_cap null, buyout_amount 0, return/renew only.
+   CHECK('active','return','renew','holdover'), holdover_started_at, notes)
+   — one lease row per device; plan fixed at signing (no separate care_plans table —
+   care lives inside the device_care lease). phones_only (PA-1 v1.4): dayone_amount 572,
+   admin_fee_oneoff 27.50 capped at admin_fee_plan_cap 110 per plan for the whole term,
+   recurring_fee null, end-of-term election is return or renew (NO buyout — title never
+   transfers), fleet-loss fee $300 on stolen/lost. device_care: dayone_amount 622,
+   admin_fee_oneoff null, recurring_fee per weekly tier, prepaid option per §0,
+   return/renew only.
    `service_events` (id, lease_id?, device_id, event_type, fee_charged (0 included /
    60 over-cap), parts_cost, status CHECK('booked','in_progress','done','declined'),
    approved_by_client INTEGER, opened_at, resolved_at, notes)
@@ -201,18 +206,19 @@ cookies). Port the pattern; rep stays dependency-free.
    - **Dashboard:** active leases (weekly + prepaid), devices in field, service events
      this quarter vs cap per account, devices approaching the 4-paid-events limit,
      free call-outs used per company (rolling 12 months), PPSR registrations expiring
-     within 90 days, lease end-of-term elections due within 60 days (buyout, return or
-     renew), recurring billing run list
+     within 90 days, lease end-of-term elections due within 60 days (return or renew —
+     no buyout on either plan), recurring billing run list
      (weekly + monthly fees and services grouped by charge day).
    - **Companies:** CRUD + per-company employees, devices, leases, service events,
      call-outs.
    - **Devices:** inventory CRUD (model, IMEI, serial, ownership, status incl. loaner
      pool, MDM toggle, landed cost). Filters by status/ownership.
-   - **Leases (Managed Fleet):** create lease from an in-stock device or "ordered on
-     cleared funds" pending state (auto-compute $622 day one, weekly fee per tier, PPSR
-     fields; prepaid flag + $1,075 total), record end-of-term election (buyout on
-     phones_only, return/renew/holdover on device_care), early-exit view (day-one amount
-     non-refundable, weekly fees stop at end of notice), repossession note.
+   - **Leases:** create lease from an in-stock device or "ordered on cleared funds"
+     pending state. PA-1 (phones_only): $572 device + $50 establishment + one-off admin
+     fee $27.50/device capped $110 per plan, no recurring. PA-2 (device_care): $622 day
+     one, weekly fee per tier, prepaid flag ($1,075). PPSR fields for both. Record
+     end-of-term election (return/renew/holdover — no buyout on either plan), early-exit
+     view, repossession note, fleet-loss fee record on stolen/lost.
    - **Service events & call-outs:** event logging per device with fee ($0 included /
      $60 over-cap), cap tracker per account (2/quarter + 1 per 4 devices), over-cap
      events recorded with the paid-event counter and the 4-paid limit warning,
