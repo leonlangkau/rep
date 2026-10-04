@@ -15,12 +15,21 @@ never invent or "improve" them.
 
 ## 0. Decisions already made — do not re-derive
 
-- **The phone business is ONE product (Leo, 2026-10-04): device supply and the care plan
-  are merged — the care plan CANNOT be sold or marketed separately, ever. PA-2 is
-  withdrawn as a standalone product.**
-  - **PA-1 Managed Fleet (document code stays PA-1):** **$622 day one per device** (device
-    + establishment combined) + **$5.50/week per device** · 24-month term · minimum order
-    **2 devices** · quantity tiers on the weekly fee: 2–4 $5.50 · 5–9 $5.00 · 10–19 $4.60 ·
+- **The phone business is a THREE-plan ladder (Leo, 2026-10-04 — supersedes the earlier
+  one-product instruction). A client holds at most ONE phone plan; the plan is fixed at
+  signing for the whole 24-month term — care can never be added mid-term, only at
+  renewal on a new term. Minimum 2 devices on every plan; solo tradies (1 device) are
+  steered to FSR walk-in repairs — no plan.**
+  - **PA-1 Fleet Phones (device only, NO care — care cannot be added later):** $572
+    upfront per device + $50 establishment fee, payable on signing · $0 weekly · 24-month
+    term · **$300 end-of-term buyout — title transfers on payment** (this is the only
+    plan with a buyout) · MDM enrolment is a condition (non-negotiable) · PPSR-registered
+    before delivery · devices ordered on cleared funds (~$500–600 landed), delivery days
+    after signing · no repair services included: manufacturer-warranty faults are
+    administered free; accidental damage is repaired at standard price, quoted and
+    approved first · no loaner swap, no included service events.
+  - **PA-2 Managed Fleet (device + care):** $622 day one per device + $5.50/week per
+    device · quantity tiers on the weekly fee: 2–4 $5.50 · 5–9 $5.00 · 10–19 $4.60 ·
     20–49 $4.20 · 50+ $3.80 (all + GST, per device per week) `[OWNER TO CONFIRM]` · the
     $622 day-one never discounts · **pay-in-full option: $1,075 + GST per device on
     signing** — the full 24-month term in one payment (normally $1,194 — saves $119),
@@ -39,8 +48,14 @@ never invent or "improve" them.
     repairs · **same-day swap:** if a device can't be repaired same day it is swapped from
     the loaner pool (2 refurb loaners; older-model iPhones) · end of term: device returns
     to Repeater, wiped, resold or redeployed as a loaner; the client starts a fresh term
-    on a current model · solo tradies (1 device) are steered to FSR walk-in repairs — no
-    plan.
+    on a current model.
+  - **PA-8 Fleet Connect (device + care + SIM) — COMING SOON:** a static coming-soon card
+    only. No pricing, no register-interest form, no schema table, no contract document,
+    not wired to anything. One sentence of copy: "Device + Care + SIM. One plan, one
+    weekly fee. Coming soon."
+  - "From" pricing anywhere on the page must be a real minimum-order price (ACCC
+    misleading-price rules); tier tables are shown so every step is visible and
+    verifiable.
 - **Services are the business; phones are the door.** The site sells PA-3 Website Care
   ($20/wk), PA-4 Data Admin ($15/wk), PA-5 Ads Management ($100/wk, spend stays on the
   client's own ad accounts), PA-6 AI Receptionist ($167/month + $300 setup, 500 answered
@@ -90,7 +105,15 @@ The only permitted additions are new HTML blocks styled with existing classes.
 
 1. **Pricing page (`public/pricing/`)** — three sections, each product on its own line
    with its own terms (no menu framing):
-   - **Managed Fleet (PA-1):** "$622 upfront per device · $5.50 a week per device ·
+   - **Fleet Phones (PA-1):** "$572 upfront + $50 establishment per device · no weekly
+     fee · 24 months · $300 buyout at term end if you want to keep the phones ·
+     MDM-managed and PPSR-registered · warranty faults handled for you free · any other
+     repair quoted before work starts · care is not available on this plan — choose
+     Managed Fleet if you want repairs included · your plan is fixed for the term; care
+     can be added at renewal." State plainly: devices are ordered on cleared funds and
+     arrive within days of signing; theft and loss remain the client's risk. Quantity
+     stepper starting at 2: live "today" line ($622 per device × count); no weekly line.
+   - **Managed Fleet (PA-2):** "$622 upfront per device · $5.50 a week per device ·
      24 months · the phone stays Repeater's property — you never own it, we manage
      everything · repairs included: 2 service events per quarter, plus 1 extra per
      quarter for every 4 devices on the plan, $0 each · past the cap? $60 flat per extra
@@ -101,14 +124,17 @@ The only permitted additions are new HTML blocks styled with existing classes.
      signing; deliberate damage is quoted before any work; theft and loss remain the
      client's risk per the agreement. Pay-in-full option under the card: "$1,075 + GST
      for the full 24 months, paid once — saves you $119 `[OWNER TO CONFIRM]`."
-   - **Managed Fleet stepper (this page, PA-1 block):** quantity control starting at 2
-     devices with plus/minus buttons. As the count changes, the per-device weekly fee
-     steps per §0 tiers ($5.50/$5.00/$4.60/$4.20/$3.80) and the page shows live: devices,
-     per-device weekly fee, weekly total, and a "today" line ($622 per device). Tier
-     table displayed below the stepper so every step is visible without interaction.
-     Headline for the section: "from $5.50 a week per device" (the real 2-device price) —
-     never the 50+-device price, per ACCC misleading-price rules. Show all amounts with
-     GST. Solo tradies (1 device) are steered to FSR walk-in repairs.
+   - **Managed Fleet stepper (PA-2 block):** quantity control starting at 2 devices with
+     plus/minus buttons. As the count changes, the per-device weekly fee steps per §0
+     tiers ($5.50/$5.00/$4.60/$4.20/$3.80) and the page shows live: devices, per-device
+     weekly fee, weekly total, and a "today" line ($622 per device). Tier table displayed
+     below the stepper so every step is visible without interaction. Headline for the
+     section: "from $5.50 a week per device" (the real 2-device price) — never the
+     50+-device price, per ACCC misleading-price rules. Show all amounts with GST. Solo
+     tradies (1 device) are steered to FSR walk-in repairs.
+   - **Fleet Connect (PA-8) — coming-soon card:** static card between PA-2 and the
+     services list. Copy: "Device + Care + SIM. One plan, one weekly fee. Coming soon."
+     No pricing, no form, no capture, nothing wired.
    - **Services (PA-3..PA-7)** with the locked prices from §0, one line each, each
      individually cancellable after its 13-week minimum, discount tiers shown as a plain
      table (2→5.5% … 6→17.5%).
@@ -136,13 +162,15 @@ cookies). Port the pattern; rep stays dependency-free.
    CHECK('in_stock','leased','on_plan','loaner_pool','in_repair','returned','retired'),
    condition, ownership CHECK('repeater','client'), mdm_enrolled INTEGER, enrolled_at,
    landed_cost, notes),
-   `leases` (id, device_id, company_id, dayone_amount, weekly_fee,
-   payment_plan CHECK('weekly','prepaid'), prepaid_total, start_date, term_months
-   DEFAULT 24, ppsr_registration_number,
+   `leases` (id, device_id, company_id, plan CHECK('phones_only','device_care'),
+   dayone_amount, weekly_fee, buyout_amount, payment_plan CHECK('weekly','prepaid'),
+   prepaid_total, start_date, term_months DEFAULT 24, ppsr_registration_number,
    ppsr_registered_at, ppsr_expiry, election_status
-   CHECK('active','returned','renewed','holdover'), holdover_started_at, notes)
-   — NOTE: no buyout column; the client never takes title. One merged product — there is
-   no separate care_plans table; the care plan lives inside the lease.
+   CHECK('active','buyout','return','renew','holdover'), holdover_started_at, notes)
+   — one lease row per device; plan fixed at signing (there is no separate care_plans
+   table — care lives inside the device_care lease). phones_only: weekly_fee 0,
+   buyout_amount 300, end-of-term election is buyout or return. device_care: buyout_amount
+   0, return/renew only.
    `service_events` (id, lease_id?, device_id, event_type, fee_charged (0 included /
    60 over-cap), parts_cost, status CHECK('booked','in_progress','done','declined'),
    approved_by_client INTEGER, opened_at, resolved_at, notes)
@@ -161,7 +189,8 @@ cookies). Port the pattern; rep stays dependency-free.
    - **Dashboard:** active leases (weekly + prepaid), devices in field, service events
      this quarter vs cap per account, devices approaching the 4-paid-events limit,
      free call-outs used per company (rolling 12 months), PPSR registrations expiring
-     within 90 days, lease renewals due within 60 days, recurring billing run list
+     within 90 days, lease end-of-term elections due within 60 days (buyout, return or
+     renew), recurring billing run list
      (weekly fees + services grouped by charge day).
    - **Companies:** CRUD + per-company employees, devices, leases, service events,
      call-outs.
@@ -169,9 +198,9 @@ cookies). Port the pattern; rep stays dependency-free.
      pool, MDM toggle, landed cost). Filters by status/ownership.
    - **Leases (Managed Fleet):** create lease from an in-stock device or "ordered on
      cleared funds" pending state (auto-compute $622 day one, weekly fee per tier, PPSR
-     fields; prepaid flag + $1,075 total), record end-of-term election
-     (return/renew/holdover), early-exit view (day-one amount non-refundable, weekly
-     fees stop at end of notice), repossession note.
+     fields; prepaid flag + $1,075 total), record end-of-term election (buyout on
+     phones_only, return/renew/holdover on device_care), early-exit view (day-one amount
+     non-refundable, weekly fees stop at end of notice), repossession note.
    - **Service events & call-outs:** event logging per device with fee ($0 included /
      $60 over-cap), cap tracker per account (2/quarter + 1 per 4 devices), over-cap
      events recorded with the paid-event counter and the 4-paid limit warning,
