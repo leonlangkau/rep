@@ -21,10 +21,12 @@ never invent or "improve" them.
   renewal on a new term. Minimum 2 devices on every plan; solo tradies (1 device) are
   steered to FSR walk-in repairs — no plan.**
   - **PA-1 Fleet Phones (device only, NO care — care cannot be added later; PA-1 v1.4
-    as drafted by the contract writer is the adopted baseline):** $622 per device
-    payable on signing — $572 device + $50 establishment + $27.50 fleet-administration
-    fee, the admin fee **one-off and capped at $110 per plan for the whole term** (every
-    device beyond the fourth carries no admin fee) · **nil weekly fee** · 24-month term
+    as drafted by the contract writer is the adopted baseline):** headline figure
+    **"$622 all-in per device on signing"** — marketing shorthand; the page must show the
+    itemised breakdown in small text directly under it: $572 device + $50 establishment
+    + $27.50 fleet-administration fee, the admin fee **one-off and capped at $110 per
+    plan for the whole term** (per-device day one is therefore $649.50 at 2–4 devices,
+    less at 5+ as the cap spreads) · **nil weekly fee** · 24-month term
     · **NO buyout — title never transfers; end of term is return and renew** (holdover
     $11.50/wk pending return) · stolen or lost device: one-off **$300 fleet loss fee**,
     that device's lease ends, no remaining-term payout · MDM enrolment is a condition
@@ -39,8 +41,11 @@ never invent or "improve" them.
     GST) · the $622 day-one never discounts · standard per-phone
     total at 2–4 devices: **$1,231.90** ($622 + $27.50 admin + $5.60 × 104) ·
     **pay-in-full option: 10% off the standard total for your tier, per device on
-    signing — $1,109 (2–4) · $1,057 (5–9) · $1,010 (10–19) · $967 (20–49) · $927 (50+)** —
-    the stepper computes it live so it is never upside-down ·
+    signing** — computed LIVE from the exact fleet size (admin = min(n×$27.50, $110)/n,
+    so the admin cap is shared across the fleet); published table examples are at tier
+    minimums: **$1,109 (2–4, at 2) · $1,057 (5, at 5) · $1,010 (10) · $958 (20) ·
+    $927 (50)** — the stepper always computes from the exact count so it is never
+    upside-down ·
     term — the client never owns the device; no buyout** · MDM enrolment is a condition
     (non-negotiable) · PPSR-registered before delivery · devices ordered on cleared funds
     (single-unit supplier, ~$500–600 landed), delivery days after signing ·
@@ -168,6 +173,13 @@ The only permitted additions are new HTML blocks styled with existing classes.
    policy's substance must NOT be rewritten — only flag in the report if anything the
    new pages do contradicts what it says. The full privacy-policy rewrite is a separate
    contract-drafter deliverable, not this agent's job.
+6. **Rewrite `public/phones/` in place** (keep the URL for SEO): it still sells the old
+   "repairs included" deal with stale prices. New content = the three-plan phone ladder
+   (PA-1 Fleet Phones with the "$622 all-in" headline + itemised small text, PA-2
+   Managed Fleet summary, PA-8 Fleet Connect coming-soon line), all figures and terms
+   identical to the pricing page, linking to `/pricing/` for the full stepper. Remove
+   every stale price, every "[owner to confirm]" marker, and any "repairs included"
+   claim attached to the device-only plan. Voice rules apply.
 
 ## 4. Admin panel (full build, `/admin`)
 
