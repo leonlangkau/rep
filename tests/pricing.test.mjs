@@ -1,47 +1,78 @@
 /**
- * Pricing page — locked canon and voice rules.
+ * Pricing page — locked canon, the live prepaid rule, and voice rules.
  *
  * Run with: node tests/pricing.test.mjs (also picked up by `npm test`).
  *
  * Product names, prices and terms in this brief are LOCKED canon. This file
  * pins them so a later cleanup cannot quietly restate $622 as $600, drop the
- * $110 admin cap, or let an insurance word onto a page that sells a care plan
- * without insurance. It also pins that the call-request field stays UI-only:
- * no endpoint, no storage.
+ * $110 admin cap, resurrect the old $967 20-device example, or let an insurance
+ * word onto a page that sells a care plan without insurance.
+ *
+ * The stepper maths is run for real: public/assets/pricing.js is loaded under a
+ * DOM stub (the same trick tests/facts.test.mjs uses) and its exposed
+ * window.REP_PRICING functions are asserted against the canon figures.
  */
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import vm from "node:vm";
 import { REPO, checkRunner } from "./_fixtures.mjs";
 
 const { check, done } = checkRunner("pricing");
 const read = (rel) => readFileSync(join(REPO, rel), "utf8");
 const page = read("public/pricing/index.html");
+const phones = read("public/phones/index.html");
 const js = read("public/assets/pricing.js");
+
+/** Load the browser script under a stub DOM and return window.REP_PRICING. */
+function loadPricing() {
+  const noop = () => {};
+  const sandbox = {
+    document: { readyState: "complete", addEventListener: noop, querySelector: () => null, querySelectorAll: () => [] },
+    location: { protocol: "https:" },
+    console, Intl, Math, Number, String, Array, Object, JSON, parseInt, isFinite,
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(js, sandbox);
+  return sandbox.REP_PRICING;
+}
+const P = loadPricing();
 
 /* ================= locked prices ================= */
 
 console.log("\n--- locked canon, rendered ---");
 const REQUIRED = [
-  "$622",             // PA-1 / PA-2 day one, per device
+  "$622",             // PA-1 / PA-2 headline, per device
+  "$572", "$50", "$27.50", "$110",   // PA-1 itemised day-one and the admin cap
+  "$649.50",          // true per-device day one at 2-4 devices
   "$5.60", "$5.10", "$4.70", "$4.30", "$3.90",   // the care ladder
-  "$27.50", "$110",   // fleet administration fee, per device and per plan cap
   "$300",             // fleet loss fee (and the AI setup fee)
   "$60",              // over-cap repair
-  "$19", "20 km",    // call-out fee and radius
+  "$19", "20 km",     // call-out fee and radius
   "$11.50",           // holdover per week
-  "$1,109", "$1,057", "$1,010", "$967", "$927",  // locked pay-in-full ladder
+  "$1,109", "$1,057", "$1,010", "$958", "$927",  // published pay-in-full examples
   "$123",             // the 2-4 device saving
   "$20/wk", "$15/wk", "$100/wk", "$167/month", "$0.25", "$12/wk",  // services
   "24-month", "13-week", "2 service events per quarter", "90-day",
 ];
-for (const s of REQUIRED) check(`contains "${s}"`, page.includes(s));
+for (const s of REQUIRED) check(`pricing page contains "${s}"`, page.includes(s));
 
+check("the old 20-device arithmetic error ($967) is gone from the page", !page.includes("$967"));
 check("the headline weekly price is the real 2-device minimum ($5.60), not the 50+ price",
   /from \$5\.60 a week per device/.test(page) && !/from \$3\.90/.test(page));
 check("minimum order is two devices, stated plainly", /Minimum two devices/.test(page));
 check("fleet loss does NOT pay out the remaining term", /no payout of the remaining term/.test(page));
 check("title ownership is denied on both plans", /you never own it/.test(page) && /Title never transfers/.test(page));
+
+/* ================= PA-1 itemised breakdown ================= */
+
+console.log("\n--- PA-1 headline + itemised small text ---");
+const ITEMISED = "$572 device + $50 establishment + $27.50 fleet administration fee (one-off, capped at $110 per plan for the whole term)";
+check("the pricing page keeps the $622 all-in headline", /\$622 all-in per device on signing/.test(page));
+check("the pricing page carries the itemised breakdown verbatim", page.includes(ITEMISED));
+check("the phones page carries the $622 all-in headline", /\$622 all-in per device on signing/.test(phones));
+check("the phones page carries the same itemised breakdown", phones.includes(ITEMISED));
 
 /* ================= PA-8 coming-soon card ================= */
 
@@ -58,7 +89,7 @@ check("PA-8 is a coming-soon card with the one sentence",
 
 console.log("\n--- services PA-3..PA-7 ---");
 for (const name of ["Website Care", "Data Admin", "Ads Management", "AI Receptionist", "Security Review"]) {
-  check(`names ${name}`, page.includes(name));
+  check(`pricing page names ${name}`, page.includes(name));
 }
 check("each service is individually cancellable after a 13-week minimum",
   /individually cancellable after its 13-week minimum/.test(page));
@@ -69,49 +100,72 @@ check("discount steps 5.5% and 17.5% are shown without inventing the middle",
 /* ================= voice rules ================= */
 
 console.log("\n--- voice rules (legal + brand) ---");
-// Scan the visible copy, not the markup: the DOCTYPE and comments legitimately
-// carry punctuation that is not customer-facing text.
-const copy = page
-  .replace(/<!DOCTYPE[^>]*>/i, "")
-  .replace(/<!--[\s\S]*?-->/g, "")
-  .replace(/<script[\s\S]*?<\/script>/gi, "")
-  .replace(/<style[\s\S]*?<\/style>/gi, "");
 const FORBIDDEN = [
   /\bcover\b/i, /\bcoverage\b/i, /\bpolicy\b/i, /\bpremium\b/i, /\bclaim(s|ed|ing)?\b/i,
   /\binsur(e|ance|ed)\b/i, /\bprotect(ion|ed|s)?\b/i, /\bguarantee(d|s)?\b/i, /peace of mind/i,
 ];
-for (const re of FORBIDDEN) {
-  const hit = re.exec(copy);
-  check(`no banned word ${re}${hit ? " (found: " + hit[0] + ")" : ""}`, !hit);
+for (const [file, html] of [["pricing", page], ["phones", phones]]) {
+  const copy = html
+    .replace(/<!DOCTYPE[^>]*>/i, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "");
+  for (const re of FORBIDDEN) {
+    const hit = re.exec(copy);
+    check(`${file}: no banned word ${re}${hit ? " (found: " + hit[0] + ")" : ""}`, !hit);
+  }
+  check(`${file}: no exclamation marks in the copy`, !copy.includes("!"));
+  check(`${file}: no package / bundle / add-on in customer copy`,
+    !/\bpackage/i.test(copy) && !/\bbundle/i.test(copy) && !/\badd-on/i.test(copy));
 }
-check("no exclamation marks anywhere in the copy", !copy.includes("!"));
-check('the words package / bundle / add-on appear nowhere in customer copy',
-  !/\bpackage/i.test(copy) && !/\bbundle/i.test(copy) && !/\badd-on/i.test(copy));
 
-/* ================= the steppers ================= */
+/* ================= the steppers + the live maths ================= */
 
 console.log("\n--- the two steppers ---");
 check("two steppers are present (PA-1 and PA-2)", (page.match(/data-stepper=/g) || []).length === 2);
-check("both steppers start the markup at 2 devices, and markup carries real figures",
-  /\$1,244\.00/.test(page) && /\$55\.00/.test(page) && /\$11\.73/.test(page) && /\$1,109\.00/.test(page));
 check("the page loads the stepper script", /<script defer src="\/assets\/pricing\.js"><\/script>/.test(page));
 check("pricing.js hard-codes the 104-week term", /WEEKS = 104/.test(js));
 check("pricing.js carries the admin fee and its $110 cap", /ADMIN_PER_DEVICE = 27\.50/.test(js) && /ADMIN_PLAN_CAP = 110/.test(js));
-check("pricing.js carries the care ladder", ["5.60", "5.10", "4.70", "4.30", "3.90"].every((v) => js.includes(v)));
-check("pricing.js uses the locked pay-in-full ladder rather than recomputing 10%",
-  /function prepaidTotal/.test(js) && ["1109", "1057", "1010", "967", "927"].every((v) => js.includes(v)));
+
+console.log("\n--- the live maths (window.REP_PRICING) ---");
+check("careFee steps through the ladder",
+  P.careFee(2) === 5.60 && P.careFee(5) === 5.10 && P.careFee(10) === 4.70 && P.careFee(20) === 4.30 && P.careFee(50) === 3.90);
+check("adminPlanTotal is $27.50/device, capped at $110",
+  P.adminPlanTotal(2) === 55 && P.adminPlanTotal(3) === 82.5 && P.adminPlanTotal(5) === 110 && P.adminPlanTotal(20) === 110);
+check("PA-1 day one includes the one-off admin ($1,299 at 2 devices, $3,220 at 5)",
+  P.phonesDayOneTotal(2) === 1299 && P.phonesDayOneTotal(5) === 3220);
+check("PA-2 pay-in-full is 10% off (622 + admin share + care x 104), per device",
+  P.prepaidPerDevice(2) === 1109 && P.prepaidPerDevice(5) === 1057 &&
+  P.prepaidPerDevice(10) === 1010 && P.prepaidPerDevice(50) === 927);
+check("the published examples are the owner's five, including $958 at 20",
+  JSON.stringify(P.PUBLISHED_EXAMPLES) === JSON.stringify({ 2: 1109, 5: 1057, 10: 1010, 20: 958, 50: 927 }));
+check("the page's tier table shows those exact published examples",
+  ["$1,109", "$1,057", "$1,010", "$958", "$927"].every((v) => page.includes(v)));
+// Documented divergence: the published 20-device example is the owner's $958,
+// while the rule computes $967 at exactly 20. Rendered as given; flagged, not
+// silently reconciled. If either side moves, this fires.
+check("the 20-device divergence is conscious (rule $967 vs published $958)",
+  P.prepaidPerDevice(20) === 967 && page.includes("$958") && !page.includes("$967"));
 
 /* ================= call-request stays UI-only ================= */
 
 console.log("\n--- the call-request field is UI-only ---");
-check("the field is present on the page", /Or get a call from our AI &mdash; we'll ring you/.test(page));
+check("the field is present on the pricing page", /Or get a call from our AI &mdash; we'll ring you/.test(page));
 check("it does not post to an endpoint", !/action="\/api\/call-request/.test(page) && !/fetch\(/.test(js));
 check("pricing.js marks the endpoint as a future TODO", /TODO: POST \/api\/call-request/.test(js));
 
-/* ================= it is a real pricing page, not the old trade page ================= */
+/* ================= /phones is the three-plan ladder ================= */
 
-console.log("\n--- the page was actually replaced ---");
-check("the old wholesale trade-pricing copy is gone", !/How trade pricing resolves/.test(page));
-check("the page names all three phone-plan states", /Fleet Phones/.test(page) && /Managed Fleet/.test(page) && /Fleet Connect/.test(page));
+console.log("\n--- /phones rewritten to the ladder ---");
+check("the phones page names all three plans", /Fleet Phones/.test(phones) && /Managed Fleet/.test(phones) && /Fleet Connect/.test(phones));
+check("the phones page has no [owner to confirm] marker", !/\[owner to confirm\]/i.test(phones));
+check("the phones page has no data-fact placeholder spans", !/data-fact="PHONES/.test(phones) && !/class="placeholder"/.test(phones));
+check("the old bundled-repairs hero copy is gone", !/repairs bundled into the deal/.test(phones) && !/with <b>repairs included<\/b>/.test(phones));
+check("the device-only plan explicitly says no repair services are included",
+  /No repair services included/.test(phones) && /care cannot be added mid-term/.test(phones));
+check("the managed plan states care is included", /Repairs included: 2 service events per quarter/.test(phones));
+check("the phones page links to /pricing for the stepper", /href="\/pricing"/.test(phones));
+check("the phones page keeps the $622 + from $5.60 figures identical to pricing",
+  phones.includes("$622") && /from \$5\.60 a week per device/.test(phones) && phones.includes("$300"));
 
 done();
