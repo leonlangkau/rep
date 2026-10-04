@@ -31,6 +31,13 @@ never invent or "improve" them.
     establishment + all management fees, normally $1,318 — saves $138); no further
     recurring amounts for that device, early-exit refunds the unused management-fee
     component less the device amortisation in the lease terms ·
+    **quantity pricing (monthly plan only):** minimum order **2 devices**; the monthly
+    management fee steps down by fleet size — 2–4: $29 · 5–9: $27 · 10–19: $25 ·
+    20–49: $23 · 50+: $21 (all + GST, per device per month) `[OWNER TO CONFIRM]` · the
+    $572 + $50 upfront never discounts · the pay-in-full $1,180 is flat, no tier discount ·
+    headline "from" price must always be the **2-device price** ($29), never the
+    50+-device price — ACCC misleading-price rules; the tier table itself is shown so the
+    discounts are visible and verifiable ·
     **same-day swap:** if a device can't be repaired same day it is swapped from the
     loaner pool (2 refurb loaners on hand; loaners are older-model iPhones, not new
     stock) · end of term: device returns to Repeater, wiped and either resold or
@@ -119,6 +126,13 @@ Single source of truth stays `public/assets/site.css` `:root`:
      and loss remain the client's risk per the agreement. Pay-in-full option shown under
      the card: "$1,180 + GST for the full 24 months, paid once — saves you $138
      `[OWNER TO CONFIRM]`."
+   - **Managed Fleet stepper (this page, PA-1 block):** quantity control starting at 2
+     devices with plus/minus buttons. As the count changes, the per-device monthly fee
+     steps per §0 tiers ($29/$27/$25/$23/$21) and the page shows live: devices, per-device
+     monthly fee, monthly total, and a "today" line ($572 + $50 per device). Tier table
+     displayed below the stepper so every step is visible without interaction. Headline
+     for the section: "from $29 a month per device" (the real 2-device price). Show all
+     amounts with GST. Solo tradies (1 device) are steered to the Device Care Plan.
    - **Device Care Plan (PA-2):** "$622 day one + $5.50/week per device · $60 per service
      event · 2 events per quarter included (+1 per 4 devices) · same-day target for
      pre-2pm bookings · 90-day workmanship warranty · your devices, your ownership."
