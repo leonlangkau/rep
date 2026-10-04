@@ -66,13 +66,11 @@ never invent or "improve" them.
   claim, insure, protect, guarantee, peace of mind; say the hard parts out loud (caps,
   fees, exit terms on page one of any pricing context); **no exclamation marks**;
   Australian spelling.
-- **Design = FSR family, related not identical.** Keep rep's current layout structure and
-  block inventory. Typography matches FSR (Manrope display + Inter body — copy the
-  Manrope woff2 files from `../fivestarrepairs/public/assets/fonts/`). Palette: charcoal
-  base with a single signal-amber accent (FSR's gold #F5B301 works as that amber; do NOT
-  clone FSR's warm-cream surfaces or gold-on-black band styling wholesale — Repeater reads
-  technical, FSR reads warm). `[DESIGN DECISION PENDING LEO — amber #F5B301 is the
-  default accent; if Leo picks a different signal hue it is a one-line token change.]`
+- **Design = unchanged.** Keep rep's CURRENT design system exactly — blue accent
+  (#4f8cff family), Jost display + Inter body, existing tokens, layouts and blocks. No
+  rebrand, no recolour, no font swap this pass. This supersedes the master doc §1.5
+  "charcoal + signal amber" direction (Leo's call, 2026-10-04) and any FSR-family
+  recolour. §2 below is a hold-steady section, not a change list.
 - **Call-request field is UI-ONLY this pass.** Labelled "Or get a call from our AI —
   we'll ring you": single AU-mobile-format input + submit, client-side success state only,
   `// TODO: POST /api/call-request` comment, no endpoint, no table.
@@ -90,27 +88,12 @@ never invent or "improve" them.
    tracker table. Re-check the next migration number AFTER the pull; parallel sibling
    sessions pick "the next" number from stale views and collide.
 
-## 2. Rebrand (typography + tokens — structure stays)
+## 2. Design — unchanged (hold-steady)
 
-Single source of truth stays `public/assets/site.css` `:root`:
-
-```css
-/* Repeater: technical charcoal family-cousin of FSR */
---bg:#ffffff; --bg-sunken:#f4f4f4; --bg-raised:#fafafa;
---ink:#16181b; --ink-2:#4b4f56; --ink-3:#6b7078;
---band:#16181b; --band-fg:#f4f4f1; --band-fg-2:rgba(244,244,241,.62); --band-line:rgba(244,244,241,.14);
---accent:#f5b301; --accent-strong:#8f6b00; --accent-pressed:#d99e00;
---accent-ink:#231a00; --accent-soft:rgba(245,179,1,.12); --accent-ring:rgba(22,24,27,.25);
---line:#e2e4e7; --line-strong:#cfd2d6;
---ok:#1e7f45; --danger:#c42b1c; --info:#2563eb;
---font-display:"Manrope", system-ui, sans-serif;  /* replaces Jost */
-```
-
-- Copy `manrope-latin*.woff2` from `../fivestarrepairs/public/assets/fonts/` into
-  `public/assets/fonts/`, add matching `@font-face` rules, swap `--font-display` from Jost
-  to Manrope, keep Inter for body. Remove Jost files only if nothing references them.
-- Text on gold/amber accents is always `--accent-ink` (#231a00), never white.
-- Do NOT redesign layouts, grids, or section order — token/type swap plus §3/§4 only.
+No visual changes this pass. The agent must NOT touch `public/assets/site.css` tokens,
+fonts, colours, layouts, grids or section order. If any §3 content (pricing blocks,
+stepper, services list) needs styling, use the existing classes and tokens as they are.
+The only permitted additions are new HTML blocks styled with existing classes.
 
 ## 3. Public site
 
