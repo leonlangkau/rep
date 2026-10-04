@@ -1,138 +1,185 @@
-# PROMPT-5 — rep: FSR-style rebrand + fleet product + full admin panel
+# PROMPT-5 — rep: brand build to canon + full admin panel (aligned to the Repeater master doc set)
 
-Repo: `/root/workspace/rep` (Repeater, repeater.com.au — Aphileon LTD's B2B fleet-phone brand).
-You see only this repo. Work in yolo mode. Follow `CLAUDE.md` house rules throughout.
+Repo: `/root/workspace/rep` (Repeater, repeater.com.au — Aphileon Pty Ltd's B2B brand for
+tradies and field service). You see only this repo. Work in yolo mode. Follow `CLAUDE.md`.
 
-## 0. Decisions already made — do not re-derive or second-guess
+**Canon source:** this brief mirrors the owner's master document set (Business Plan &
+Market Data 25/09, Setup Plan, Marketing v3, MSA RPT-MSA-2026-09 v1.2, PA-1..PA-7,
+Referral Terms). Where this brief and any older repo doc disagree, THIS brief wins.
+**Payments note:** the master doc set predates the fleet-wide rail switch — every
+reference in older docs to Square (card-on-file, recurring, payment links) now means
+**Revolut Merchant**. Do not build or name any Square integration.
 
-- **Design = hybrid.** Adopt FSR's palette/typography (tokens in §2), KEEP rep's current
-  layout structure and block inventory. This supersedes any earlier note in
-  `docs/PLAN-repeater-site.md` about the monochrome AppNext palette.
-- **Two plan tiers, named after the phone:** Work 15 and Work 16e. Supersedes any
-  single-phone notes.
-- **MDM is managed by Repeater, not the customer.** It is an internal fleet field, never a
-  customer-facing feature or login.
-- **What customers are buying:** fleet iPhones with included screen/back-glass repairs,
-  same-day swap to a loaner when a phone can't be repaired same-day, and Repeater's repair
-  backend (FSR-style ticketing) behind it. Ticketing lives in rep's own D1 for now.
-- **Call-request field is UI-ONLY this pass.** No endpoint, no table, no backend. A fake
-  success state plus a `TODO: POST /api/call-request` comment is the entire wiring. This
-  supersedes anything else in this repo's docs about call requests.
-- **Prices below are PROVISIONAL, set by Leo from the unit-economics model:**
-  Work 16e **$89/mo**, Work 15 **$79/mo**, 24-month commitment, **BYO SIM** (customers
-  keep their existing carrier and plan — Repeater does NOT supply SIMs or data).
-  Render them exactly; add a small `[OWNER TO CONFIRM]` HTML comment next to each price.
-  Never invent other business facts — unknown terms get `[OWNER TO CONFIRM]` placeholders.
+Product names, prices and contract terms below are LOCKED canon — render them exactly,
+never invent or "improve" them.
+
+## 0. Decisions already made — do not re-derive
+
+- **The phone business is TWO separate deals, not a subscription:**
+  - **PA-1 Device Lease:** $572 upfront per device + $50 establishment fee, payable on
+    signing · 24-month term · **nil weekly fee** · $300 end-of-term buyout · MDM enrolment
+    is a condition of the lease price · PPSR-registered before delivery · **no repair
+    services included** (manufacturer faults administered free under warranty; accidental
+    damage repaired at standard price, quoted and approved first).
+  - **PA-2 Device Care Plan:** client-owned devices only (leased devices are NOT eligible)
+    · $622 day one per device + $5.50/week per device · $60 per service event · cap 2
+    events per calendar quarter plus 1 extra per quarter per 4 devices on the plan ·
+    over-cap events at standard repair price, quoted and approved in writing first · $30
+    call-out within 20 km of Mount Waverley · same-day target for pre-2pm bookings (a
+    target, not an entitlement) · 90-day workmanship warranty.
+- **Services are the business; phones are the door.** The site sells PA-3 Website Care
+  ($20/wk), PA-4 Data Admin ($15/wk), PA-5 Ads Management ($100/wk, spend stays on the
+  client's own ad accounts), PA-6 AI Receptionist ($167/month + $300 setup, 500 answered
+  minutes/mo then $0.25/min), PA-7 Security Review ($400–800 quoted setup + optional
+  $12/wk monitoring, Essential Eight based). All prices + GST.
+- **Bundle tiers exist (MSA cl 6): 2 products 5.5% → all 6 17.5%.** Present them as a
+  discount line on each product's own terms. NEVER use the words package, bundle or
+  add-on in customer-facing copy.
+- **Billing runs on Revolut Merchant** (recurring card payments, card-on-file authority
+  wording per MSA cl 5). This pass does NOT build payment flows — the Revolut port is
+  PROMPT-4's approved work. Render billing copy rail-neutral: "recurring card payment".
+- **Voice rules (legal + brand, apply to every word on the site):** numbers first; plain
+  words; short sentences; **no insurance vocabulary ever** — never cover, policy, premium,
+  claim, insure, protect, guarantee, peace of mind; say the hard parts out loud (caps,
+  fees, exit terms on page one of any pricing context); **no exclamation marks**;
+  Australian spelling.
+- **Design = FSR family, related not identical.** Keep rep's current layout structure and
+  block inventory. Typography matches FSR (Manrope display + Inter body — copy the
+  Manrope woff2 files from `../fivestarrepairs/public/assets/fonts/`). Palette: charcoal
+  base with a single signal-amber accent (FSR's gold #F5B301 works as that amber; do NOT
+  clone FSR's warm-cream surfaces or gold-on-black band styling wholesale — Repeater reads
+  technical, FSR reads warm). `[DESIGN DECISION PENDING LEO — amber #F5B301 is the
+  default accent; if Leo picks a different signal hue it is a one-line token change.]`
+- **Call-request field is UI-ONLY this pass.** Labelled "Or get a call from our AI —
+  we'll ring you": single AU-mobile-format input + submit, client-side success state only,
+  `// TODO: POST /api/call-request` comment, no endpoint, no table.
+- Website copy must not contain missed-call statistics sourced from vendors ($8B/yr,
+  $126k/yr etc.). The approved pitch line is the client's own arithmetic: "missing one
+  $500 job a week costs you $26,000 a year."
 
 ## 1. Sync + baseline first
 
 1. `git fetch origin && git pull --ff-only origin main` — report what came in.
-2. Install deps if needed; run `npm test` AND `npm run test:imports`. Both green BEFORE any
-   change, so later failures are attributable to this work.
-3. **Run pending remote D1 migrations NOW, before code work.** Verify what is actually
-   applied by inspecting tables (`PRAGMA table_info`, `sqlite_master`) — never trust a
-   migration tracker table. Re-check the next migration number AFTER the pull; parallel
-   sibling sessions pick "the next" number from stale views and collide.
+2. Install deps if needed; run `npm test` AND `npm run test:imports`. Both green BEFORE
+   any change.
+3. **Run pending remote D1 migrations NOW, before code work.** Verify what is applied by
+   inspecting tables (`PRAGMA table_info`, `sqlite_master`) — never trust a migration
+   tracker table. Re-check the next migration number AFTER the pull; parallel sibling
+   sessions pick "the next" number from stale views and collide.
 
-## 2. Rebrand to FSR design language (tokens only — structure stays)
+## 2. Rebrand (typography + tokens — structure stays)
 
-Single source of truth stays `public/assets/site.css` `:root`. Apply:
+Single source of truth stays `public/assets/site.css` `:root`:
 
 ```css
-/* palette (from ../fivestarrepairs live site) */
---bg:#ffffff; --bg-sunken:#faf7ef; --bg-raised:#f4efe2;
---band:#241d04; --band-fg:#ffffff; --band-fg-2:rgba(255,255,255,.62); --band-line:rgba(255,255,255,.14);
---fg:#1a1c20; --fg-2:#52565e; --fg-3:#7a7e87;
+/* Repeater: technical charcoal family-cousin of FSR */
+--bg:#ffffff; --bg-sunken:#f4f4f4; --bg-raised:#fafafa;
+--ink:#16181b; --ink-2:#4b4f56; --ink-3:#6b7078;
+--band:#16181b; --band-fg:#f4f4f1; --band-fg-2:rgba(244,244,241,.62); --band-line:rgba(244,244,241,.14);
 --accent:#f5b301; --accent-strong:#8f6b00; --accent-pressed:#d99e00;
---accent-ink:#231a00; --accent-soft:rgba(245,179,1,.12); --accent-ring:rgba(26,28,32,.18);
---line:#ece7da; --line-2:#f0ebdf; --line-strong:#dcd4bf;
---ok:#1e9e50; --danger:#d92d20; --info:#2563eb;
+--accent-ink:#231a00; --accent-soft:rgba(245,179,1,.12); --accent-ring:rgba(22,24,27,.25);
+--line:#e2e4e7; --line-strong:#cfd2d6;
+--ok:#1e7f45; --danger:#c42b1c; --info:#2563eb;
 --font-display:"Manrope", system-ui, sans-serif;  /* replaces Jost */
 ```
 
-- Copy the Manrope webfonts from `../fivestarrepairs/public/assets/fonts/manrope-latin*.woff2`
-  into `public/assets/fonts/`, add matching `@font-face` rules, swap `--font-display` from
-  Jost to Manrope. Keep Inter for body. Remove the Jost files only if nothing references
-  them after the swap.
-- Contrast rules: text on gold buttons is `--accent-ink` (#231a00), never white.
-- Do NOT redesign layouts, grids, or section order — this is a palette/type swap plus the
-  new sections in §3/§4. Existing blocks keep their shapes.
+- Copy `manrope-latin*.woff2` from `../fivestarrepairs/public/assets/fonts/` into
+  `public/assets/fonts/`, add matching `@font-face` rules, swap `--font-display` from Jost
+  to Manrope, keep Inter for body. Remove Jost files only if nothing references them.
+- Text on gold/amber accents is always `--accent-ink` (#231a00), never white.
+- Do NOT redesign layouts, grids, or section order — token/type swap plus §3/§4 only.
 
-## 3. Public site: fleet product pages
+## 3. Public site
 
-1. **Pricing page (`public/pricing/`)** — two tiers, side by side:
-   - **Work 15 — $79/mo per phone** · **Work 16e — $89/mo per phone** (both: 24-month
-     commitment, BYO SIM, `[OWNER TO CONFIRM]` comments in the HTML).
-   - Every tier includes: the phone, unlimited screen & back-glass repairs ($0 excess),
-     **same-day swap** — if we can't repair it same day the tradie walks out with a loaner
-     phone, MDM enrolled and managed by Repeater, BYO SIM (they keep their carrier and
-     number), and the repair-backend ticketing portal for the boss.
-   - Show per-team monthly totals (3 / 5 / 10 / 20 phones) for each tier — static numbers:
-     Work 15 $237 / $395 / $790 / $1,580 · Work 16e $267 / $445 / $890 / $1,780.
-2. **Fleet explainer section** (pricing page or its own page): the tradie-boss story —
-   employees break phones; screens are replaced in-house; unrepairable same-day = instant
-   loaner swap; boss sees every ticket in the portal. Keep it simple, few blocks.
-3. **Call-request field (UI-only)** on the pricing page and in the final CTA band:
-   labelled **"Or get a call from our AI — we'll ring you"**, single input (AU mobile
-   format validated client-side) + submit button. On submit: client-side only — show a
-   success state ("Got it — our AI will call 04XX XXX XXX shortly"), log to console,
-   `// TODO: POST /api/call-request` comment. No network call, no endpoint.
-4. Update nav/footer copy where it still describes rep as wholesale-parts-only, to include
-   the fleet product. Keep the wholesale side intact — it is demoted, not deleted.
+1. **Pricing page (`public/pricing/`)** — three sections, each product on its own line
+   with its own terms (no menu framing):
+   - **Device Lease (PA-1):** "$572 upfront + $50 establishment per device · 24 months ·
+     no weekly fee · $300 buyout at term end · MDM-managed · your choice at term end: buy
+     it for $300 or hand it back." State plainly: repairs are not included; warranty
+     faults are handled for you free; accidental damage is quoted before any work.
+   - **Device Care Plan (PA-2):** "$622 day one + $5.50/week per device · $60 per service
+     event · 2 events per quarter included (+1 per 4 devices) · same-day target for
+     pre-2pm bookings · 90-day workmanship warranty · your devices, your ownership."
+   - **Services (PA-3..PA-7)** with the locked prices from §0, one line each, each
+     individually cancellable after its 13-week minimum, discount tiers shown as a plain
+     table (2→5.5% … 6→17.5%).
+   - Hard parts on page one: minimum terms, upfront amounts, buyout, caps, call-out fee.
+2. **Fleet explainer section:** the tradie-boss story — employees break phones; the lease
+   keeps title with Repeater and the fleet under MDM; the Care Plan covers their own
+   devices with capped events; manufacturer warranty faults administered free. Keep it
+   simple, few blocks, no invented statistics.
+3. **Call-request field (UI-only)** on the pricing page and final CTA band per §0.
+4. Update nav/footer copy from wholesale-parts-only to the 7-product Repeater. Keep the
+   wholesale side intact — demoted, not deleted. Run every new string past the §0 voice
+   rules; zero tolerance on insurance vocabulary and exclamation marks.
 
 ## 4. Admin panel (full build, `/admin`)
 
-Reference implementation for structure, auth and styling is `../fivestarrepairs`'s admin
-(read its `functions/api/admin/` for the pattern — `_middleware.js`, `login.js`, `me.js`,
-`logout.js`, session-cookie auth). Port the PATTERN; rep stays dependency-free.
+Reference implementation for structure/auth/styling: `../fivestarrepairs`'s admin
+(`functions/api/admin/` — `_middleware.js`, `login.js`, `me.js`, `logout.js`, session
+cookies). Port the pattern; rep stays dependency-free.
 
 1. **New D1 migration** (next number after pull) creating:
    `companies` (id, name, contact_name, contact_mobile, email, notes, created_at),
    `employees` (id, company_id, name, role, mobile),
-   `fleet_phones` (id, company_id, employee_id?, model CHECK('iPhone 15','iPhone 16e'),
-   tier, imei, serial, condition, status CHECK('deployed','loaner_pool','in_repair','retired'),
-   warranty_until, mdm_enrolled INTEGER, enrolled_at, notes),
-   `repair_tickets` (id, phone_id, issue, status CHECK('open','in_repair','swapped','resolved'),
-   swap_phone_id?, opened_at, resolved_at, notes),
-   `swaps` (id, ticket_id, loaner_phone_id, swapped_out_at, swapped_back_at).
-   Indexes on company_id/phone_id/status. Apply it REMOTE and verify with `PRAGMA`.
-2. **Auth:** session-cookie login for `admin` users (bcrypt-style hashed password via
-   WebCrypto, sessions table in D1, `_middleware` guard on every `/api/admin/*` and the
-   `/admin` HTML). TOTP is a follow-up — leave a stub route returning 501, don't fake it.
-3. **Sections** (server-rendered HTML, FSR-admin styling with the §2 tokens):
-   - **Dashboard:** counts — fleet by status, active companies, open tickets, phones in
-     repair, loaners out, MRR placeholder `[OWNER TO CONFIRM]` until billing lands.
-   - **Companies:** CRUD + per-company employee list + their phones and tickets.
-   - **Fleet:** phone inventory CRUD (model, tier, IMEI, serial, condition, status,
-     warranty, mdm_enrolled toggle). Filters by status/tier.
-   - **Tickets:** open/in_repair/swapped/resolved; create ticket against a phone; when
-     status → `swapped`, pick a loaner from `loaner_pool` and write a `swaps` row; resolve
-     returns the loaner. This is the same-day-swap workflow.
-   - **Reports:** repairs per month, swaps per month, fleet composition — plain tables.
-4. **Call-requests admin card:** empty state only ("wired later — see PROMPT decision 0").
-   No table, no endpoint.
-5. **Billing section:** read-only view over rep's existing shop-os subscription data where
-   present; empty state where not. Do NOT build new payment flows — Revolut port is a
-   separate approved brief (PROMPT-4). Never touch payment-processor columns.
+   `devices` (id, company_id?, employee_id?, model, imei, serial, status
+   CHECK('in_stock','leased','care_plan','loaner_pool','in_repair','returned','retired'),
+   condition, ownership CHECK('repeater','client'), mdm_enrolled INTEGER, enrolled_at,
+   landed_cost, notes),
+   `leases` (id, device_id, company_id, upfront_amount, establishment_fee, start_date,
+   term_months DEFAULT 24, buyout_amount DEFAULT 300, ppsr_registration_number,
+   ppsr_registered_at, ppsr_expiry, election_status
+   CHECK('pending','buyout','returned','holdover'), holdover_started_at, notes),
+   `care_plans` (id, device_id, company_id, dayone_amount, weekly_fee, start_date,
+   active INTEGER),
+   `service_events` (id, care_plan_id?, device_id, lease_id?, event_type, fee_charged,
+   parts_cost, status CHECK('booked','in_progress','done','declined'),
+   approved_by_client INTEGER, opened_at, resolved_at, notes),
+   `call_requests` (id, mobile, created_at, status CHECK('new','dialled','done'), notes)
+   — the UI-only field's future landing spot; admin card shows the queue, no calling
+   integration this pass.
+   Indexes on company_id/device_id/status; CHECK constraints as listed.
+2. **Auth:** session-cookie login for admin users (WebCrypto-hashed passwords, sessions
+   table in D1, middleware guard on every `/api/admin/*` route and the `/admin` HTML).
+   TOTP is a follow-up — stub route returning 501, never fake it.
+3. **Sections** (server-rendered HTML, FSR-admin styling with §2 tokens):
+   - **Dashboard:** active leases, devices in field, care-plan devices, service events
+     this quarter vs cap, PPSR registrations expiring within 90 days, lease elections due
+     within 60 days, recurring billing run list (care plans + services grouped by charge
+     day).
+   - **Companies:** CRUD + per-company employees, devices, leases, care plans.
+   - **Devices:** inventory CRUD (model, IMEI, serial, ownership, status incl. loaner
+     pool, MDM toggle, landed cost). Filters by status/ownership.
+   - **Leases:** create lease from an in-stock device (auto-compute upfront/establishment,
+     PPSR fields), record election (buyout/return/holdover), early-exit calculator
+     ($572 less $23.83 per completed month), repossession note.
+   - **Care plans & events:** device schedule per plan, event cap tracker per account
+     (2/quarter + 1 per 4 devices), event logging with fee + parts cost, over-cap events
+     requiring recorded client approval, decline flow.
+   - **Call requests:** queue table, status updates. No dialler.
+   - **Reports:** events per month, parts cost per event (the $80 tripwire average),
+     fleet composition, lease buyout vs return ratio — plain tables.
+4. **Billing:** read-only view over rep's existing shop-os subscription data where
+   present; empty state where not. Do NOT build new payment flows or touch
+   payment-processor columns — the Revolut Merchant port is PROMPT-4's approved work.
 
 ## 5. Hard scope fences
 
 - Only this repo, only rep's own D1 tables. Never ALTER another project's tables; never
   write into fsr/aphelion data.
-- Code against env names only; every optional integration degrades with
+- Code against env names only; optional integrations degrade with
   `{ok:false, skip:true, reason:"not_configured"}`. A push with no secrets set must not
   change behaviour.
 - No new npm dependencies, no build step, no framework. Static HTML + dependency-free
   Pages Functions. All SQL parameterised.
-- Never weaken a test to go green; extend the suite for new features instead.
-- The call-request flow gets NO backend in this pass (decision 0).
+- Never weaken a test to go green; extend the suite instead.
+- PA-1/PA-2/PA-3..7 prices and terms are locked canon — render, don't reinterpret.
 
 ## 6. Finish gates
 
 1. `npm test` and `npm run test:imports` green on the final tree.
-2. Push to main (push = production deploy on this repo) and verify the Pages deployment.
+2. Push to main (push = production deploy) and verify the Pages deployment.
 3. Prod probe: load `/`, `/pricing/`, `/admin/` and one admin API route (expect 401
    unauthenticated, not 500). Report status codes.
-4. Report structured as: **what changed / verified vs unverified / blocked / anything Leo
-   must do by hand** (e.g. `npx wrangler pages secret put` commands — you never set
-   secrets yourself).
+4. Report: **what changed / verified vs unverified / blocked / anything Leo must do by
+   hand** (e.g. `npx wrangler pages secret put` commands — you never set secrets).
