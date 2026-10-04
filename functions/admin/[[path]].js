@@ -292,12 +292,32 @@ const LIST_SQL = {
 };
 
 async function tabResource(env, resource, url) {
-  const rows = await many(env, LIST_SQL[resource]);
+  let sql = LIST_SQL[resource];
+  const params = [];
+  if (resource === "devices") {
+    const where = [];
+    const st = url.searchParams.get("status");
+    const ow = url.searchParams.get("ownership");
+    if (st) { where.push("status = ?"); params.push(st); }
+    if (ow) { where.push("ownership = ?"); params.push(ow); }
+    if (where.length) sql = sql.replace(/ ORDER BY/, " WHERE " + where.join(" AND ") + " ORDER BY");
+  }
+  const rows = await many(env, sql, params);
   const editId = url.searchParams.get("edit");
   const editing = editId ? rows.find((r) => String(r.id) === String(editId)) || null : null;
 
   let heading = editing ? `Edit ${resource} #${esc(editing.id)}` : `New ${resource.replace(/-/g, " ")}`;
   let out = `<h2>${heading}</h2>` + formHtml(resource, editing);
+
+  if (resource === "devices") {
+    const current = { status: url.searchParams.get("status") || "", ownership: url.searchParams.get("ownership") || "" };
+    const mark = (key, value) => current[key] === value ? ' aria-current="page"' : "";
+    out += `<div class="adm-tabs" style="margin:12px 0">` +
+      `<a class="adm-tab"${(!current.status && !current.ownership) ? ' aria-current="page"' : ""} href="/admin?tab=devices">All</a>` +
+      OPTIONS["device-status"].map((s) => `<a class="adm-tab"${mark("status", s)} href="/admin?tab=devices&status=${esc(s)}">${esc(s)}</a>`).join("") +
+      OPTIONS.ownership.map((o) => `<a class="adm-tab"${mark("ownership", o)} href="/admin?tab=devices&ownership=${esc(o)}">${esc(o)}</a>`).join("") +
+      `</div>`;
+  }
 
   if (!rows.length) return out + `<p class="adm-empty">Nothing yet.</p>`;
 

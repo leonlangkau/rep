@@ -15,7 +15,7 @@ import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { REPO, d1, jsonReq, formReq, getReq, J, checkRunner } from "./_fixtures.mjs";
+import { REPO, d1, jsonReq, getReq, J, checkRunner } from "./_fixtures.mjs";
 
 const { check, done } = checkRunner("admin");
 const read = (rel) => readFileSync(join(REPO, rel), "utf8");
@@ -210,6 +210,13 @@ check("update a lease's end-of-term election -> renewed", r.status === 200 && r.
 
 r = await J(resource.onRequest({ request: resReq("GET", "https://repeater.com.au/api/admin/companies"), env: crudEnv }));
 check("list companies -> one row", r.status === 200 && r.body.rows.length === 1);
+
+r = await J(resource.onRequest({ request: resReq("POST", "https://repeater.com.au/api/admin/devices", { model: "Galaxy S24", status: "leased", ownership: "client" }), env: crudEnv }));
+check("a second device, leased and client-owned, is created", r.status === 200 && r.body.row.status === "leased");
+r = await J(resource.onRequest({ request: resReq("GET", "https://repeater.com.au/api/admin/devices?status=in_stock"), env: crudEnv }));
+check("devices filter by status", r.status === 200 && r.body.rows.length === 1 && r.body.rows[0].model === "iPhone 15");
+r = await J(resource.onRequest({ request: resReq("GET", "https://repeater.com.au/api/admin/devices?ownership=client"), env: crudEnv }));
+check("devices filter by ownership", r.status === 200 && r.body.rows.length === 1 && r.body.rows[0].model === "Galaxy S24");
 
 r = await J(resource.onRequest({ request: resReq("DELETE", "https://repeater.com.au/api/admin/service-events?id=" + eventId), env: crudEnv }));
 check("delete a service event -> ok:true", r.status === 200 && r.body.ok === true);
