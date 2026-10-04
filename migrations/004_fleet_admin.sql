@@ -1,58 +1,21 @@
--- Repeater wholesale site — schema for a fresh install.
+-- 004: Repeater fleet-phone admin — the companies / employees / devices /
+-- leases / service-events / call-outs / call-requests model, plus the tables
+-- Repeater's own /admin panel authenticates against.
 --
--- SCOPE: this file holds ONLY the tables the *site* owns. The `repeater`
--- database was provisioned before this repo existed, from
--- ../fivestarrepairs/schema.sql plus ../aphelion/migrations/007_b2b_wholesale.sql,
--- which between them already own: products, price_lists, price_breaks,
--- cost_plus_rules, negotiated_prices, trade_accounts, wholesale_quotes,
--- wholesale_quote_items, orders, and the retail tables behind them.
+-- Applies to: the `repeater` database (DB_REPEATER).
+--   npx wrangler d1 execute repeater --remote --yes --file=migrations/004_fleet_admin.sql
 --
--- NEVER recreate, alter or drop any of those here — aphelion/schema-notes.md is
--- explicit that business schema has a single owner, and the pricing tables in
--- particular are read by aphelion's Wholesale tab. This repo only ADDS.
+-- Re-runnable: every statement is IF NOT EXISTS, and there is no ALTER here, so
+-- (unlike 003) this file is safe to apply twice.
 --
--- Idempotent by construction: every statement is IF NOT EXISTS, so running this
--- against an already-populated database is a no-op. Incremental changes to the
--- tables below go in migrations/NNN_*.sql (starting at 002 — there is no 001,
--- matching the fivestarrepairs convention where schema.sql is the base).
+-- OWNERSHIP. This database is shared: it carries the fivestarrepairs schema
+-- (jobs, invoices, orders, parts …) and aphelion's wholesale tables. It also
+-- already carries fivestarrepairs' `admin_users` (it references `staff.id`), so
+-- Repeater's admin auth does NOT reuse that name — it owns
+-- `rep_admin_users` / `rep_admin_sessions` instead and never touches FSR's.
+-- This file creates only tables this repo owns.
 
--- Blog posts. Draft rows are never served publicly: /blog lists status =
--- 'published' only, and functions/blog/[slug].js 404s on a draft rather than
--- leaking it.
-CREATE TABLE IF NOT EXISTS site_posts (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  slug         TEXT NOT NULL UNIQUE,
-  title        TEXT NOT NULL,
-  excerpt      TEXT NOT NULL DEFAULT '',
-  body         TEXT NOT NULL DEFAULT '',
-  cover_url    TEXT NOT NULL DEFAULT '',
-  author       TEXT NOT NULL DEFAULT '',
-  status       TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','published')),
-  published_at TEXT,
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
-);
-CREATE INDEX IF NOT EXISTS idx_site_posts_status ON site_posts (status, published_at DESC);
-
--- Revolut Merchant rail. Ours to own.
---
--- Cache of the Revolut subscription plan and variation ids per Repair Shop OS
--- tier, so /api/shop-os/subscribe creates the plan once and reuses it, rather
--- than POSTing a new plan on every signup. One row per tier.
-CREATE TABLE IF NOT EXISTS revolut_plan_cache (
-  tier         TEXT PRIMARY KEY,            -- 'starter' | 'business' | 'enterprise'
-  plan_id      TEXT NOT NULL DEFAULT '',
-  variation_id TEXT NOT NULL DEFAULT '',
-  updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
--- ---------------- Fleet-phone admin (migration 004) ----------------
---
--- The /admin panel's own tables. Same names and shapes as
--- migrations/004_fleet_admin.sql; a fresh install gets them from here, an
--- existing `repeater` database from that migration. Admin auth uses
--- `rep_admin_users` / `rep_admin_sessions` rather than fivestarrepairs'
--- `admin_users`, which already exists in this shared database and is not ours.
+-- ---------------- customers / staff of a fleet ----------------
 
 CREATE TABLE IF NOT EXISTS companies (
   id             INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,6 +37,11 @@ CREATE TABLE IF NOT EXISTS employees (
 );
 CREATE INDEX IF NOT EXISTS idx_employees_company ON employees (company_id);
 
+-- ---------------- the handsets ----------------
+-- A device may sit in stock before it is attached to a company or employee.
+-- `ownership` separates Repeater's leased fleet from a client-owned handset
+-- that is nonetheless managed (MDM) on a plan.
+
 CREATE TABLE IF NOT EXISTS devices (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   company_id   INTEGER REFERENCES companies(id) ON DELETE SET NULL,
@@ -93,6 +61,21 @@ CREATE TABLE IF NOT EXISTS devices (
 CREATE INDEX IF NOT EXISTS idx_devices_status ON devices (status);
 CREATE INDEX IF NOT EXISTS idx_devices_ownership ON devices (ownership);
 CREATE INDEX IF NOT EXISTS idx_devices_company ON devices (company_id);
+
+-- ---------------- one lease row per device ----------------
+-- The plan is fixed at signing and never changes mid-term, so there is no
+-- separate care_plans table: the care terms live inside a device_care lease.
+--
+--   phones_only (PA-1) : dayone 572 + establishment, one-off admin fee 27.50
+--                        capped at admin_fee_plan_cap 110 per plan, recurring
+--                        fee NULL, no buyout at term end.
+--   device_care (PA-2) : dayone 622, admin fee 27.50/device capped 110 per plan
+--                        but COLLECTED WEEKLY across the term, recurring_fee per
+--                        care tier (5.60 base ladder), prepaid = 10% off the
+--                        tier's standard total, return/renew only.
+-- The headline figures on the public page are the owner's locked canon; where
+-- they and these stored components differ, the page copy is authoritative and
+-- the difference is reported rather than reconciled here.
 
 CREATE TABLE IF NOT EXISTS leases (
   id                       INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -119,6 +102,11 @@ CREATE INDEX IF NOT EXISTS idx_leases_device ON leases (device_id);
 CREATE INDEX IF NOT EXISTS idx_leases_company ON leases (company_id);
 CREATE INDEX IF NOT EXISTS idx_leases_election ON leases (election_status);
 
+-- ---------------- repairs / service events ----------------
+-- fee_charged 0 = an included event, 60 = over-cap. The rolling 12-month count
+-- of rows with fee_charged > 0 drives the 4-paid-events limit warning and the
+-- quote-or-remove state.
+
 CREATE TABLE IF NOT EXISTS service_events (
   id                 INTEGER PRIMARY KEY AUTOINCREMENT,
   lease_id           INTEGER REFERENCES leases(id) ON DELETE SET NULL,
@@ -137,6 +125,10 @@ CREATE INDEX IF NOT EXISTS idx_service_events_device ON service_events (device_i
 CREATE INDEX IF NOT EXISTS idx_service_events_lease ON service_events (lease_id);
 CREATE INDEX IF NOT EXISTS idx_service_events_status ON service_events (status);
 
+-- ---------------- call-outs ----------------
+-- fee_charged 0 = one of the first two free call-outs in a rolling 12 months,
+-- otherwise 19 (within 20 km). The free count is per company.
+
 CREATE TABLE IF NOT EXISTS callouts (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   company_id  INTEGER NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
@@ -147,6 +139,10 @@ CREATE TABLE IF NOT EXISTS callouts (
 );
 CREATE INDEX IF NOT EXISTS idx_callouts_company ON callouts (company_id, visit_date);
 
+-- ---------------- the UI-only call-request field's future landing spot ----------------
+-- The public /pricing call-request widget stores nothing this pass; this table
+-- exists so the queue has somewhere to live when the endpoint is built.
+
 CREATE TABLE IF NOT EXISTS call_requests (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   mobile     TEXT NOT NULL DEFAULT '',
@@ -155,6 +151,11 @@ CREATE TABLE IF NOT EXISTS call_requests (
   notes      TEXT NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_call_requests_status ON call_requests (status, created_at);
+
+-- ---------------- admin auth (stateful sessions in D1) ----------------
+-- Distinct names from fivestarrepairs' `admin_users` on purpose — see the
+-- ownership note at the top. Password hashes are PBKDF2-SHA-256 in the
+-- "pbkdf2$<iters>$<salt>$<hash>" format (functions/api/admin/_lib.js).
 
 CREATE TABLE IF NOT EXISTS rep_admin_users (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -176,12 +177,3 @@ CREATE TABLE IF NOT EXISTS rep_admin_sessions (
 );
 CREATE INDEX IF NOT EXISTS idx_rep_admin_sessions_user ON rep_admin_sessions (user_id);
 CREATE INDEX IF NOT EXISTS idx_rep_admin_sessions_expiry ON rep_admin_sessions (expires_at);
-
--- The two neutral processor columns on the shared `orders` table
--- (`processor_order_id`, `processor_payment_id`) and the
--- `idx_orders_processor_order` index are NOT mirrored here: `orders` is not this
--- site's table, and `ALTER TABLE ADD COLUMN` cannot be written idempotently for
--- a CREATE-only file. A fresh install gets them from
--- ../fivestarrepairs/schema.sql (fsr migration 081); an existing `repeater`
--- database gets them from migrations/003_revolut_payments.sql. This repo only
--- ever writes the two neutral names — never square_order_id/square_payment_id.

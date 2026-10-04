@@ -75,7 +75,6 @@ const normalizeNav = (s) => String(s)
 const TRADE_PAGES = new Set([
   "public/catalogue/index.html",
   "public/wholesale/index.html",
-  "public/pricing/index.html",
   "public/apply/index.html",
 ]);
 const NAV_CTA = {
@@ -218,7 +217,7 @@ const EXPECTED_ACTIVE = {
   "public/terms.html": null,
   "public/catalogue/index.html": null,
   "public/wholesale/index.html": "Trade supply",
-  "public/pricing/index.html": null,
+  "public/pricing/index.html": "Pricing",
   "public/about/index.html": "About",
   "public/blog/index.html": null,
   "public/blog/article.html": null,
