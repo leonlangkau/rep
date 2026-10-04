@@ -159,6 +159,16 @@ async function cancelSubscription(env, subscriptionId) {
 
 /* ---------------- the endpoint ---------------- */
 
+// GET probe: Revolut's registration validator and uptime checkers fetch the
+// URL with GET; answer 200 like the fsr sibling endpoint does (its SPA
+// fallback answers 200). No information disclosed, POST-only logic untouched.
+export async function onRequestGet() {
+  return new Response("Repeater Revolut webhook endpoint. POST only; unverified calls are rejected.", {
+    status: 200,
+    headers: { "content-type": "text/plain; charset=utf-8" },
+  });
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
   const rawBody = await request.text();
