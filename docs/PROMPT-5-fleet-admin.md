@@ -15,18 +15,29 @@ never invent or "improve" them.
 
 ## 0. Decisions already made — do not re-derive
 
-- **The phone business is TWO separate deals, not a subscription:**
-  - **PA-1 Device Lease:** $572 upfront per device + $50 establishment fee, payable on
-    signing · 24-month term · **nil weekly fee** · $300 end-of-term buyout · MDM enrolment
-    is a condition of the lease price · PPSR-registered before delivery · **no repair
-    services included** (manufacturer faults administered free under warranty; accidental
-    damage repaired at standard price, quoted and approved first).
+- **The phone business — three products, all phone capital client-funded (Leo floats
+  ~$1k for demo/loaner stock only):**
+  - **PA-1 Managed Fleet (customer-facing name; document code stays PA-1):** $572 upfront
+    per device + $50 establishment fee, payable on signing · **+ $29/month per device
+    management fee** `[OWNER TO CONFIRM]` · 24-month term · **Repeater keeps title for the
+    whole term — the client never owns the device; no buyout option** · MDM enrolment is a
+    condition (non-negotiable) · PPSR-registered before delivery · devices ordered on
+    cleared funds (single-unit supplier, ~$500–600 landed) so delivery follows signing by
+    a few days · **repairs included:** screen, back-glass and manufacturer-warranty faults
+    repaired at $0 (legally safe because the device is Repeater's own asset — this is
+    maintenance of our own property); deliberate/reckless damage quoted before any work ·
+    **same-day swap:** if a device can't be repaired same day it is swapped from the
+    loaner pool (2 refurb loaners on hand; loaners are older-model iPhones, not new
+    stock) · end of term: device returns to Repeater, wiped and either resold or
+    redeployed as a loaner — the client starts a fresh term for a current device.
   - **PA-2 Device Care Plan:** client-owned devices only (leased devices are NOT eligible)
     · $622 day one per device + $5.50/week per device · $60 per service event · cap 2
     events per calendar quarter plus 1 extra per quarter per 4 devices on the plan ·
     over-cap events at standard repair price, quoted and approved in writing first · $30
     call-out within 20 km of Mount Waverley · same-day target for pre-2pm bookings (a
-    target, not an entitlement) · 90-day workmanship warranty.
+    target, not an entitlement) · 90-day workmanship warranty · **accidental damage on
+    client-owned devices is NOT included** — quoted separately (this exclusion is being
+    added to PA-2 cl 3; see the contract edit list below).
 - **Services are the business; phones are the door.** The site sells PA-3 Website Care
   ($20/wk), PA-4 Data Admin ($15/wk), PA-5 Ads Management ($100/wk, spend stays on the
   client's own ad accounts), PA-6 AI Receptionist ($167/month + $300 setup, 500 answered
@@ -93,21 +104,26 @@ Single source of truth stays `public/assets/site.css` `:root`:
 
 1. **Pricing page (`public/pricing/`)** — three sections, each product on its own line
    with its own terms (no menu framing):
-   - **Device Lease (PA-1):** "$572 upfront + $50 establishment per device · 24 months ·
-     no weekly fee · $300 buyout at term end · MDM-managed · your choice at term end: buy
-     it for $300 or hand it back." State plainly: repairs are not included; warranty
-     faults are handled for you free; accidental damage is quoted before any work.
+   - **Managed Fleet (PA-1):** "$572 upfront + $50 establishment per device · $29/month
+     management per device `[OWNER TO CONFIRM]` · 24 months · the phone stays Repeater's
+     property — you never own it, we manage everything · screen, back-glass and warranty
+     repairs included at $0 · can't fix it same day? You get a loaner phone the same
+     visit · MDM-managed and PPSR-registered · at term end hand it back and start fresh
+     on the current model." State plainly: devices are ordered on cleared funds and
+     arrive within days of signing; deliberate damage is quoted before any work; theft
+     and loss remain the client's risk per the agreement.
    - **Device Care Plan (PA-2):** "$622 day one + $5.50/week per device · $60 per service
      event · 2 events per quarter included (+1 per 4 devices) · same-day target for
      pre-2pm bookings · 90-day workmanship warranty · your devices, your ownership."
    - **Services (PA-3..PA-7)** with the locked prices from §0, one line each, each
      individually cancellable after its 13-week minimum, discount tiers shown as a plain
      table (2→5.5% … 6→17.5%).
-   - Hard parts on page one: minimum terms, upfront amounts, buyout, caps, call-out fee.
-2. **Fleet explainer section:** the tradie-boss story — employees break phones; the lease
-   keeps title with Repeater and the fleet under MDM; the Care Plan covers their own
-   devices with capped events; manufacturer warranty faults administered free. Keep it
-   simple, few blocks, no invented statistics.
+   - Hard parts on page one: minimum terms, upfront + monthly amounts, caps, call-out
+     fee, "the phone stays ours".
+2. **Fleet explainer section:** the tradie-boss story — employees break phones; the
+   fleet stays Repeater's property under MDM, repairs are included and a loaner covers
+   anything we can't fix same day; the Care Plan covers their own devices with capped
+   events. Keep it simple, few blocks, no invented statistics.
 3. **Call-request field (UI-only)** on the pricing page and final CTA band per §0.
 4. Update nav/footer copy from wholesale-parts-only to the 7-product Repeater. Keep the
    wholesale side intact — demoted, not deleted. Run every new string past the §0 voice
@@ -126,10 +142,11 @@ cookies). Port the pattern; rep stays dependency-free.
    CHECK('in_stock','leased','care_plan','loaner_pool','in_repair','returned','retired'),
    condition, ownership CHECK('repeater','client'), mdm_enrolled INTEGER, enrolled_at,
    landed_cost, notes),
-   `leases` (id, device_id, company_id, upfront_amount, establishment_fee, start_date,
-   term_months DEFAULT 24, buyout_amount DEFAULT 300, ppsr_registration_number,
+   `leases` (id, device_id, company_id, upfront_amount, establishment_fee, monthly_fee,
+   start_date, term_months DEFAULT 24, ppsr_registration_number,
    ppsr_registered_at, ppsr_expiry, election_status
-   CHECK('pending','buyout','returned','holdover'), holdover_started_at, notes),
+   CHECK('active','returned','renewed','holdover'), holdover_started_at, notes)
+   — NOTE: no buyout column; the client never takes title under the Managed Fleet model.
    `care_plans` (id, device_id, company_id, dayone_amount, weekly_fee, start_date,
    active INTEGER),
    `service_events` (id, care_plan_id?, device_id, lease_id?, event_type, fee_charged,
@@ -150,8 +167,9 @@ cookies). Port the pattern; rep stays dependency-free.
    - **Companies:** CRUD + per-company employees, devices, leases, care plans.
    - **Devices:** inventory CRUD (model, IMEI, serial, ownership, status incl. loaner
      pool, MDM toggle, landed cost). Filters by status/ownership.
-   - **Leases:** create lease from an in-stock device (auto-compute upfront/establishment,
-     PPSR fields), record election (buyout/return/holdover), early-exit calculator
+   - **Leases (Managed Fleet):** create lease from an in-stock device or "ordered on
+     cleared funds" pending state (auto-compute upfront/establishment, monthly fee, PPSR
+     fields), record end-of-term election (return/renew/holdover), early-exit calculator
      ($572 less $23.83 per completed month), repossession note.
    - **Care plans & events:** device schedule per plan, event cap tracker per account
      (2/quarter + 1 per 4 devices), event logging with fee + parts cost, over-cap events
