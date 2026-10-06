@@ -118,7 +118,9 @@ export async function onRequestPost(context) {
         return json({ ok: false, error: upstream.status === 401 ? "not_configured" : "invalid_number" }, upstream.status === 400 ? 400 : 503);
       } else {
         const text = await upstream.text().catch(() => "");
-        note = "trigger failed: " + upstream.status + (text ? ": " + text.slice(0, 180) : "");
+        const hdrs = ["server", "cf-ray", "content-type", "cf-mitigated"]
+          .map((h) => h + "=" + (upstream.headers.get(h) || "-")).join(" ");
+        note = "trigger failed: " + upstream.status + (text ? ": " + text.slice(0, 140) : "") + " [" + hdrs + "]";
       }
     } catch {
       note = "trigger unreachable";
