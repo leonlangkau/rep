@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fleet phones — Fleet Phones, Managed Fleet and what's coming — Repeater</title>
+  <meta name="description" content="UI example — the /phones restructure: two plan cards side by side, the day-one price as the headline, every cap and fee in a scannable list.">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/shop.css">
+  <script defer src="assets/numpad.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link nav__link--here" href="/phones">Phones</a>
+      <a class="nav__link" href="/ai">AI Calls</a>
+      <a class="nav__link" href="/shop-os">Shop OS</a>
+      <a class="nav__link" href="/wholesale">Trade supply</a>
+      <a class="nav__link" href="/pricing">Pricing</a>
+      <a class="nav__link" href="/about">About</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+    </div>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/phones">Phones</a></li>
+        <li><a href="/ai">AI Calls</a></li>
+        <li><a href="/shop-os">Shop OS</a></li>
+        <li><a href="/wholesale">Trade supply</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow pagehead__eyebrow">Fleet phones for tradies</span>
+      <h1>Two plans. Pick the one that fits.</h1>
+      <p class="lede">A small fleet for your crew, from two handsets up. Take the phones on their own, or add care and the repairs are handled. One phone plan per client, fixed for the 24-month term, minimum two devices.</p>
+      <div class="hero__trust" style="margin-top:var(--space-8);max-width:560px">
+        <span><b>2+</b> devices minimum</span>
+        <span class="dot"></span>
+        <span><b>24-month</b> term</span>
+        <span class="dot"></span>
+        <span>Phones stay <b>Repeater's</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken" style="padding-top:var(--space-12)">
+    <div class="wrap">
+
+      <!-- ============ THE FIX: two plan cards, side by side ============ -->
+      <div class="plans">
+
+        <article class="card plan">
+          <div class="plan__kind"><span>PA-1</span></div>
+          <h2 class="plan__name">Fleet Phones</h2>
+          <p class="plan__one">Device only. The phones, the setup and the fleet administration &mdash; one number, once.</p>
+          <p class="plan__price"><b>$622</b><span>all-in per device, on signing</span></p>
+          <ul class="plan__feats">
+            <li><b>Device + setup + fleet administration</b> for the whole 24-month term</li>
+            <li><b>No weekly fee</b> &mdash; nothing recurring</li>
+            <li><b>Warranty faults free</b>; other repairs quoted and approved before work starts</li>
+            <li><b>No buyout</b> &mdash; hand them back at term end and start fresh, or renew</li>
+          </ul>
+          <p class="plan__fine">$572 device + $50 establishment + $27.50 fleet administration (one-off, capped at $110 per plan &mdash; $649.50 day one at 2&ndash;4 devices, less at 5+). Lost or stolen device: $300 fleet loss fee and that device's lease ends, no payout of the remaining term.</p>
+          <a class="btn btn--line btn--block" href="/contact">Start on Fleet Phones</a>
+        </article>
+
+        <article class="card plan plan--pick">
+          <div class="plan__kind"><span>PA-2</span><span class="plan__flag">Care included</span></div>
+          <h2 class="plan__name">Managed Fleet</h2>
+          <p class="plan__one">The phones with the care: repairs, call-outs and the loaner swap, handled.</p>
+          <p class="plan__price"><b>$622</b><span>per device, then from $5.60 a week for the care</span></p>
+          <ul class="plan__feats">
+            <li><b>Repairs included</b> &mdash; 2 service events a quarter, +1 more for every 4 devices, $0 each</li>
+            <li><b>Loaner the same visit</b> when a fix isn't same-day</li>
+            <li><b>First 2 call-outs free</b> every 12 months, then $19 within 20 km</li>
+            <li><b>MDM-managed</b> and PPSR-registered</li>
+            <li><b>Pay the term in full</b> &mdash; 10% off your tier's total</li>
+          </ul>
+          <p class="plan__fine">$622 upfront per device, then from $5.60 a week per device; fleet administration ($27.50 per device, capped at $110 per plan) is spread across the weekly payments. Past the repair cap: $60 flat per extra repair. The phone stays Repeater's property &mdash; title never transfers.</p>
+          <a class="btn btn--accent btn--block" href="/contact">Start on Managed Fleet</a>
+        </article>
+      </div>
+
+      <div class="planstrip">
+        <span><b>PA-8 &middot; Fleet Connect</b> &mdash; device, care and SIM on one weekly fee.</span>
+        <span>Coming soon &mdash; not open yet.</span>
+      </div>
+
+      <p class="products__note sm" style="margin-top:var(--space-6)">A solo tradie with one handset isn't a fleet &mdash; that's a <a href="https://fivestarrepairs.com.au">Five Star Repairs</a> walk-in repair, same-day, and honestly the better deal.</p>
+    </div>
+  </section>
+
+  <!-- ============ every cap and fee, in one table ============ -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">The fine print, printed</span>
+          <h2>Every cap and fee on the page.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Nothing here is discovered later. The full ladder &mdash; devices, care tiers and what each includes &mdash; lives on the <a href="/pricing">pricing page</a>; the caps are the ones below.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="breaks">
+          <thead><tr><th>Item</th><th>Amount</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Establishment</td><td>$50 per device</td><td>once, at signing</td></tr>
+            <tr><td>Fleet administration</td><td>$27.50 per device, capped $110 per plan</td><td>once, across the term</td></tr>
+            <tr><td>Repair past the care cap</td><td>$60 flat</td><td>per extra repair</td></tr>
+            <tr><td>Call-out, past the first 2 free</td><td>$19</td><td>per visit, within 20 km</td></tr>
+            <tr><td>Lost or stolen device</td><td>$300 fleet loss fee</td><td>ends that device's lease</td></tr>
+            <tr><td>Prepaid term</td><td>10% off the tier's total</td><td>optional, at signing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap wrap--narrow">
+      <div class="head">
+        <span class="eyebrow head__eyebrow">Questions</span>
+        <h2>The plans, asked plainly.</h2>
+      </div>
+      <div class="faq">
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Is care included on Fleet Phones?</button>
+          <div class="faq__a"><div><p>No. Fleet Phones is device only, and care cannot be added mid-term. Choose Managed Fleet at signing if you want repairs included.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">How many handsets do I need?</button>
+          <div class="faq__a"><div><p>The minimum is two devices. A solo tradie with one handset is steered to a Five Star Repairs walk-in repair instead.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What is Fleet Connect?</button>
+          <div class="faq__a"><div><p>Device, care and SIM on one weekly fee. It is coming soon and is not open yet.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Do I own the phone at the end?</button>
+          <div class="faq__a"><div><p>No. Title never transfers on either plan. At term end the phone comes back to Repeater and you start fresh on the current model, or renew.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Fleet phones</span>
+      <h2>Two handsets or twenty &mdash; the price is written down.</h2>
+      <p>Fleet Phones or Managed Fleet, with every cap and fee on the page.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/contact">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Fleet phones for tradies, AI call answering, Repair Shop OS and the services around them &mdash; supplied from Melbourne.</p>
+        <p class="foot__abn">ABN 50 702 477 361</p>
+      </div>
+      <div class="foot__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/phones">Fleet phones</a></li>
+          <li><a href="/ai">AI call answering</a></li>
+          <li><a href="/shop-os">Repair Shop OS</a></li>
+          <li><a href="/wholesale">Trade supply</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/contact">Book a call</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* example-only: the reveal-on-scroll observer site.js provides on the real site */
+(function(){var els=document.querySelectorAll('.rv');if(!els.length)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});els.forEach(function(el){io.observe(el);});})();
+</script></body>
+</html>

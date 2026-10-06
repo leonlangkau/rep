@@ -4,99 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI call answering — never miss a job — Repeater</title>
-  <meta name="description" content="An AI that answers your calls, takes bookings and answers questions. Built for tradies who can't pick up with a tool in one hand, and any business where a missed call is a lost job.">
-  <meta name="robots" content="index,follow">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Repeater">
-  <meta property="og:title" content="AI call answering — never miss a job — Repeater">
-  <meta property="og:description" content="An AI that answers your calls, takes bookings and answers questions. Built for tradies who can't pick up with a tool in one hand, and any business where a missed call is a lost job.">
-  <meta property="og:url" content="https://repeater.com.au/ai">
-  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="en_AU">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI call answering — never miss a job — Repeater">
-  <meta name="twitter:description" content="An AI that answers your calls, takes bookings and answers questions. Built for tradies who can't pick up with a tool in one hand, and any business where a missed call is a lost job.">
-  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
-  <link rel="canonical" href="https://repeater.com.au/ai">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
-  <script>
-  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
-     render-blocking: a deferred script would let the page paint in the default
-     palette and then snap to the chosen one, which reads as a broken toggle
-     rather than a saved preference. It stores already-derived token values, so
-     none of the contrast logic is duplicated here. */
-  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
-  if(t)d.setAttribute("data-theme",t);
-  var a=localStorage.getItem("rep:accent");
-  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
-  </script>
-  <link rel="stylesheet" href="/assets/site.css">
-  <script defer src="/assets/facts.js"></script>
-  <script defer src="/assets/site.js"></script>
-  <script defer src="/assets/numpad.js"></script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "name": "AI call answering",
-        "serviceType": "Automated call answering, bookings and enquiries",
-        "url": "https://repeater.com.au/ai",
-        "description": "An AI that answers calls, takes bookings and answers questions for trades and other small businesses.",
-        "provider": {
-          "@type": "Organization",
-          "name": "Repeater",
-          "url": "https://repeater.com.au/",
-          "email": "orders@repeater.com.au"
-        },
-        "areaServed": { "@type": "Country", "name": "Australia" }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Who is the AI call answering for?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "It was built for tradies — someone on a roof with a tool in one hand can't stop and answer. But any business where a missed call is a lost job can use it, so it isn't trades-only."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What does it actually do?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "It answers calls, takes bookings and answers the questions callers ask. You get the details of who called and what they wanted, instead of a missed-call notification."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Will callers know it's an AI?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "It answers as your business and handles the call. How it introduces itself is set up with your wording, so it sounds like you rather than a robot."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What does it cost?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Pricing depends on your call volume and how you want it set up. Tell us what you're dealing with and we'll quote it."
-            }
-          }
-        ]
-      }
-    ]
-  }
-  </script>
+  <meta name="description" content="UI example — the /ai page with the numpad: type your number, hit OK, and Jarvis calls you with the walkthrough. The call is the demo.">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/shop.css">
+  <script defer src="assets/numpad.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -118,27 +29,6 @@
     <div class="nav__right">
       <div class="nav__cta">
         <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
-      </div>
-      <div class="themer" data-themer>
-        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
-          <span class="themer__btn-dot"></span>
-        </button>
-        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
-          <p class="themer__title">Colour theme</p>
-          <div class="themer__grid" data-themer-grid>
-            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
-            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
-            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
-            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
-            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
-          </div>
-          <div class="themer__row">
-            <label for="themerCustom">Custom accent</label>
-            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
-          </div>
-          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
-          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
-        </div>
       </div>
       <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
     </div>
@@ -169,7 +59,7 @@
         <h1 class="display">Never miss the next job.</h1>
         <p class="lede hero__lede">You're on a roof with one hand free and the phone is ringing. The AI answers it, takes the booking and answers the questions &mdash; so the call that would have gone to voicemail becomes work.</p>
         <div class="btn-row">
-          <a class="btn btn--accent" href="/contact">Book a call</a>
+          <a class="btn btn--accent" href="#demo-call">Hear it &mdash; he'll call you</a>
           <a class="btn btn--line" href="/phones">The phones it runs on</a>
         </div>
         <div class="hero__trust">
@@ -196,8 +86,6 @@
             <div class="show__row"><span>Answers calls</span><i>as your business</i><span class="show__tag">always on</span></div>
             <div class="show__row"><span>Takes bookings</span><i>straight to the diary</i><span class="show__tag">no callback</span></div>
             <div class="show__row"><span>Answers questions</span><i>price, hours, area</i><span class="show__tag">your wording</span></div>
-            <div class="show__row"><span>Monthly price</span><i data-fact="AI_PRICE"><span class="placeholder">[owner to confirm]</span></i><span class="show__tag">quoted</span></div>
-            <div class="show__row"><span>Trial</span><i data-fact="AI_TRIAL"><span class="placeholder">[owner to confirm]</span></i><span class="show__tag">if any</span></div>
           </div>
         </div>
       </div>
@@ -235,38 +123,7 @@
     </div>
   </section>
 
-  <section class="sec">
-    <div class="wrap">
-      <div class="head head--split">
-        <div>
-          <span class="eyebrow head__eyebrow">Who it's for</span>
-          <h2>Built for tradies. Not only tradies.</h2>
-        </div>
-        <div class="head__body">
-          <p class="lede">The problem it was built around is a tradie who can't stop to answer. But a missed call is a lost job for plenty of other businesses too &mdash; a salon, a courier, a one-person consultancy &mdash; so nothing here is trades-only.</p>
-        </div>
-      </div>
-      <div class="grid grid--2">
-        <div class="rv">
-          <h3 style="margin-bottom:var(--space-3)">The tradie case</h3>
-          <p class="muted">Up a ladder, under a floor, on the tools. The phone is in a pocket, not in a hand, and the caller books with whoever answers.</p>
-        </div>
-        <div class="rv" style="--d:80ms">
-          <h3 style="margin-bottom:var(--space-3)">The same problem elsewhere</h3>
-          <p class="muted">Any small business with one person doing the work and the phones. If a missed call means a lost customer, the same fix applies.</p>
-        </div>
-        <div class="rv" style="--d:160ms">
-          <h3 style="margin-bottom:var(--space-3)">It works with the fleet</h3>
-          <p class="muted">The AI and the fleet phones are two halves of the same thing: a number that gets answered, on a handset that survives the job.</p>
-        </div>
-        <div class="rv" style="--d:240ms">
-          <h3 style="margin-bottom:var(--space-3)">Set up with your wording</h3>
-          <p class="muted">How it greets callers and what it says is configured with you, so it sounds like your business rather than a script.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ============ THE NUMPAD: type your number, Jarvis calls you ============ -->
   <section class="sec" id="demo-call">
     <div class="wrap wrap--narrow">
       <div class="head head--center">
@@ -298,6 +155,38 @@
   </section>
 
   <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Who it's for</span>
+          <h2>Built for tradies. Not only tradies.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">The problem it was built around is a tradie who can't stop to answer. But a missed call is a lost job for plenty of other businesses too &mdash; a salon, a courier, a one-person consultancy &mdash; so nothing here is trades-only.</p>
+        </div>
+      </div>
+      <div class="grid grid--2">
+        <div class="rv">
+          <h3 style="margin-bottom:var(--space-3)">The tradie case</h3>
+          <p class="muted">Up a ladder, under a floor, on the tools. The phone is in a pocket, not in a hand, and the caller books with whoever answers.</p>
+        </div>
+        <div class="rv" style="--d:80ms">
+          <h3 style="margin-bottom:var(--space-3)">The same problem elsewhere</h3>
+          <p class="muted">Any small business with one person doing the work and the phones. If a missed call means a lost customer, the same fix applies.</p>
+        </div>
+        <div class="rv" style="--d:160ms">
+          <h3 style="margin-bottom:var(--space-3)">It works with the fleet</h3>
+          <p class="muted">The AI and the fleet phones are two halves of the same thing: a number that gets answered, on a handset that survives the job.</p>
+        </div>
+        <div class="rv" style="--d:240ms">
+          <h3 style="margin-bottom:var(--space-3)">Set up with your wording</h3>
+          <p class="muted">How it greets callers and what it says is configured with you, so it sounds like your business rather than a script.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
     <div class="wrap wrap--narrow">
       <div class="head">
         <span class="eyebrow head__eyebrow">Questions</span>
@@ -331,7 +220,7 @@
     <div>
       <span class="eyebrow">AI calls</span>
       <h2>Your next missed call is a lost job.</h2>
-      <p>Tell us how many calls you get and what you do, and we'll show you what it sounds like for you.</p>
+      <p>Book a call and we'll show you what it sounds like for your business.</p>
     </div>
     <div class="btn-row">
       <a class="btn btn--solid" href="/contact">Book a call</a>
@@ -385,5 +274,8 @@
     </div>
   </div>
 </footer>
-</body>
+<script>
+/* example-only: the reveal-on-scroll observer site.js provides on the real site */
+(function(){var els=document.querySelectorAll('.rv');if(!els.length)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});els.forEach(function(el){io.observe(el);});})();
+</script></body>
 </html>
