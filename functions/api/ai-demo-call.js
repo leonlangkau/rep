@@ -117,7 +117,8 @@ export async function onRequestPost(context) {
       } else if (upstream.status === 401 || upstream.status === 400) {
         return json({ ok: false, error: upstream.status === 401 ? "not_configured" : "invalid_number" }, upstream.status === 400 ? 400 : 503);
       } else {
-        note = "trigger failed: " + upstream.status;
+        const text = await upstream.text().catch(() => "");
+        note = "trigger failed: " + upstream.status + (text ? ": " + text.slice(0, 180) : "");
       }
     } catch {
       note = "trigger unreachable";
