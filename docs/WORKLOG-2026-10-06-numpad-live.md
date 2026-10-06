@@ -43,3 +43,28 @@ The shop-style restructure of `/` and `/phones` + wording pass per
 `docs/PROMPT-6-shop-rebuild.md`, using `docs/ui-example/` as the layout
 reference and `docs/VOICE.md` as the wording constitution. The numpad
 markup/endpoint contract must survive that build unchanged.
+
+## Update 15:1x UTC — the tour went Realtime... and came back (final state)
+
+Leo's overnight asks: OpenAI voice not edge; Aussie accent; g'day-mate-smoko
+register; use the OpenAI Realtime bridge; Ripple voice.
+
+- TTS: **OpenAI gpt-4o-mini-tts primary** with an Australian-male instructions
+  directive (handler.py `TTS_INSTRUCTIONS`); edge-tts = failure fallback only.
+- Register: TOUR_OPENING + TOUR_PROMPT rewritten to the Aussie receptionist
+  ("G'day mate, Jarvis here — Repeater's AI call assistant... up a ladder, in
+  a crawl space, or on smoko. Knock yourself out."); VOICE.md updated to match.
+- **Realtime bridge: built, tested, DORMANT.** fsr webhook now has a `tour`
+  persona (From==To==0485811850 marker; live arrivals → gpt-live-1 + ripple,
+  realtime arrivals → shop config; mcp.js mode=tour serves ONLY end_call +
+  web_search). The VPS [outbound-tour] dialplan + mode=tour_bridge bridge the
+  answered leg to that DID. The self-test PROVED the carrier limitation: our
+  own trunk → own DID does NOT traverse Crazytel's AI Bridge (no webhook
+  event; recording held only "Hello?"). So production tours run on the AGI
+  loop (verified connected twice, Leo picked up at 14:49 and 15:14 UTC).
+  Retest path when the carrier question is settled: `mode=tour_bridge`.
+- Live-vs-Realtime (for the pricing decision): gpt-live-1 $0.05/min flat
+  (backend tokens extra; ripple; no MCP), gpt-realtime-2.1 ~$0.06-0.10/min
+  (audio $32/$64 per M tokens; mini $10/$20; full MCP).
+- Leo's spare OpenAI key: OPENAI_API_KEY_SPARE in /opt/hermes-voice/.env
+  (past in chat — rotate before real traffic matters).
