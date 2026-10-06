@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fleet phones — Fleet Phones, Managed Fleet and what's coming — Repeater</title>
-  <meta name="description" content="The three Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
+  <meta name="description" content="The Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Repeater">
   <meta property="og:title" content="Fleet phones — Fleet Phones, Managed Fleet and what's coming — Repeater">
-  <meta property="og:description" content="The three Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
+  <meta property="og:description" content="The Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
   <meta property="og:url" content="https://repeater.com.au/phones">
   <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
   <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
   <meta property="og:locale" content="en_AU">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fleet phones — Fleet Phones, Managed Fleet and what's coming — Repeater">
-  <meta name="twitter:description" content="The three Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
+  <meta name="twitter:description" content="The Repeater phone plans: Fleet Phones at $622 all-in per device, Managed Fleet with care from $5.60 a week per device, and Fleet Connect coming soon. Minimum two devices.">
   <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
   <link rel="canonical" href="https://repeater.com.au/phones">
   <meta name="theme-color" content="#ffffff">
@@ -62,7 +62,7 @@
           {
             "@type": "Question",
             "name": "What does a phone plan cost?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Fleet Phones is $622 all-in per device on signing — $572 device, $50 establishment and the $27.50 fleet-administration fee, which is capped at $110 per plan. Managed Fleet is $622 per device plus from $5.60 a week per device for the care. All amounts include GST." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Fleet Phones is $622 all-in per device on signing — $572 device, $50 establishment and $27.50 fleet administration, capped at $110 per plan. Managed Fleet is $622 per device, then from $5.60 a week per device for the care. All amounts include GST." }
           },
           {
             "@type": "Question",
@@ -154,93 +154,98 @@
 
 <main id="main">
 
-  <section class="hero">
-    <div class="wrap hero__in">
-      <div class="hero__copy">
-        <span class="eyebrow hero__eyebrow">Fleet phones for tradies</span>
-        <h1 class="display">Two plans. Pick the one that fits.</h1>
-        <p class="lede hero__lede">A small fleet for your crew, from two handsets up. Take the phones on their own, or add care and the repairs are handled. One phone plan per client, fixed for the 24-month term. Minimum two devices.</p>
-        <div class="btn-row">
-          <a class="btn btn--accent" href="/pricing">See every price and the stepper</a>
-          <a class="btn btn--line" href="/contact">Book a call</a>
-        </div>
-        <div class="hero__trust">
-          <span><b>2+</b> devices minimum</span>
-          <span class="dot"></span>
-          <span><b>24-month</b> term</span>
-          <span class="dot"></span>
-          <span>Phones stay <b>Repeater's</b></span>
-        </div>
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow pagehead__eyebrow">Fleet phones for tradies</span>
+      <h1>Two plans. Pick the one that fits.</h1>
+      <p class="lede">A small fleet for your crew, from two handsets up. Take the phones on their own, or add care and the repairs are handled. One phone plan per client, fixed for the 24-month term. Minimum two devices.</p>
+      <div class="hero__trust" style="margin-top:var(--space-8);max-width:560px">
+        <span><b>2+</b> devices minimum</span>
+        <span class="dot"></span>
+        <span><b>24-month</b> term</span>
+        <span class="dot"></span>
+        <span>Phones stay <b>Repeater's</b></span>
       </div>
-
-      <div class="hero__plate rv">
-        <div class="show__plate">
-          <div class="show__bar">
-            <span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span>
-            <span class="show__title">The ladder</span>
-          </div>
-          <div class="show__rows">
-            <div class="show__row"><span>PA-1 Fleet Phones</span><i>$622 all-in</i><span class="show__tag">device only</span></div>
-            <div class="show__row"><span>PA-2 Managed Fleet</span><i>from $5.60/wk</i><span class="show__tag">care included</span></div>
-            <div class="show__row"><span>PA-8 Fleet Connect</span><i>Coming soon</i><span class="show__tag">device + care + SIM</span></div>
-          </div>
-        </div>
-      </div>
+      <p class="sm faint" style="margin-top:var(--space-6)">The full ladder &mdash; devices, care tiers and every cap &mdash; is totalled on the <a href="/pricing" style="color:var(--accent-strong)">pricing page</a>, with a stepper for your fleet.</p>
     </div>
   </section>
 
-  <!-- PA-1 · Fleet Phones -->
-  <section class="sec sec--sunken" id="fleet-phones">
+  <section class="sec sec--sunken" style="padding-top:var(--space-12)">
+    <div class="wrap">
+
+      <!-- Two plan cards, side by side: day-one price as the headline, every
+           cap a scannable bullet, fine print under each card. -->
+      <div class="plans">
+
+        <article class="card plan">
+          <div class="plan__kind"><span>PA-1</span></div>
+          <h2 class="plan__name">Fleet Phones</h2>
+          <p class="plan__one">Device only. The phones, the setup and the fleet administration &mdash; one number, once.</p>
+          <p class="plan__price"><b>$622</b><span>all-in per device on signing</span></p>
+          <ul class="plan__feats">
+            <li><b>Device, setup and fleet administration</b> for the whole 24-month term</li>
+            <li><b>No weekly fee</b> &mdash; nothing recurring</li>
+            <li><b>No repair services included</b>; warranty faults are administered free, other repairs are quoted and approved before work starts</li>
+            <li><b>No buyout</b> &mdash; hand the phones back at term end and start fresh, or renew</li>
+          </ul>
+          <p class="plan__fine">$572 device + $50 establishment + $27.50 fleet administration fee (one-off, capped at $110 per plan for the whole term) &mdash; day one is $649.50 per device at 2&ndash;4 devices, less at 5+. Lost or stolen device: $300 fleet loss fee and that device's lease ends, with no payout of the remaining term.</p>
+          <a class="btn btn--line btn--block" href="/contact">Start on Fleet Phones</a>
+        </article>
+
+        <article class="card plan plan--pick">
+          <div class="plan__kind"><span>PA-2</span><span class="plan__flag">Care included</span></div>
+          <h2 class="plan__name">Managed Fleet</h2>
+          <p class="plan__one">The phones with the care: repairs, call-outs and the loaner swap, handled.</p>
+          <p class="plan__price"><b>$622</b><span>per device, then from $5.60 a week for the care</span></p>
+          <ul class="plan__feats">
+            <li><b>Repairs included: 2 service events per quarter</b>, plus 1 more for every 4 devices, $0 each</li>
+            <li><b>Loaner the same visit</b> when a fix isn't same-day</li>
+            <li><b>First 2 call-outs free</b> every 12 months, then $19 within 20 km</li>
+            <li><b>MDM-managed</b> and PPSR-registered</li>
+            <li><b>Pay the term in full</b> &mdash; 10% off your tier's total</li>
+          </ul>
+          <p class="plan__fine">$622 upfront per device, then from $5.60 a week per device; fleet administration ($27.50 per device, capped at $110 per plan) is spread across the weekly payments. Past the repair cap: $60 flat per extra repair. The phone stays Repeater's property &mdash; title never transfers.</p>
+          <a class="btn btn--accent btn--block" href="/contact">Start on Managed Fleet</a>
+        </article>
+      </div>
+
+      <div class="planstrip">
+        <span><b>PA-8 &middot; Fleet Connect</b> &mdash; device, care and SIM on one weekly fee.</span>
+        <span>Coming soon &mdash; not open yet.</span>
+      </div>
+
+      <p class="products__note sm" style="margin-top:var(--space-6)">A solo tradie with one handset isn't a fleet &mdash; that's a <a href="https://fivestarrepairs.com.au">Five Star Repairs</a> walk-in repair, usually same day, and honestly the better deal.</p>
+    </div>
+  </section>
+
+  <!-- Every cap and fee, in one table -->
+  <section class="sec">
     <div class="wrap">
       <div class="head head--split">
         <div>
-          <span class="eyebrow head__eyebrow">PA-1 &middot; Fleet Phones</span>
-          <h2>Fleet Phones &mdash; device only.</h2>
+          <span class="eyebrow head__eyebrow">The fine print, printed</span>
+          <h2>Every cap and fee on the page.</h2>
         </div>
         <div class="head__body">
-          <p class="lede"><b>$622 all-in per device on signing</b> &mdash; device, setup and fleet administration for the whole term.</p>
-          <p class="xs faint" style="margin-top:var(--space-2)">$572 device + $50 establishment + $27.50 fleet administration fee (one-off, capped at $110 per plan for the whole term). Day one is $649.50 per device at 2&ndash;4 devices, less at 5+ as the cap spreads.</p>
-          <p class="lede" style="margin-top:var(--space-4)">No weekly fee. 24 months. No repair services included: manufacturer-warranty faults are administered free, and any other repair is quoted and approved before work starts. Hand the phones back at term end and start fresh, or renew &mdash; there is no buyout. A stolen or lost device costs a $300 fleet loss fee and ends that device's lease, with no payout of the remaining term.</p>
-          <div class="btn-row" style="margin-top:var(--space-5)">
-            <a class="btn btn--line" href="/pricing">See the PA-1 stepper on the pricing page</a>
-          </div>
+          <p class="lede">Nothing here is discovered later. The full ladder &mdash; devices, care tiers and what each includes &mdash; lives on the <a href="/pricing">pricing page</a>; the caps are the ones below.</p>
         </div>
+      </div>
+      <div class="table-wrap">
+        <table class="breaks">
+          <thead><tr><th>Item</th><th>Amount</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>Establishment</td><td class="num">$50 per device</td><td>once, at signing</td></tr>
+            <tr><td>Fleet administration</td><td class="num">$27.50 per device, capped $110 per plan</td><td>once, across the term</td></tr>
+            <tr><td>Repair past the care cap</td><td class="num">$60 flat</td><td>per extra repair</td></tr>
+            <tr><td>Call-out, past the first 2 free</td><td class="num">$19</td><td>per visit, within 20 km</td></tr>
+            <tr><td>Lost or stolen device</td><td class="num">$300 fleet loss fee</td><td>ends that device's lease</td></tr>
+            <tr><td>Prepaid term</td><td class="num">10% off the tier's total</td><td>optional, at signing</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <!-- PA-2 · Managed Fleet -->
-  <section class="sec" id="managed-fleet">
-    <div class="wrap">
-      <div class="head head--split">
-        <div>
-          <span class="eyebrow head__eyebrow">PA-2 &middot; Managed Fleet</span>
-          <h2>Managed Fleet &mdash; from $5.60 a week per device.</h2>
-        </div>
-        <div class="head__body">
-          <p class="lede">$622 upfront per device, then from $5.60 a week per device &mdash; that is the care: repairs, call-outs and the loaner swap, plus fleet administration spread across your weekly payments ($27.50 per device for the whole term, capped at $110 per plan). 24 months.</p>
-          <p class="lede" style="margin-top:var(--space-4)">Repairs included: 2 service events per quarter, plus 1 extra per quarter for every 4 devices on the plan, $0 each. Past the cap? $60 flat per extra repair. First 2 call-outs free every 12 months, then $19 within 20 km. Can't fix it same day? A loaner goes out the same visit. MDM-managed and PPSR-registered. The phone stays Repeater's property &mdash; you never own it. Pay in full and it is 10% off your tier's total.</p>
-          <div class="btn-row" style="margin-top:var(--space-5)">
-            <a class="btn btn--line" href="/pricing">See the PA-2 stepper and tier table</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PA-8 · Fleet Connect -->
-  <section class="sec sec--tight" id="fleet-connect">
-    <div class="wrap">
-      <article class="card card--sunken" style="max-width:52ch">
-        <span class="card__num">PA-8 &middot; Coming soon</span>
-        <h3>Fleet Connect</h3>
-        <p>Device + Care + SIM. One plan, one weekly fee. Coming soon.</p>
-      </article>
-      <p class="sm faint" style="margin-top:var(--space-5);max-width:62ch">A solo tradie with one handset is steered to a Five Star Repairs walk-in repair &mdash; there is no one-device phone plan.</p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
   <section class="sec sec--sunken">
     <div class="wrap wrap--narrow">
       <div class="head">
@@ -250,7 +255,7 @@
       <div class="faq">
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">What does a phone plan cost?</button>
-          <div class="faq__a"><div><p>Fleet Phones is $622 all-in per device on signing &mdash; $572 device, $50 establishment and the $27.50 fleet-administration fee, which is capped at $110 per plan. Managed Fleet is $622 per device plus from $5.60 a week per device for the care. All amounts include GST.</p></div></div>
+          <div class="faq__a"><div><p>Fleet Phones is $622 all-in per device on signing &mdash; $572 device, $50 establishment and $27.50 fleet administration, capped at $110 per plan. Managed Fleet is $622 per device, then from $5.60 a week per device for the care. All amounts include GST.</p></div></div>
         </div>
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">Is care included on Fleet Phones?</button>
@@ -282,7 +287,7 @@
       <p>Fleet Phones or Managed Fleet, with every cap and fee on the page.</p>
     </div>
     <div class="btn-row">
-      <a class="btn btn--solid" href="/pricing">See all pricing</a>
+      <a class="btn btn--solid" href="/contact">Book a call</a>
     </div>
   </div>
 </section>

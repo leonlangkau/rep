@@ -355,5 +355,32 @@ check("no single CTA headline is inherited by more than 3 pages",
 check(`the CTA makes a distinct pitch on most pages (${ctaHeadlines.size} headlines)`,
   ctaHeadlines.size >= Math.ceil(pages.length / 2));
 
+/* ---------------- voice rules (VOICE.md) ---------------- */
+
+// The wording constitution is enforced, not just written down. Two rules are
+// mechanical enough to pin: the banned hype vocabulary, and the ban on
+// exclamation marks. Both are checked against the COPY only — comments name the
+// rules, scripts carry syntax, and neither is the page speaking to a reader.
+console.log("\n--- voice rules ---");
+const BANNED_WORDS =
+  /unlock|unleash|elevate|seamless|effortless|empower|delight|revolutionary|game-changer|cutting-edge|supercharge|world-class|best-in-class|next-level/i;
+
+for (const p of pages) {
+  const html = readFileSync(p, "utf8");
+  const label = rel(p);
+  const copy = html
+    .replace(/<!DOCTYPE[^>]*>/i, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "");
+
+  const bw = BANNED_WORDS.exec(copy);
+  check(`${label}: no banned hype word${bw ? " (found: " + bw[0] + ")" : ""}`, !bw);
+
+  const ex = copy.indexOf("!");
+  check(`${label}: no exclamation marks in the copy`, ex === -1);
+  if (ex !== -1) console.log("     near: " + copy.slice(Math.max(0, ex - 30), ex + 30).replace(/\s+/g, " "));
+}
+
 console.log(failures ? `\n${failures} FAILED` : `\nall chrome assertions passed across ${pages.length} page(s)`);
 process.exit(failures ? 1 : 0);

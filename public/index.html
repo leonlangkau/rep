@@ -67,7 +67,7 @@
             "name": "What does Repeater actually sell?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Three things. Fleet phones for tradies with repairs included, AI call answering, and the Repair Shop OS for repair shops. Trade supply of parts is the depth behind them, not the whole business."
+              "text": "Three products, sold separately. Fleet phones for tradies, with the repairs handled on Managed Fleet. AI call answering. And the Repair Shop OS for repair shops. Trade supply of parts runs behind them, not in front."
             }
           },
           {
@@ -75,7 +75,7 @@
             "name": "Who are the fleet phones for?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Tradespeople and small contractors — electricians, plumbers, builders, sparkies. Small fleets, a couple of handsets up to about ten, with repairs bundled in because the phones get destroyed on site."
+              "text": "Tradespeople and small contractors — electricians, plumbers, builders. Small fleets, from two handsets up to about ten, with repairs included on Managed Fleet because the phones get destroyed on site."
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "Is the AI call answering only for tradies?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "It was built around a tradie who can't stop to answer, but any business where a missed call is a lost job can use it, so it isn't trades-only."
+              "text": "No. It was built around a tradie who cannot stop to answer, but any business where a missed call is a lost job can use it."
             }
           },
           {
@@ -172,52 +172,96 @@
 
 <main id="main">
 
-  <!-- 1. Hero -->
-  <section class="hero">
-    <div class="wrap hero__in">
-      <div class="hero__copy">
-        <span class="eyebrow hero__eyebrow">Fleet phones &middot; AI call answering &middot; Repair Shop OS</span>
+  <!-- 1. The shop hero: the three products ARE the hero. The copy shrinks to
+       an eyebrow, one headline and one lede; the cards carry the price, the
+       features and one call to action each. Nothing here could be wrong. -->
+  <section class="hero hero--shop">
+    <div class="wrap">
+      <div class="hero__head">
+        <span class="eyebrow">Repeater &middot; Melbourne</span>
         <h1 class="display">Phones, calls and the shop behind them.</h1>
-        <p class="lede hero__lede">Repeater keeps Australian trades and repair shops running: a small fleet of phones with <b>repairs included</b>, an AI that answers the calls you can't, and the <b>Repair Shop OS</b> that runs the business behind it.</p>
-        <div class="btn-row">
-          <a class="btn btn--accent" href="/phones">See the fleet phones</a>
-          <a class="btn btn--line" href="/contact">Book a call</a>
-        </div>
-        <div class="hero__trust">
-          <span><b>Fleet phones</b> for tradies</span>
-          <span class="dot"></span>
-          <span><b>AI call answering</b></span>
-          <span class="dot"></span>
-          <span><b>Repair Shop OS</b> from $49/mo</span>
-        </div>
+        <p class="lede">Three products, sold separately and priced on the page: the phones your crew can't kill, the AI that answers when nobody can, and the operating system that runs the shop behind both.</p>
       </div>
 
-      <!-- The plate is drawn in HTML and CSS rather than photographed, and it
-           lists the three products plus the trade-supply depth under them.
-           There is nothing here that could be wrong. -->
-      <div class="hero__plate rv">
-        <div class="show__plate">
-          <div class="show__bar">
-            <span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span>
-            <span class="show__title">The whole business</span>
-          </div>
-          <div class="show__tiles">
-            <div class="show__tile"><b>2&ndash;10</b><span>handsets</span></div>
-            <div class="show__tile"><b>24/7</b><span>calls answered</span></div>
-            <div class="show__tile"><b>$49</b><span>OS from /mo</span></div>
-          </div>
-          <div class="show__rows">
-            <div class="show__row"><span>Fleet phones</span><i>repairs included</i><span class="show__tag">tradies</span></div>
-            <div class="show__row"><span>AI call answering</span><i>answers &amp; books</i><span class="show__tag">24/7</span></div>
-            <div class="show__row"><span>Repair Shop OS</span><i>bookings to books</i><span class="show__tag">shops</span></div>
-            <div class="show__row"><span>Trade supply</span><i>parts on trade terms</i><span class="show__tag">depth</span></div>
-          </div>
+      <div class="grid products">
+        <article class="card product">
+          <span class="product__kind">For tradies</span>
+          <h2 class="product__name">Fleet phones</h2>
+          <p class="product__price"><b>$622</b><span>all-in per device, 24-month term</span></p>
+          <ul class="product__feats">
+            <li>Two to ten handsets per crew</li>
+            <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+            <li>MDM-managed and PPSR-registered</li>
+          </ul>
+          <a class="btn btn--accent btn--block" href="/phones">See the phones</a>
+          <p class="product__alt">Repairs included on Managed Fleet, from $5.60 a week per device</p>
+        </article>
+
+        <article class="card product">
+          <span class="product__kind">For anyone whose calls are work</span>
+          <h2 class="product__name">AI call answering</h2>
+          <p class="product__price"><b>Quoted</b><span>to your call volume and setup</span></p>
+          <ul class="product__feats">
+            <li>Answers every call, in your business's name, 24/7</li>
+            <li><b>Takes bookings</b> straight into the diary</li>
+            <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+          </ul>
+          <a class="btn btn--accent btn--block" href="/ai#demo-call">Hear it live</a>
+          <p class="product__alt">The walkthrough call is the demo &mdash; no signup</p>
+        </article>
+
+        <article class="card product">
+          <span class="product__kind">For repair shops</span>
+          <h2 class="product__name">Repair Shop OS</h2>
+          <p class="product__price"><b>$49</b><span>from, per month, AUD GST-excl.</span></p>
+          <ul class="product__feats">
+            <li>Bookings, workshop, inventory and the books in one panel</li>
+            <li>B2B wholesale and marketing, wired in</li>
+            <li>Free trial, no card to start</li>
+          </ul>
+          <a class="btn btn--accent btn--block" href="/shop-os">See the OS</a>
+          <p class="product__alt">Starter from $49 &middot; Business from $149 &middot; Enterprise from $399</p>
+        </article>
+      </div>
+
+      <p class="products__note sm">Trade supply of parts &mdash; screens, batteries and boards, on trade terms &mdash; runs behind all three. <a class="nowrap" href="/wholesale">How trade accounts work &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- 2. How it works -->
+  <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">How it works</span>
+          <h2>One call works out which one you need.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Tradies and repair shops are different buyers, so they are different products. Tell us what you run and we set up the one that is yours.</p>
+        </div>
+      </div>
+      <div class="steps steps--4">
+        <div class="step">
+          <h3>You tell us the business</h3>
+          <p>What you run, how the calls come in, where the jobs go. One conversation, on the phone or in the form.</p>
+        </div>
+        <div class="step">
+          <h3>We set it up</h3>
+          <p>The number, the wording, the fleet. The AI answers as your business, under your rules.</p>
+        </div>
+        <div class="step">
+          <h3>It goes to work</h3>
+          <p>Calls answered, bookings captured, handsets surviving the job. The first week is where you judge us.</p>
+        </div>
+        <div class="step">
+          <h3>You see everything</h3>
+          <p>Every call and every job in the OS, priced on the page from day one. You keep the details, we keep it running.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. Client logos — filled from /api/proof; the whole band is removed when
+  <!-- 3. Client logos — filled from /api/proof; the whole band is removed when
        the owner has published none. Nothing is borrowed or invented. -->
   <section class="sec sec--tight" id="clients" hidden>
     <div class="wrap">
@@ -228,89 +272,7 @@
     </div>
   </section>
 
-  <!-- 3. The three products -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="head head--split">
-        <div>
-          <span class="eyebrow head__eyebrow">Three products</span>
-          <h2>One call works out which one you need.</h2>
-        </div>
-        <div class="head__body">
-          <p class="lede">Trades need phones that survive and calls that get answered. Repair shops need software that runs the shop. They're different buyers, so they're different products &mdash; and a 90-second conversation sorts out which is yours.</p>
-        </div>
-      </div>
-      <div class="grid grid--3">
-        <article class="card rv">
-          <span class="card__num">01 &middot; For tradies</span>
-          <h3>Fleet phones, repairs included</h3>
-          <p>A small fleet &mdash; a couple of handsets up to about ten &mdash; for electricians, plumbers and builders. When a phone dies on site, fixing it is part of the deal, not a surprise bill.</p>
-          <p style="margin-top:var(--space-5)"><a class="btn btn--line btn--sm" href="/phones">See the phones</a></p>
-        </article>
-        <article class="card rv" style="--d:80ms">
-          <span class="card__num">02 &middot; For tradies, and anyone else</span>
-          <h3>AI call answering</h3>
-          <p>It answers your calls, takes bookings and answers questions &mdash; so the call you couldn't pick up isn't a lost job. Built for tradies; not limited to them.</p>
-          <p style="margin-top:var(--space-5)"><a class="btn btn--line btn--sm" href="/ai">See the AI</a></p>
-        </article>
-        <article class="card rv" style="--d:160ms">
-          <span class="card__num">03 &middot; For repair shops</span>
-          <h3>Repair Shop OS, by Repeater</h3>
-          <p>Bookings, workshop, inventory, accounting, marketing, B2B wholesale and wealth in one panel. From $49/mo, free trial, no card to start.</p>
-          <p style="margin-top:var(--space-5)"><a class="btn btn--line btn--sm" href="/shop-os">See the OS</a></p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Who it's for -->
-  <section class="sec sec--sunken">
-    <div class="wrap case">
-      <div class="rv">
-        <span class="eyebrow" style="display:block;margin-bottom:var(--space-5)">Who it's for</span>
-        <h2 style="margin-bottom:var(--space-5)">Two buyers, three products.</h2>
-        <p class="lede" style="margin-bottom:var(--space-6)">Tradies get the phones and the AI. Repair shops get the OS &mdash; and, if they buy parts from us, the trade supply behind it. Nothing here is a bundle you're forced into.</p>
-        <div class="btn-row">
-          <a class="btn btn--line" href="/contact">Book a call</a>
-        </div>
-      </div>
-      <div class="rv" style="--d:80ms">
-        <div class="show__plate">
-          <div class="show__bar">
-            <span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span>
-            <span class="show__title">Which one are you?</span>
-          </div>
-          <div class="show__rows">
-            <div class="show__row"><span>Electrician, plumber, builder</span><i>phones + AI</i><span class="show__tag">tradies</span></div>
-            <div class="show__row"><span>Repair shop</span><i>Repair Shop OS</i><span class="show__tag">shops</span></div>
-            <div class="show__row"><span>Repair shop buying parts</span><i>trade account</i><span class="show__tag">supply</span></div>
-            <div class="show__row"><span>Something else</span><i>ask us</i><span class="show__tag">90 seconds</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Trade supply, demoted -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="head head--split">
-        <div>
-          <span class="eyebrow head__eyebrow">We also supply parts</span>
-          <h2>Trade supply, for repair businesses.</h2>
-        </div>
-        <div class="head__body">
-          <p class="lede">Screens, batteries, boards and consumables on trade terms &mdash; quantity breaks, GST-exclusive pricing and one account for the whole order. If you run a repair business, this is the depth behind the OS.</p>
-        </div>
-      </div>
-      <div class="btn-row">
-        <a class="btn btn--line" href="/catalogue">See what we supply</a>
-        <a class="btn btn--line" href="/wholesale">How trade accounts work</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Service-level bars — owner-published figures only. Hidden by default. -->
+  <!-- 4. Service-level bars — owner-published figures only. Hidden by default. -->
   <section class="sec sec--sunken" id="service-levels" hidden>
     <div class="wrap">
       <div class="head">
@@ -321,7 +283,7 @@
     </div>
   </section>
 
-  <!-- 7. Figures — owner-published only. Hidden by default. -->
+  <!-- 5. Figures — owner-published only. Hidden by default. -->
   <section class="sec" id="figures" hidden>
     <div class="wrap">
       <div class="head">
@@ -332,7 +294,7 @@
     </div>
   </section>
 
-  <!-- 8. References — quotes from /api/proof. Hidden by default. -->
+  <!-- 6. References — quotes from /api/proof. Hidden by default. -->
   <section class="sec sec--sunken" id="references" hidden>
     <div class="wrap">
       <div class="head">
@@ -343,7 +305,7 @@
     </div>
   </section>
 
-  <!-- 9. FAQ -->
+  <!-- 7. FAQ -->
   <section class="sec">
     <div class="wrap wrap--narrow">
       <div class="head">
@@ -353,11 +315,11 @@
       <div class="faq">
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">What does Repeater actually sell?</button>
-          <div class="faq__a"><div><p>Three things. Fleet phones for tradies with repairs included, AI call answering, and the Repair Shop OS for repair shops. Trade supply of parts is the depth behind them, not the whole business.</p></div></div>
+          <div class="faq__a"><div><p>Three products, sold separately. Fleet phones for tradies, with the repairs handled on Managed Fleet. AI call answering. And the Repair Shop OS for repair shops. Trade supply of parts runs behind them, not in front.</p></div></div>
         </div>
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">Who are the fleet phones for?</button>
-          <div class="faq__a"><div><p>Tradespeople and small contractors &mdash; electricians, plumbers, builders, sparkies. Small fleets, a couple of handsets up to about ten, with repairs bundled in because the phones get destroyed on site.</p></div></div>
+          <div class="faq__a"><div><p>Tradespeople and small contractors &mdash; electricians, plumbers, builders. Small fleets, from two handsets up to about ten, with repairs included on Managed Fleet because the phones get destroyed on site.</p></div></div>
         </div>
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">Do I need one product to get another?</button>
@@ -365,7 +327,7 @@
         </div>
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">Is the AI call answering only for tradies?</button>
-          <div class="faq__a"><div><p>It was built around a tradie who can't stop to answer, but any business where a missed call is a lost job can use it, so it isn't trades-only.</p></div></div>
+          <div class="faq__a"><div><p>No. It was built around a tradie who can't stop to answer, but any business where a missed call is a lost job can use it.</p></div></div>
         </div>
         <div class="faq__item">
           <button class="faq__q" type="button" aria-expanded="false">How much is the Repair Shop OS?</button>
@@ -375,7 +337,7 @@
     </div>
   </section>
 
-  <!-- 10. From the workshop — real posts only. Hidden until one is published. -->
+  <!-- 8. From the workshop — real posts only. Hidden until one is published. -->
   <section class="sec sec--sunken" id="posts" hidden>
     <div class="wrap">
       <div class="head head--split">

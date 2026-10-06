@@ -864,6 +864,116 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 .themer__reset:hover { border-color: var(--fg); color: var(--fg); }
 .themer__note { margin-top: var(--space-4); font-size: 0.75rem; line-height: 1.45; color: var(--fg-3); }
 
+/* ---------------- Shop: product cards (home hero) ----------------
+   The shop feel comes from PRICES — big, tabular, honest — and from cards
+   that read like products, not from new colour or new motion. */
+.hero--shop { padding: clamp(40px, 6vw, 72px) 0 var(--section); }
+.hero--shop .hero__head { max-width: 640px; margin: 0 auto var(--space-12); text-align: center; }
+.hero--shop .hero__head .eyebrow { display: block; margin-bottom: var(--space-5); }
+.hero--shop .hero__head h1 { margin: 0 auto var(--space-5); }
+.hero--shop .hero__head .lede { margin: 0 auto; }
+
+.products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); align-items: stretch; }
+
+.product {
+  display: flex; flex-direction: column;
+  padding: var(--space-8);
+}
+.product__kind {
+  display: block; margin-bottom: var(--space-4);
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3);
+}
+.product__name {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  font-weight: 600; letter-spacing: -0.025em; line-height: 1.15;
+  margin-bottom: var(--space-4);
+}
+.product__price {
+  display: flex; align-items: baseline; gap: var(--space-2);
+  padding-bottom: var(--space-5); margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line-2);
+}
+.product__price b {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2rem, 3.6vw, 2.75rem); line-height: 1;
+}
+.product__price span { font-size: 0.875rem; color: var(--fg-2); line-height: 1.35; }
+.product__feats { display: grid; gap: var(--space-3); margin-bottom: var(--space-8); }
+.product__feats li {
+  position: relative; padding-left: var(--space-4);
+  font-size: 0.9375rem; color: var(--fg-2);
+}
+.product__feats li::before {
+  content: ""; position: absolute; left: 0; top: 0.55em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+}
+.product__feats li b { color: var(--fg); font-weight: 500; }
+.product .btn { margin-top: auto; }
+.product__alt { margin-top: var(--space-3); font-size: 0.8125rem; color: var(--fg-3); text-align: center; }
+.products__note { margin-top: var(--space-8); text-align: center; color: var(--fg-3); }
+
+/* ---------------- Shop: plan cards (fleet phones) ----------------
+   Two plans, side by side, each with the day-one number as the headline and
+   every cap in a scannable list. Fine print sits under each card, not in prose. */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); align-items: stretch; }
+
+.plan { display: flex; flex-direction: column; padding: var(--space-8); }
+.plan--pick { border-color: var(--accent-strong); box-shadow: var(--shadow-md); }
+.plan__kind {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3);
+}
+.plan__flag {
+  font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.08em;
+  padding: 3px 9px; border-radius: var(--r-pill);
+  background: var(--accent-soft); color: var(--accent-strong);
+}
+.plan__name {
+  font-family: var(--font-display); font-size: 1.375rem; font-weight: 600;
+  letter-spacing: -0.02em; margin-bottom: var(--space-2);
+}
+.plan__one { font-size: 0.9375rem; color: var(--fg-2); margin-bottom: var(--space-5); }
+.plan__price {
+  display: flex; align-items: baseline; gap: var(--space-2);
+  padding-bottom: var(--space-5); margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line-2);
+}
+.plan__price b {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2.25rem, 4vw, 3rem); line-height: 1;
+}
+.plan__price span { font-size: 0.875rem; color: var(--fg-2); line-height: 1.35; }
+.plan__feats { display: grid; gap: 0; margin-bottom: var(--space-6); }
+.plan__feats li {
+  position: relative; padding: var(--space-3) 0 var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line-2);
+  font-size: 0.9375rem; color: var(--fg-2);
+}
+.plan__feats li:last-child { border-bottom: 0; }
+.plan__feats li::before {
+  content: ""; position: absolute; left: 0; top: 1.05em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+}
+.plan__feats li b { color: var(--fg); font-weight: 500; }
+.plan__fine { font-size: 0.8125rem; color: var(--fg-3); margin-top: auto; padding-top: var(--space-4); }
+.plan .btn { margin-top: var(--space-6); }
+
+.planstrip {
+  margin-top: var(--space-6);
+  border: 1px dashed var(--line-strong); border-radius: var(--r-md);
+  padding: var(--space-5) var(--space-8);
+  display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center;
+  justify-content: space-between; color: var(--fg-3);
+}
+.planstrip b { font-weight: 600; color: var(--fg-2); }
+
 /* ---------------- Responsive ---------------- */
 
 @media (max-width: 1199px) {
@@ -879,6 +989,7 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 
 @media (max-width: 809px) {
   :root { --nav-h: 64px; }
+  .products, .plans,
   .grid--2, .grid--3, .grid--4, .grid--6, .grid--split,
   .steps--3, .steps--4, .tiers, .posts, .case, .proof-grid, .proof-grid--3,
   .proof-figures, .qform__row { grid-template-columns: minmax(0, 1fr); }

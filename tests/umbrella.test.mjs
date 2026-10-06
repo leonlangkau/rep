@@ -104,20 +104,18 @@ const home = read("public/index.html");
 check("the hero names all three products",
   /Fleet phones/.test(home) && /AI call answering/.test(home) && /Repair Shop OS/.test(home));
 
-// Order matters: phones, then AI calls, then Repair Shop OS, everywhere the
-// three appear in sequence. Find the first occurrence of each in the hero copy.
+// Order matters: phones, then AI calls, then Repair Shop OS. In the shop hero
+// the three products ARE the cards, so their titles are the pinned sequence.
 {
-  const hero = /<h1 class="display">([\s\S]*?)<\/h1>[\s\S]*?<div class="hero__trust">([\s\S]*?)<\/div>/.exec(home);
-  const hay = hero ? hero[1] + " " + hero[2] : home;
-  const iP = hay.indexOf("Fleet phones");
-  const iA = hay.indexOf("AI call answering");
-  const iO = hay.indexOf("Repair Shop OS");
-  check("the three products appear in the fixed order (phones, AI, OS)",
-    iP > -1 && iA > -1 && iO > -1 && iP < iA && iA < iO);
+  const names = [...home.matchAll(/<h2 class="product__name">([^<]+)<\/h2>/g)]
+    .map((m) => m[1].trim());
+  check("the hero's three product cards are phones, AI, OS in that order",
+    names.length === 3 && names[0] === "Fleet phones" &&
+    names[1] === "AI call answering" && names[2] === "Repair Shop OS");
 }
 
-check("the trade-supply pages are framed as depth, not as what Repeater is",
-  /We also supply parts/.test(home) && /depth behind the OS/.test(home));
+check("trade supply is framed as depth behind the three products, not as what Repeater is",
+  /Trade supply of parts/.test(home) && /runs behind all three/.test(home));
 
 check("the old parts-counter hero is gone",
   !/Stock the counter/.test(home));

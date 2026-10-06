@@ -169,7 +169,7 @@
         <h1 class="display">Never miss the next job.</h1>
         <p class="lede hero__lede">You're on a roof with one hand free and the phone is ringing. The AI answers it, takes the booking and answers the questions &mdash; so the call that would have gone to voicemail becomes work.</p>
         <div class="btn-row">
-          <a class="btn btn--accent" href="/contact">Book a call</a>
+          <a class="btn btn--accent" href="#demo-call">Hear it &mdash; he'll call you</a>
           <a class="btn btn--line" href="/phones">The phones it runs on</a>
         </div>
         <div class="hero__trust">
@@ -196,8 +196,6 @@
             <div class="show__row"><span>Answers calls</span><i>as your business</i><span class="show__tag">always on</span></div>
             <div class="show__row"><span>Takes bookings</span><i>straight to the diary</i><span class="show__tag">no callback</span></div>
             <div class="show__row"><span>Answers questions</span><i>price, hours, area</i><span class="show__tag">your wording</span></div>
-            <div class="show__row"><span>Monthly price</span><i data-fact="AI_PRICE"><span class="placeholder">[owner to confirm]</span></i><span class="show__tag">quoted</span></div>
-            <div class="show__row"><span>Trial</span><i data-fact="AI_TRIAL"><span class="placeholder">[owner to confirm]</span></i><span class="show__tag">if any</span></div>
           </div>
         </div>
       </div>
@@ -229,44 +227,15 @@
         <article class="card rv" style="--d:160ms">
           <span class="card__num">03</span>
           <h3>Answers questions</h3>
-          <p>The usual ones: what it costs, whether you cover their suburb, how soon you can get there. Answered with the wording you set.</p>
+          <p>The usual ones: what it costs, whether you get to their suburb, how soon you can be there. Answered with the wording you set.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="sec">
-    <div class="wrap">
-      <div class="head head--split">
-        <div>
-          <span class="eyebrow head__eyebrow">Who it's for</span>
-          <h2>Built for tradies. Not only tradies.</h2>
-        </div>
-        <div class="head__body">
-          <p class="lede">The problem it was built around is a tradie who can't stop to answer. But a missed call is a lost job for plenty of other businesses too &mdash; a salon, a courier, a one-person consultancy &mdash; so nothing here is trades-only.</p>
-        </div>
-      </div>
-      <div class="grid grid--2">
-        <div class="rv">
-          <h3 style="margin-bottom:var(--space-3)">The tradie case</h3>
-          <p class="muted">Up a ladder, under a floor, on the tools. The phone is in a pocket, not in a hand, and the caller books with whoever answers.</p>
-        </div>
-        <div class="rv" style="--d:80ms">
-          <h3 style="margin-bottom:var(--space-3)">The same problem elsewhere</h3>
-          <p class="muted">Any small business with one person doing the work and the phones. If a missed call means a lost customer, the same fix applies.</p>
-        </div>
-        <div class="rv" style="--d:160ms">
-          <h3 style="margin-bottom:var(--space-3)">It works with the fleet</h3>
-          <p class="muted">The AI and the fleet phones are two halves of the same thing: a number that gets answered, on a handset that survives the job.</p>
-        </div>
-        <div class="rv" style="--d:240ms">
-          <h3 style="margin-bottom:var(--space-3)">Set up with your wording</h3>
-          <p class="muted">How it greets callers and what it says is configured with you, so it sounds like your business rather than a script.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- The numpad is the live demo: type a number, Jarvis rings you back. The
+       markup, the data-numpad* attributes and the /api/ai-demo-call contract
+       are shipped and tested — change the words, never the wiring. -->
   <section class="sec" id="demo-call">
     <div class="wrap wrap--narrow">
       <div class="head head--center">
@@ -298,6 +267,38 @@
   </section>
 
   <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Who it's for</span>
+          <h2>Built for tradies. Not only tradies.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">The problem it was built around is a tradie who can't stop to answer. But a missed call is a lost job for plenty of other businesses too &mdash; a salon, a courier, a one-person consultancy &mdash; so nothing here is trades-only.</p>
+        </div>
+      </div>
+      <div class="grid grid--2">
+        <div class="rv">
+          <h3 style="margin-bottom:var(--space-3)">The tradie case</h3>
+          <p class="muted">Up a ladder, under a floor, on the tools. The phone is in a pocket, not in a hand, and the caller books with whoever answers.</p>
+        </div>
+        <div class="rv" style="--d:80ms">
+          <h3 style="margin-bottom:var(--space-3)">The same problem elsewhere</h3>
+          <p class="muted">Any small business with one person doing the work and the phones. If a missed call means a lost customer, the same fix applies.</p>
+        </div>
+        <div class="rv" style="--d:160ms">
+          <h3 style="margin-bottom:var(--space-3)">It works with the fleet</h3>
+          <p class="muted">The AI and the fleet phones are two halves of the same thing: a number that gets answered, on a handset that survives the job.</p>
+        </div>
+        <div class="rv" style="--d:240ms">
+          <h3 style="margin-bottom:var(--space-3)">Set up with your wording</h3>
+          <p class="muted">How it greets callers and what it says is configured with you, so it sounds like your business rather than a script.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
     <div class="wrap wrap--narrow">
       <div class="head">
         <span class="eyebrow head__eyebrow">Questions</span>
@@ -330,8 +331,8 @@
   <div class="wrap cta__in">
     <div>
       <span class="eyebrow">AI calls</span>
-      <h2>Your next missed call is a lost job.</h2>
-      <p>Tell us how many calls you get and what you do, and we'll show you what it sounds like for you.</p>
+      <h2>The call you can't take is the job you lose.</h2>
+      <p>Tell us how many calls you get and what you do, and we'll show you what it sounds like for your business.</p>
     </div>
     <div class="btn-row">
       <a class="btn btn--solid" href="/contact">Book a call</a>
