@@ -136,12 +136,23 @@ export async function onRequestPost(context) {
     // the lead log must never break the caller-facing answer
   }
 
-  if (!token) {
-    return json({ ok: false, error: "not_configured" }, 503);
-  }
   if (status !== "dialled") {
-    // The dial went out but nobody picked up (or the trigger failed after
-    // the guards). Not a site error — the lead is logged either way.
+    // The dial went out but nobody picked up — or the trigger itself failed.
+    // Refund the per-number allowance: the phone never rang, so the caller
+    // hasn't consumed anything. The IP and global caps keep their counts, so
+    // an abuser still burns out after 5 requests per IP per day; only the
+    // legitimate retry path is freed.
+    try {
+      await (env.DB_APHELION || env.DB)
+        .prepare("DELETE FROM rate_limits WHERE key = ?")
+        .bind("aicall:num:" + numHash)
+        .run();
+    } catch {
+      // a failed refund only re-tightens the cap; never block the response
+    }
+    if (!token) {
+      return json({ ok: false, error: "not_configured" }, 503);
+    }
     return json({ ok: true, calling: true, answered: false, note: note });
   }
   return json({ ok: true, calling: true, answered: true });

@@ -136,6 +136,26 @@ r = await J(mod.onRequest({
 check("dialled but unanswered -> 200 answered:false, not an error",
   r.status === 200 && r.body.ok === true && r.body.answered === false);
 
+// An unanswered attempt refunds the per-number allowance: the caller's phone
+// never rang, so a retry the next minute must still be allowed. Answered
+// calls keep their count (that is what the 429 case below pins).
+const envRefund = envWith();
+r = await J(mod.onRequest({ request: jsonReq({ number: "0412000444" }), env: envRefund }));
+check("no-answer attempt 1 allowed", r.status === 200 && r.body.answered === false);
+r = await J(mod.onRequest({ request: jsonReq({ number: "0412000444" }), env: envRefund }));
+check("no-answer attempt 2 allowed (refund frees the number cap)",
+  r.status === 200 && r.body.answered === false);
+stubFetch({ status: "answered", detail: "call connected" });
+r = await J(mod.onRequest({ request: jsonReq({ number: "0412000444" }), env: envRefund }));
+check("answered attempt after refunds is allowed", r.status === 200 && r.body.answered === true);
+r = await J(mod.onRequest({ request: jsonReq({ number: "0412000444" }), env: envRefund }));
+check("second ANSWERED call for the number is allowed (cap 2)",
+  r.status === 200 && r.body.answered === true);
+stubFetch({ status: "timeout", detail: "no originate reply (callee did not answer in time)" });
+r = await J(mod.onRequest({ request: jsonReq({ number: "0412000444" }), env: envRefund }));
+check("third call for the number -> 429 (two answered consumed the cap)",
+  r.status === 429 && r.body.scope === "number");
+
 // Upstream auth rejection surfaces as not_configured, never as a silent 500.
 globalThis.fetch = async () => ({ ok: false, status: 401, json: async () => ({ detail: "Unauthorized" }) });
 r = await J(mod.onRequest({
