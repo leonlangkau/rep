@@ -27,7 +27,7 @@
 
 import { clientIp, rateLimit } from "./_ratelimit.js";
 
-const VPS_CALL_URL = "http://85.155.189.216:8000/call";
+const VPS_CALL_URL = "https://calls.repeater.com.au/call";
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {

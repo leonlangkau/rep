@@ -120,7 +120,7 @@ check("answered -> 200 {ok:true, calling:true, answered:true}",
   r.status === 200 && r.body.ok === true && r.body.calling === true && r.body.answered === true);
 check("the trigger hit the VPS with the token and the tour mode",
   upstreamCalls.length === 1 &&
-  upstreamCalls[0].url === "http://85.155.189.216:8000/call" &&
+  upstreamCalls[0].url === "https://calls.repeater.com.au/call" &&
   upstreamCalls[0].opts.headers["x-jarvis-token"] === "test-token" &&
   JSON.parse(upstreamCalls[0].opts.body).mode === "tour" &&
   JSON.parse(upstreamCalls[0].opts.body).mobile === "+61412345678");
