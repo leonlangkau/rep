@@ -68,3 +68,24 @@ register; use the OpenAI Realtime bridge; Ripple voice.
   (audio $32/$64 per M tokens; mini $10/$20; full MCP).
 - Leo's spare OpenAI key: OPENAI_API_KEY_SPARE in /opt/hermes-voice/.env
   (past in chat — rotate before real traffic matters).
+
+## Update Oct 7 — tours are REALTIME now (the beep is gone for good)
+
+- GPT-Live outbound (org flag) → 403 outbound_sip_not_enabled; parked as mode=tour_live.
+- **The realtime bridge WORKS without the org flag**: Asterisk INVITEs
+  `sip:proj_...@sip.api.openai.com:5061;transport=tls` directly (self-serve
+  inbound per docs), SDES-SRTP. Two hard bugs found and fixed on the way:
+  1. OpenAI refuses DTLS-SRTP offers (answers plain, no handshake, faint
+     static/nothing) — `media_encryption=sdes` fixed it; audio verified
+     flowing from Azure media hosts.
+  2. SIP tag digits forged a fake AU number ("0876920545") out of the To
+     header — webhook now parses addresses from inside `<...>` only
+     (addressOf); also closed an allowlist-spoofing hole.
+- Tour persona accepts gpt-realtime-2.1-mini + ash (mode=tour marker = the
+  Repeater DID as From with a non-AU To). Sideband greets instantly. Live
+  arrivals would get gpt-live-1 + ripple ($0.05/min) when that path exists.
+- Production verified end-to-end through the real numpad path: POST
+  /api/ai-demo-call → answered, voice_calls persona=tour api=realtime.
+- The AGI-loop beep is removed too (RECORD FILE no longer takes the beep arg).
+- FSR suites: 119 voice checks green. Asterisk image rebuilt with the OpenAI
+  TLS/SDES endpoint; sipguard.sh gained an OpenAI-media ACCEPT (RTP range).
