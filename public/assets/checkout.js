@@ -1,5 +1,5 @@
 /**
- * Repair Shop OS checkout — plan summary, the payment handover, and the return
+ * Repair Shop OS checkout, plan summary, the payment handover, and the return
  * state.
  *
  * PAYMENT HONESTY. This page must never claim a payment happened when it did
@@ -7,7 +7,7 @@
  *
  *   - It never prints "order confirmed" or "payment successful" from a browser
  *     state. The only success wording it can reach is "active", and only after
- *     the SERVER reports it through /api/shop-os/subscribe?ref=… — the webhook
+ *     the SERVER reports it through /api/shop-os/subscribe?ref=…, the webhook
  *     is what settles a payment, and the browser never decides that.
  *   - The payment action is hidden by DEFAULT and only revealed when the config
  *     probe (/api/shop-os/checkout GET) says the rail is live. A hidden button
@@ -27,9 +27,9 @@
 
   /* The figures are copied from /shop-os/pricing and must not drift. */
   var PLANS = {
-    starter: { name: "Starter", price: "$49", blurb: "One business \u2014 bookings, workshop, inventory and BAS-ready accounting." },
-    business: { name: "Business", price: "$149", blurb: "Up to three businesses \u2014 adds B2B wholesale and marketing." },
-    enterprise: { name: "Enterprise", price: "$399", blurb: "Unlimited businesses \u2014 adds the wealth dashboard and onboarding." }
+    starter: { name: "Starter", price: "$49", blurb: "One business, bookings, workshop, inventory and BAS-ready accounting." },
+    business: { name: "Business", price: "$149", blurb: "Up to three businesses, adds B2B wholesale and marketing." },
+    enterprise: { name: "Enterprise", price: "$399", blurb: "Unlimited businesses, adds the wealth dashboard and onboarding." }
   };
   var DEFAULT_PLAN = "business";
   var POLL_MS = 3000;
@@ -99,7 +99,7 @@
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)) {
-      setStatus(status, "err", "Please add a valid email above first \u2014 it's how the receipt reaches you.");
+      setStatus(status, "err", "Please add a valid email above first, it's how the receipt reaches you.");
       if ($("#email-o")) $("#email-o").focus();
       return;
     }
@@ -119,13 +119,13 @@
       .then(function (j) {
         if (j && j.ok && j.url) { location.href = j.url; return; }
         if (j && j.reason === "not_configured") {
-          setStatus(status, "err", "Card payment isn't switched on yet \u2014 use the form below and we'll set you up.");
+          setStatus(status, "err", "Card payment isn't switched on yet, use the form below and we'll set you up.");
           return;
         }
         setStatus(status, "err", (j && j.error) || "We couldn't start that right now. Please try again, or use the form below.");
       })
       .catch(function () {
-        setStatus(status, "err", "Network problem \u2014 nothing was started. Please try again, or use the form below.");
+        setStatus(status, "err", "Network problem, nothing was started. Please try again, or use the form below.");
       })
       .then(function () { if (button) button.disabled = false; });
   }
@@ -147,7 +147,7 @@
         .then(function (j) {
           var s = j && j.state;
           if (s === "active") {
-            setStatus(state, "ok", "You're set \u2014 Repair Shop OS is active. A receipt is on its way to your inbox.");
+            setStatus(state, "ok", "You're set. Repair Shop OS is active. A receipt is on its way to your inbox.");
             return;
           }
           if (s === "cancelled") {
@@ -163,7 +163,7 @@
         })
         .catch(function () {
           if (tries < POLL_TRIES) setTimeout(tick, POLL_MS);
-          else setStatus(state, "busy", "We couldn't confirm yet. Nothing has been charged \u2014 check back shortly.");
+          else setStatus(state, "busy", "We couldn't confirm yet. Nothing has been charged, check back shortly.");
         });
     }
     tick();
@@ -178,7 +178,7 @@
 
     var status = param("status");
     if (status === "cancelled") {
-      setStatus(state, "busy", "Payment cancelled \u2014 pick up whenever you're ready. Nothing has been charged.");
+      setStatus(state, "busy", "Payment cancelled, pick up whenever you're ready. Nothing has been charged.");
       return true;
     }
     if (status === "return" || param("ref")) {

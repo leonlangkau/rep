@@ -1,26 +1,26 @@
 /*
- * Repeater site stylesheet — the "Trade" theme.
+ * Repeater site stylesheet, the "Trade" theme.
  *
  * One shared shell for every public page. Light-first: white and #f4f4f4
  * surfaces, near-black ink, and a single blue accent inherited from the
  * business registry (#4f8cff). Hairline rules, editorial display type in Jost,
- * and one dark band for the final CTA — the restraint is deliberate.
+ * and one dark band for the final CTA, the restraint is deliberate.
  *
  * Design fusion: BUSINITY (business/agency) supplies the restraint, the
  * hairline rules and the eyebrow -> headline -> lede rhythm. APPNEXT (SaaS)
  * supplies the block structure, the category chips, the attributed stat cards
  * and the dark inner product plate.
  *
- * Deliberately dependency-free and hand-rolled — no build step, no framework.
+ * Deliberately dependency-free and hand-rolled, no build step, no framework.
  * Pages inline only what is unique to them; everything shared lives here.
  * Its :root tokens are the single place to change the palette.
  *
- * CONTRAST (computed, WCAG 2.x — see tests/tokens.test.mjs which recomputes
+ * CONTRAST (computed, WCAG 2.x, see tests/tokens.test.mjs which recomputes
  * every one of these from this file and fails on drift):
  *   --fg           #121212  18.73:1  body copy, headings
  *   --fg-2         #606060   6.29:1  ledes, secondary copy
  *   --fg-3         #767676   4.54:1  captions, table meta
- *   --accent       #4f8cff   3.22:1  DECORATIVE ONLY — fills, >=24px, icons,
+ *   --accent       #4f8cff   3.22:1  DECORATIVE ONLY, fills, >=24px, icons,
  *                                    rings. Never small text on white.
  *   --accent-strong #2f6fe0  4.70:1  links, small accent text, .btn--accent
  *   --ok           #1bab49   3.01:1  fills/icons only; text uses --ok-strong
@@ -32,16 +32,16 @@
 
 /* ---------------- Fonts (self-hosted, no third-party CDN) ---------------- */
 
-/* Inter — latin-ext */
+/* Inter, latin-ext */
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/assets/fonts/inter-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* Inter — latin */
+/* Inter, latin */
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/assets/fonts/inter-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
-/* Jost — latin-ext */
+/* Jost, latin-ext */
 @font-face { font-family: 'Jost'; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/assets/fonts/jost-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* Jost — latin */
+/* Jost, latin */
 @font-face { font-family: 'Jost'; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/assets/fonts/jost-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 /* ---------------- Tokens ---------------- */
@@ -105,7 +105,7 @@
   /* Layout.
      --maxw was 1180px; widened to 1320px so the desktop view fills more of a
      1440 screen (60px gutters rather than 130px). Only ever affects wide
-     viewports — below 1199px the grids collapse and .wrap is simply 100%, so the
+     viewports, below 1199px the grids collapse and .wrap is simply 100%, so the
      phone layout is untouched. --maxw-narrow stays narrow on purpose: it governs
      reading width for the FAQ and article body, which should not stretch just
      because the shell did. */
@@ -865,7 +865,7 @@ h4 { font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.01em; }
 .themer__note { margin-top: var(--space-4); font-size: 0.75rem; line-height: 1.45; color: var(--fg-3); }
 
 /* ---------------- Shop: product cards (home hero) ----------------
-   The shop feel comes from PRICES — big, tabular, honest — and from cards
+   The shop feel comes from PRICES, big, tabular, honest, and from cards
    that read like products, not from new colour or new motion. */
 .hero--shop { padding: clamp(40px, 6vw, 72px) 0 var(--section); }
 .hero--shop .hero__head { max-width: 640px; margin: 0 auto var(--space-12); text-align: center; }

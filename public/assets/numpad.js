@@ -1,4 +1,4 @@
-/* Numpad — the /ai page demo-call widget.
+/* Numpad, the /ai page demo-call widget.
  *
  * A real <form method="post" action="/api/ai-demo-call"> underneath: with JS
  * off the visitor types into the tel input and submits. With JS on the input
@@ -82,7 +82,7 @@
         return;
       }
       okBtn.disabled = true;
-      set_status("Dialling Jarvis now \u2014 keep the phone handy.", "busy");
+      set_status("Dialling Jarvis now, keep the phone handy.", "busy");
       fetch(form.getAttribute("action"), {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -97,19 +97,19 @@
           digits = "";
           render();
           if (b.answered === false) {
-            set_status("The call went out but nobody picked up \u2014 try again, or book a call below.", "err");
+            set_status("The call went out but nobody picked up, try again, or book a call below.", "err");
           } else {
-            set_status("He's calling you now. The walkthrough runs a few minutes \u2014 ask him anything.", "ok");
+            set_status("He's calling you now. The walkthrough runs a few minutes, ask him anything.", "ok");
           }
         } else if (res.code === 429) {
-          set_status("That number has had its calls for today \u2014 try again tomorrow, or book a call below.", "err");
+          set_status("That number has had its calls for today, try again tomorrow, or book a call below.", "err");
         } else if (res.code === 400) {
           set_status("That number doesn't look right. Ten digits, starting 04 or your area code.", "err");
         } else {
-          set_status("The call service is offline right now \u2014 book a call below and we'll ring you.", "err");
+          set_status("The call service is offline right now, book a call below and we'll ring you.", "err");
         }
       }).catch(function () {
-        set_status("The call service is offline right now \u2014 book a call below and we'll ring you.", "err");
+        set_status("The call service is offline right now, book a call below and we'll ring you.", "err");
       }).finally(function () {
         okBtn.disabled = !valid();
       });

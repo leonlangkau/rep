@@ -1,5 +1,5 @@
 /**
- * References renderer — the site's testimonials, figures, service-level bars and
+ * References renderer, the site's testimonials, figures, service-level bars and
  * client logos, all from GET /api/proof.
  *
  * Ported in spirit from aphelion/public/assets/references.js, extended here to
@@ -8,7 +8,7 @@
  * THE RULE THIS FILE EXISTS TO ENFORCE. Aphelion migration 028 puts it plainly:
  * "the site never invents a testimonial, and never shows an unfinished
  * placeholder either." So when a list comes back empty, the WHOLE SECTION is
- * removed from the DOM — not hidden, not filled with a skeleton, not replaced by
+ * removed from the DOM, not hidden, not filled with a skeleton, not replaced by
  * a cheerful "coming soon". A page that looks complete without references is the
  * design, and the markup ships those sections `hidden` so a no-JS visitor never
  * sees an empty band either.

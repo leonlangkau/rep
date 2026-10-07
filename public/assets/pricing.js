@@ -1,5 +1,5 @@
 /**
- * Pricing page behaviour — the two quantity steppers and the UI-only
+ * Pricing page behaviour, the two quantity steppers and the UI-only
  * call-request field.
  *
  * Everything here is progressive enhancement. The markup ships the real 2-device
@@ -7,13 +7,11 @@
  * correctly; this script only recomputes them as the number changes.
  *
  * The money maths is canon, not invention:
- *   - PA-1 (Fleet Phones): headline "$622 all-in per device on signing" is
- *     shorthand. Itemised, day one is $572 device + $50 establishment + the
- *     fleet-administration fee, and that fee is ONE-OFF and capped at $110 per
- *     plan for the whole term. So per-device day one is $649.50 at 2-4 devices
- *     and less at 5+ as the cap spreads.
+ *   - PA-1 (Fleet Phones): headline "$794 all-in per device on signing". It is
+ *     $624 device plus a one-off $170 per device for the whole term, so day one
+ *     is a flat $794 per device at any fleet size. No plan cap, no "less at 5+".
  *   - PA-2 (Managed Fleet): $622 day one per device (the admin fee is NOT in the
- *     day-one number — it is collected in weekly instalments). The weekly care
+ *     day-one number, it is collected in weekly instalments). The weekly care
  *     ladder is 2-4 $5.60 · 5-9 $5.10 · 10-19 $4.70 · 20-49 $4.30 · 50+ $3.90.
  *     The admin is min(n x $27.50, $110) for the whole plan, spread across 104
  *     weekly payments. Pay-in-full, per device = 10% off
@@ -38,9 +36,11 @@
   }
 
   var WEEKS = 104;                 // 24 months
-  var DAYONE = 622;                // per device, both PA-1 and PA-2
-  var ADMIN_PER_DEVICE = 27.50;
-  var ADMIN_PLAN_CAP = 110;
+  var PHONES_DEVICE = 624;         // PA-1 device price, per device
+  var PHONES_ONEOFF = 170;         // PA-1 one-off for the whole term, per device
+  var DAYONE = 622;                // PA-2 upfront, per device (admin collected weekly)
+  var ADMIN_PER_DEVICE = 27.50;    // PA-2 fleet administration, per device
+  var ADMIN_PLAN_CAP = 110;        // PA-2 administration cap, per plan
 
   function money(n) {
     try {
@@ -71,9 +71,9 @@
     return adminPlanTotal(count) / count;
   }
 
-  /** PA-1: what is due on signing across the fleet — $622/device plus the one-off admin. */
+  /** PA-1: what is due on signing across the fleet, $624 device + $170 one-off, per device. */
   function phonesDayOneTotal(count) {
-    return DAYONE * count + adminPlanTotal(count);
+    return (PHONES_DEVICE + PHONES_ONEOFF) * count;
   }
 
   /** PA-2: 10% off (day-one + admin share + the tier's weekly care over the term), per device. */
@@ -86,7 +86,7 @@
    * The owner's published pay-in-full examples at the tier minimums. These are
    * canon and are rendered verbatim in the table. They agree with
    * prepaidPerDevice() at 2/5/10/50; at exactly 20 the owner's published figure
-   * is $958 while the rule above computes $967 — rendered as given, flagged, and
+   * is $958 while the rule above computes $967, rendered as given, flagged, and
    * not silently reconciled.
    */
   var PUBLISHED_EXAMPLES = { 2: 1109, 5: 1057, 10: 1010, 20: 958, 50: 927 };
@@ -111,8 +111,8 @@
       set(qtyEl, String(count));
 
       if (kind === "phones") {
-        set($("[data-devices]", root), money(DAYONE * count));
-        set($("[data-admin]", root), money(adminPlanTotal(count)));
+        set($("[data-devices]", root), money(PHONES_DEVICE * count));
+        set($("[data-admin]", root), money(PHONES_ONEOFF * count));
         set($("[data-today]", root), money(phonesDayOneTotal(count)));
         return;
       }
@@ -167,7 +167,7 @@
       // The call-request field is UI-only this pass: it stores nothing and
       // calls nothing. This success state is deliberately client-side only.
       input.value = "";
-      show("ok", "Thanks \u2014 we'll ring you back on that number.");
+      show("ok", "Thanks, we'll ring you back on that number.");
     });
   }
 
@@ -179,7 +179,8 @@
   // Exposed so the maths can be tested without a browser (tests/pricing.test.mjs
   // runs this file under a DOM stub and asserts against these functions).
   window.REP_PRICING = {
-    WEEKS: WEEKS, DAYONE: DAYONE, ADMIN_PER_DEVICE: ADMIN_PER_DEVICE, ADMIN_PLAN_CAP: ADMIN_PLAN_CAP,
+    WEEKS: WEEKS, PHONES_DEVICE: PHONES_DEVICE, PHONES_ONEOFF: PHONES_ONEOFF,
+    DAYONE: DAYONE, ADMIN_PER_DEVICE: ADMIN_PER_DEVICE, ADMIN_PLAN_CAP: ADMIN_PLAN_CAP,
     money: money, careFee: careFee, adminPlanTotal: adminPlanTotal, adminPerDevice: adminPerDevice,
     phonesDayOneTotal: phonesDayOneTotal, prepaidPerDevice: prepaidPerDevice,
     PUBLISHED_EXAMPLES: PUBLISHED_EXAMPLES

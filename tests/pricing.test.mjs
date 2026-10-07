@@ -4,8 +4,8 @@
  * Run with: node tests/pricing.test.mjs (also picked up by `npm test`).
  *
  * Product names, prices and terms in this brief are LOCKED canon. This file
- * pins them so a later cleanup cannot quietly restate $622 as $600, drop the
- * $110 admin cap, resurrect the old $967 20-device example, or let an insurance
+ * pins them so a later cleanup cannot quietly restate $794 as $600, drop the
+ * $170 one-off, resurrect the old $967 20-device example, or let an insurance
  * word onto a page that sells a care plan without insurance.
  *
  * The stepper maths is run for real: public/assets/pricing.js is loaded under a
@@ -43,9 +43,9 @@ const P = loadPricing();
 
 console.log("\n--- locked canon, rendered ---");
 const REQUIRED = [
-  "$622",             // PA-1 / PA-2 headline, per device
-  "$572", "$50", "$27.50", "$110",   // PA-1 itemised day-one and the admin cap
-  "$649.50",          // true per-device day one at 2-4 devices
+  "$622",             // PA-2 upfront, per device
+  "$624", "$170", "$794",   // PA-1 device + one-off for the whole term, and the flat day one
+  "$27.50", "$110",   // PA-2 fleet administration, and its plan cap
   "$5.60", "$5.10", "$4.70", "$4.30", "$3.90",   // the care ladder
   "$300",             // fleet loss fee (and the AI setup fee)
   "$60",              // over-cap repair
@@ -68,11 +68,13 @@ check("title ownership is denied on both plans", /you never own it/.test(page) &
 /* ================= PA-1 itemised breakdown ================= */
 
 console.log("\n--- PA-1 headline + itemised small text ---");
-const ITEMISED = "$572 device + $50 establishment + $27.50 fleet administration fee (one-off, capped at $110 per plan for the whole term)";
-check("the pricing page keeps the $622 all-in headline", /\$622 all-in per device on signing/.test(page));
+const ITEMISED = "$624 device plus a one-off $170 for the whole term";
+check("the pricing page keeps the $794 all-in headline", /\$794 all-in per device on signing/.test(page));
 check("the pricing page carries the itemised breakdown verbatim", page.includes(ITEMISED));
-check("the phones page carries the $622 all-in headline", /\$622 all-in per device on signing/.test(phones));
+check("the phones page carries the $794 all-in headline", /\$794 all-in per device on signing/.test(phones));
 check("the phones page carries the same itemised breakdown", phones.includes(ITEMISED));
+check("PA-1 day one is flat: no plan cap and no 'less at 5+' anywhere",
+  !/less at 5\+/.test(page) && !/less at 5\+/.test(phones));
 
 /* ================= PA-8 coming-soon card ================= */
 
@@ -125,15 +127,17 @@ console.log("\n--- the two steppers ---");
 check("two steppers are present (PA-1 and PA-2)", (page.match(/data-stepper=/g) || []).length === 2);
 check("the page loads the stepper script", /<script defer src="\/assets\/pricing\.js"><\/script>/.test(page));
 check("pricing.js hard-codes the 104-week term", /WEEKS = 104/.test(js));
-check("pricing.js carries the admin fee and its $110 cap", /ADMIN_PER_DEVICE = 27\.50/.test(js) && /ADMIN_PLAN_CAP = 110/.test(js));
+check("pricing.js carries the PA-2 admin fee and its $110 cap", /ADMIN_PER_DEVICE = 27\.50/.test(js) && /ADMIN_PLAN_CAP = 110/.test(js));
+check("pricing.js carries the PA-1 device and one-off", /PHONES_DEVICE = 624/.test(js) && /PHONES_ONEOFF = 170/.test(js));
 
 console.log("\n--- the live maths (window.REP_PRICING) ---");
 check("careFee steps through the ladder",
   P.careFee(2) === 5.60 && P.careFee(5) === 5.10 && P.careFee(10) === 4.70 && P.careFee(20) === 4.30 && P.careFee(50) === 3.90);
 check("adminPlanTotal is $27.50/device, capped at $110",
   P.adminPlanTotal(2) === 55 && P.adminPlanTotal(3) === 82.5 && P.adminPlanTotal(5) === 110 && P.adminPlanTotal(20) === 110);
-check("PA-1 day one includes the one-off admin ($1,299 at 2 devices, $3,220 at 5)",
-  P.phonesDayOneTotal(2) === 1299 && P.phonesDayOneTotal(5) === 3220);
+check("PA-1 day one is $794 per device, flat ($1,588 at 2 devices, $3,970 at 5)",
+  P.phonesDayOneTotal(2) === 1588 && P.phonesDayOneTotal(5) === 3970 &&
+  P.phonesDayOneTotal(2) / 2 === 794 && P.phonesDayOneTotal(5) / 5 === 794);
 check("PA-2 pay-in-full is 10% off (622 + admin share + care x 104), per device",
   P.prepaidPerDevice(2) === 1109 && P.prepaidPerDevice(5) === 1057 &&
   P.prepaidPerDevice(10) === 1010 && P.prepaidPerDevice(50) === 927);
@@ -150,7 +154,7 @@ check("the 20-device divergence is conscious (rule $967 vs published $958)",
 /* ================= call-request stays UI-only ================= */
 
 console.log("\n--- the call-request field is UI-only ---");
-check("the field is present on the pricing page", /Or get a call from our AI &mdash; we'll ring you/.test(page));
+check("the field is present on the pricing page", /Or get a call from our AI and we'll ring you/.test(page));
 check("it does not post to an endpoint", !/action="\/api\/call-request/.test(page) && !/fetch\(/.test(js));
 check("pricing.js marks the endpoint as a future TODO", /TODO: POST \/api\/call-request/.test(js));
 
@@ -165,7 +169,7 @@ check("the device-only plan explicitly says no repair services are included",
   /No repair services included/.test(phones) && /care cannot be added mid-term/.test(phones));
 check("the managed plan states care is included", /Repairs included: 2 service events per quarter/.test(phones));
 check("the phones page links to /pricing for the stepper", /href="\/pricing"/.test(phones));
-check("the phones page keeps the $622 + from $5.60 figures identical to pricing",
-  phones.includes("$622") && /from \$5\.60 a week per device/.test(phones) && phones.includes("$300"));
+check("the phones page keeps the $622 upfront, the $794 PA-1 headline and from $5.60 identical to pricing",
+  phones.includes("$622") && phones.includes("$794") && /from \$5\.60 a week per device/.test(phones) && phones.includes("$300"));
 
 done();

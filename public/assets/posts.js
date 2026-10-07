@@ -1,5 +1,5 @@
 /**
- * Blog post lists — the home-page teaser and the /blog index.
+ * Blog post lists, the home-page teaser and the /blog index.
  *
  * Markup contract:
  *   [data-posts="latest"]  up to 3 posts   (home)
@@ -10,8 +10,8 @@
  * JavaScript disabled gets an honest sentence instead of a blank grid or a
  * spinner that never resolves. With JS, whichever state is wrong flips.
  *
- * Post bodies are never fetched here — /api/posts returns headings and excerpts
- * only — so a draft cannot leak through a list any more than through the
+ * Post bodies are never fetched here, /api/posts returns headings and excerpts
+ * only, so a draft cannot leak through a list any more than through the
  * article route.
  */
 (function () {
@@ -79,7 +79,7 @@
       if (window.repHydrate) window.repHydrate();
     })
     .catch(function () {
-      // Leave the empty panel visible — it is the honest state when we cannot
+      // Leave the empty panel visible, it is the honest state when we cannot
       // confirm there is anything to show.
       var empty = document.querySelector('[data-posts="empty"]');
       if (empty) empty.hidden = false;

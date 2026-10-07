@@ -1,5 +1,5 @@
 /**
- * Repeater — the facts that must not drift.
+ * Repeater, the facts that must not drift.
  *
  * Every hard number, address and contact detail on this site comes from here.
  * Nothing is duplicated into markup: pages carry <span data-fact="ABN"> and this
@@ -10,17 +10,17 @@
  * hoping someone greps for it later, every unresolved value is a single
  * PLACEHOLDER constant, rendered through one helper, and tests/facts.test.mjs
  * fails the build if one of them reaches a custom domain. Never invent any of
- * these — an ABN on an Australian B2B site is a legal requirement, and a wrong
+ * these, an ABN on an Australian B2B site is a legal requirement, and a wrong
  * one is worse than a missing one.
  *
  * Progressive enhancement: the markup already contains the muted placeholder, so
  * with JavaScript disabled the page still reads honestly. This script only ever
- * REPLACES a placeholder with a real value — it never introduces one.
+ * REPLACES a placeholder with a real value, it never introduces one.
  *
  * WHICH VALUES ARE REAL: EMAIL_ORDERS and EMAIL_FLEET are evidenced in
  * aphelion/tests/sending-domains.test.mjs. TERMS_DAYS and GST are evidenced by
  * aphelion/migrations/007_b2b_wholesale.sql (trade_accounts.terms_days, and
- * gst_exclusive defaulting to 1 — Australian B2B quotes are GST-exclusive).
+ * gst_exclusive defaulting to 1. Australian B2B quotes are GST-exclusive).
  * Everything else is unknown and stays a placeholder until Leo supplies it.
  */
 (function () {
@@ -54,7 +54,7 @@
     /* DISPATCH_SLA, DELIVERY, WARRANTY and MIN_ORDER were placeholdered while
        the site led with trade supply. They now belong to the demoted trade
        pages, which state those terms in the enquiry copy instead, so the keys
-       are gone rather than left permanently unresolved — deleting them closes
+       are gone rather than left permanently unresolved, deleting them closes
        the deploy gate honestly instead of quietly widening it. */
 
     /* --- Fleet phones (pillar 1). The SHAPE is Leo's own description and is
@@ -112,7 +112,7 @@
   /**
    * Links whose href depends on a fact. data-fact-href="tel" builds "tel:...",
    * "mailto" builds "mailto:...". When the fact is unresolved the href is
-   * REMOVED rather than left dangling — a half-built "tel:" link is worse than
+   * REMOVED rather than left dangling, a half-built "tel:" link is worse than
    * plain text, and a broken link inside a sentence reads as a bug.
    */
   function fillLinks() {
@@ -131,7 +131,7 @@
     }
   }
 
-  /** Format money in AUD, GST-exclusive — the only way this site prints a price. */
+  /** Format money in AUD, GST-exclusive, the only way this site prints a price. */
   function money(n) {
     try {
       return new Intl.NumberFormat("en-AU", {

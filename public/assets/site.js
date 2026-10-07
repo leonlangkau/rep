@@ -1,5 +1,5 @@
 /**
- * Repeater site behaviour — the five motions, and nothing else.
+ * Repeater site behaviour, the five motions, and nothing else.
  *
  *   1. Sticky nav: grows a hairline and a blur once you leave the top, and a
  *      burger panel below 810px.
@@ -14,7 +14,7 @@
  *
  * Plus in-view progress bars, and a smooth scroll for same-page anchors.
  *
- * Every one of these is a no-op under prefers-reduced-motion: reduce — the CSS
+ * Every one of these is a no-op under prefers-reduced-motion: reduce, the CSS
  * kill-switch handles the animations, and the guards below stop the JS from
  * queueing work that will never be seen.
  *
@@ -100,7 +100,7 @@
    * reduced we simply leave the markup alone.
    *
    * The value is read from data-count, never parsed back out of the rendered
-   * text — that way a currency symbol or a thousands separator can never feed a
+   * text, that way a currency symbol or a thousands separator can never feed a
    * bad number into Number().
    */
   function initCounters() {
@@ -220,7 +220,7 @@
    * Five preset palettes plus a custom accent.
    *
    * The hard part is the colour wheel. A visitor can pick #ffeaea, and a link in
-   * that colour on white is about 1.05:1 — invisible. So the picked colour is
+   * that colour on white is about 1.05:1, invisible. So the picked colour is
    * used EXACTLY for what it is good at (fills, large display type, icons) and a
    * derived, contrast-checked shade is used for links and small text. That is the
    * same --accent / --accent-strong split the design system already had; this
@@ -420,7 +420,7 @@
    * Re-run the content-dependent motions after something has injected markup.
    *
    * proof.js, catalogue.js and posts.js all fetch and then build DOM, which
-   * lands AFTER the first pass — a `.stat__fig` inside a card that arrived from
+   * lands AFTER the first pass, a `.stat__fig` inside a card that arrived from
    * /api/proof would otherwise never get its count-up, and a `.bar__fill` would
    * never leave 0%. They call this instead of reaching into each other's
    * internals.

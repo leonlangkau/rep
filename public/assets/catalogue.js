@@ -1,15 +1,15 @@
 /**
- * Catalogue renderer — product grid, category chips and the trade
+ * Catalogue renderer, product grid, category chips and the trade
  * volume-break table, all from GET /api/catalogue.
  *
  * THE PAGE'S NORMAL STATE IS THE EMPTY ONE. Leo confirmed on 2026-10-02 that
  * DB_REPEATER.products holds nothing yet, so the gated-pricing panel that ships
- * visible in the markup is not a fallback — it is the design. Everything below
+ * visible in the markup is not a fallback, it is the design. Everything below
  * exists so the page starts working the moment products are loaded, without
  * anyone touching the HTML again.
  *
  * When there IS stock it shows what a trade buyer actually needs: identity,
- * availability, and the break ladder. It never prints a retail price —
+ * availability, and the break ladder. It never prints a retail price, 
  * /api/catalogue does not select one, and this file would have nothing to print
  * if it did.
  */
@@ -85,7 +85,7 @@
   /* ---------------- volume-break table ---------------- */
 
   /**
-   * One row per product, one pair of columns per break tier — i.e. the trade
+   * One row per product, one pair of columns per break tier, i.e. the trade
    * price list itself. Break counts vary per product, so the column count comes
    * from the widest product rather than being fixed.
    */
@@ -108,7 +108,7 @@
         var b = p.breaks[c];
         cells += b
           ? '<td class="num"><b>' + esc(money(b.unit_price_ex)) + "</b><br><span class=\"faint\">" + esc(b.min_qty) + "+ units</span></td>"
-          : '<td class="num faint">&mdash;</td>';
+          : '<td class="num faint">-</td>';
       }
       return "<tr><td>" + esc(p.name) + (p.brand ? '<br><span class="faint">' + esc(p.brand) + "</span>" : "") + "</td>" + cells + "</tr>";
     }).join("");

@@ -3,7 +3,7 @@
  *
  * THE FORM IS REAL WITHOUT THIS FILE. The markup is a real
  * `<form method="post" action="/api/enquiry">` with real `name` attributes, and
- * the endpoint accepts form-encoded bodies for exactly this reason — so if this
+ * the endpoint accepts form-encoded bodies for exactly this reason, so if this
  * script never loads, the enquiry is still captured. That contract is why the
  * endpoint parses multipart/urlencoded at all, and it must not be broken by
  * anything added here.
@@ -74,7 +74,7 @@
               // answers 200 so a bot believes it worked. A real person never
               // fills that field, so there is nothing to disambiguate.
               var okMsg = form.getAttribute("data-success") ||
-                "Thanks \u2014 that's with the trade desk. We'll come back to you shortly.";
+                "Thanks, that's with the trade desk. We'll come back to you shortly.";
               form.reset();
               setStatus(status, "ok", okMsg);
               return;
@@ -93,7 +93,7 @@
             setStatus(status, "err", json.error || "Something went wrong sending that. Please try again.");
           })
           .catch(function () {
-            setStatus(status, "err", "Network problem \u2014 your enquiry wasn't sent. Please email orders@repeater.com.au.");
+            setStatus(status, "err", "Network problem, your enquiry wasn't sent. Please email orders@repeater.com.au.");
           })
           .then(function () {
             if (button) button.disabled = false;

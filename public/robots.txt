@@ -1,4 +1,4 @@
-# Repeater — repeater.com.au
+# Repeater, repeater.com.au
 # Everything is public. Nothing to disallow.
 
 User-agent: *

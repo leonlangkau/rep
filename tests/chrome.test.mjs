@@ -382,5 +382,22 @@ for (const p of pages) {
   if (ex !== -1) console.log("     near: " + copy.slice(Math.max(0, ex - 30), ex + 30).replace(/\s+/g, " "));
 }
 
+/* ---------------- em dashes ---------------- */
+
+// VOICE.md calls them "em-dash confetti" and the site is kept free of them
+// entirely. Unlike "!", which is legitimate inside scripts and !important, an em
+// dash has no syntax role anywhere, so this walks EVERY text file under public/
+// (comments, scripts and styles included) and asserts there is not one, in any
+// of its three spellings.
+console.log("\n--- em dashes ---");
+const EM_DASH_EXT = new Set([".html", ".css", ".js", ".json", ".xml", ".txt", ".svg", ".md"]);
+let emLeft = 0;
+for (const p of walk(publicDir)) {
+  if (!EM_DASH_EXT.has(extname(p))) continue;
+  const hits = readFileSync(p, "utf8").match(/&mdash;|\u2014|\\u2014/g);
+  if (hits) { emLeft += hits.length; check(`${rel(p)}: no em dashes (${hits.length} found)`, false); }
+}
+check("the site carries no em dashes at all", emLeft === 0);
+
 console.log(failures ? `\n${failures} FAILED` : `\nall chrome assertions passed across ${pages.length} page(s)`);
 process.exit(failures ? 1 : 0);
