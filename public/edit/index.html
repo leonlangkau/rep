@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design directions — five layouts of the Repeater shop</title>
+  <meta name="description" content="Five design directions for the Repeater front page, built on the same three products and the same prices: two premium-tech treatments, two professional-trade treatments and one that goes all the way.">
+  <meta name="robots" content="noindex,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Repeater">
+  <meta property="og:title" content="Design directions — five layouts of the Repeater shop">
+  <meta property="og:description" content="Five design directions for the Repeater front page: two premium-tech treatments, two professional-trade treatments and one that goes all the way.">
+  <meta property="og:url" content="https://repeater.com.au/edit">
+  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
+  <meta property="og:locale" content="en_AU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Design directions — five layouts of the Repeater shop">
+  <meta name="twitter:description" content="Five design directions for the Repeater front page: two premium-tech treatments, two professional-trade treatments and one that goes all the way.">
+  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
+  <link rel="canonical" href="https://repeater.com.au/edit">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <script>
+  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
+     render-blocking: a deferred script would let the page paint in the default
+     palette and then snap to the chosen one, which reads as a broken toggle
+     rather than a saved preference. It stores already-derived token values, so
+     none of the contrast logic is duplicated here. */
+  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
+  if(t)d.setAttribute("data-theme",t);
+  var a=localStorage.getItem("rep:accent");
+  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script defer src="/assets/facts.js"></script>
+  <script defer src="/assets/site.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Design directions — five layouts of the Repeater shop",
+    "url": "https://repeater.com.au/edit",
+    "isPartOf": { "@type": "WebSite", "name": "Repeater", "url": "https://repeater.com.au/" }
+  }
+  </script>
+  <style>
+  /* ==========================================================================
+     /edit — five design directions, self-contained.
+
+     This page is a preview, not part of the site's design system: it does not
+     load a second stylesheet and it does not touch site.css. Everything here is
+     scoped to .ed-* and uses either the existing tokens or literal values, so
+     tokens.test keeps its "every custom property used in markup is declared"
+     guarantee.
+
+     ReactBits (reactbits.dev) is a React/npm library, so nothing is installed.
+     Its signature treatments are recreated in plain CSS instead:
+       Aurora    -> .aur-bg drifting radial blobs
+       Glass     -> translucent panels + backdrop-filter
+       Spotlight -> hover glow on the glass cards
+       Gradient  -> background-clip:text headings and numerals
+       Pill Nav  -> the round nav bars in variants 01 and 02
+       Bento     -> the 12-column tile grid in variant 02
+       Logo Loop -> the seamless word marquee in variant 05
+     ========================================================================== */
+
+  .ed { position: relative; overflow: hidden; isolation: isolate; padding: clamp(56px, 8vw, 112px) 0; }
+  .ed-wrap { position: relative; z-index: 2; width: min(1180px, 100% - 48px); margin-inline: auto; }
+  .ed-tag {
+    position: absolute; top: 16px; left: 16px; z-index: 6;
+    font: 600 11px/1 var(--font-mono); letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 7px 12px; border-radius: var(--r-pill);
+    background: #101319; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .ed-toc { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
+  .ed-toc a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px; border: 1px solid var(--line-strong); border-radius: var(--r-pill);
+    color: var(--fg-2); text-decoration: none; font: 500 0.875rem/1 var(--font-sans);
+    transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .ed-toc a:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+  .ed-toc b { font-family: var(--font-mono); font-weight: 600; color: var(--fg-3); }
+
+  @keyframes edUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  @keyframes edIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ===================== 01 · Premium tech — Aurora glass ===================== */
+  .ed-aurora { background: #06070c; color: #eef3ff; }
+  .aur-bg { position: absolute; inset: -20% -10%; z-index: 0; pointer-events: none; }
+  .aur-bg::before, .aur-bg::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.6; }
+  .aur-bg::before {
+    width: 62%; height: 62%; left: -6%; top: -12%;
+    background: radial-gradient(circle at 30% 30%, #22d3ee, transparent 62%), radial-gradient(circle at 70% 60%, #3b82f6, transparent 60%);
+    animation: aurDrift1 18s ease-in-out infinite alternate;
+  }
+  .aur-bg::after {
+    width: 56%; height: 56%; right: -8%; top: 10%;
+    background: radial-gradient(circle at 50% 50%, #a855f7, transparent 62%), radial-gradient(circle at 30% 70%, #0ea5e9, transparent 60%);
+    animation: aurDrift2 23s ease-in-out infinite alternate;
+  }
+  @keyframes aurDrift1 { to { transform: translate3d(9%, 7%, 0) scale(1.14); } }
+  @keyframes aurDrift2 { to { transform: translate3d(-8%, 5%, 0) scale(1.10); } }
+  .ed-aurora::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 6%, #000, transparent 74%);
+    mask-image: radial-gradient(120% 90% at 50% 6%, #000, transparent 74%);
+  }
+  .aur-nav {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    padding: 12px 12px 12px 20px; margin-bottom: clamp(40px, 6vw, 76px);
+    border: 1px solid rgba(255, 255, 255, 0.14); border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px) saturate(140%);
+  }
+  .aur-mark { font: 600 1.0625rem/1 var(--font-display); letter-spacing: -0.02em; }
+  .aur-navlinks { display: flex; gap: 22px; font: 500 0.875rem/1 var(--font-sans); color: rgba(255, 255, 255, 0.66); }
+  .aur-navlinks b { color: #ffffff; font-weight: 600; }
+  .aur-navcta {
+    padding: 10px 18px; border-radius: var(--r-pill); font: 600 0.8125rem/1 var(--font-sans);
+    background: linear-gradient(90deg, #22d3ee, #3b82f6); color: #04121c;
+  }
+  .aur-hero { max-width: 720px; margin: 0 auto clamp(40px, 6vw, 64px); text-align: center; animation: edUp 0.8s var(--ease-out) both; }
+  .aur-eyebrow { display: block; margin-bottom: var(--space-5); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(184, 216, 255, 0.78); }
+  .aur-h1 {
+    margin-bottom: var(--space-5); font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4.25rem); line-height: 1.02; letter-spacing: -0.035em;
+    background: linear-gradient(92deg, #eaf6ff, #9ad8ff 42%, #c9b6ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .aur-lede { max-width: 58ch; margin: 0 auto; font-size: 1.0625rem; line-height: 1.6; color: rgba(226, 236, 255, 0.72); }
+  .aur-trust { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: var(--space-6); }
+  .aur-trust span {
+    padding: 7px 13px; border-radius: var(--r-pill); border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05); font: 500 0.8125rem/1 var(--font-sans); color: rgba(226, 236, 255, 0.82);
+  }
+  .aur-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
+  .aur-card {
+    position: relative; display: flex; flex-direction: column; padding: var(--space-8);
+    border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 24px; overflow: hidden;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.03));
+    backdrop-filter: blur(20px) saturate(140%);
+    box-shadow: 0 34px 70px -42px rgba(0, 0, 0, 0.9);
+    animation: edUp 0.8s var(--ease-out) both;
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+  }
+  .aur-card::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0; pointer-events: none;
+    background: radial-gradient(320px circle at 50% -10%, rgba(120, 200, 255, 0.24), transparent 62%);
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  .aur-card:hover { transform: translateY(-6px); border-color: rgba(120, 200, 255, 0.42); box-shadow: 0 44px 90px -42px rgba(59, 130, 246, 0.6); }
+  .aur-card:hover::after { opacity: 1; }
+  .aur-grid > .aur-card:nth-child(2) { animation-delay: 0.08s; }
+  .aur-grid > .aur-card:nth-child(3) { animation-delay: 0.16s; }
+  .aur-card--hot { border-color: rgba(120, 200, 255, 0.36); box-shadow: 0 34px 80px -38px rgba(59, 130, 246, 0.65); }
+  .aur-kind { margin-bottom: var(--space-4); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: rgba(180, 214, 255, 0.72); }
+  .aur-name { margin-bottom: var(--space-4); font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; }
+  .aur-price { display: flex; align-items: baseline; gap: 10px; padding-bottom: var(--space-5); margin-bottom: var(--space-5); border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .aur-price b {
+    font-family: var(--font-display); font-size: clamp(2rem, 3.4vw, 2.6rem); line-height: 1; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(92deg, #ffffff, #9ad8ff); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .aur-price span { font-size: 0.8125rem; line-height: 1.35; color: rgba(226, 236, 255, 0.66); }
+  .aur-feats { display: grid; gap: var(--space-3); margin-bottom: var(--space-8); }
+  .aur-feats li { position: relative; padding-left: var(--space-4); font-size: 0.9375rem; color: rgba(226, 236, 255, 0.8); }
+  .aur-feats li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: #22d3ee; box-shadow: 0 0 10px rgba(34, 211, 238, 0.9); }
+  .aur-feats b { color: #ffffff; font-weight: 500; }
+  .aur-btn {
+    margin-top: auto; display: inline-flex; justify-content: center; padding: 13px 18px; border-radius: var(--r-pill);
+    background: linear-gradient(90deg, #22d3ee, #3b82f6); color: #04121c; text-decoration: none;
+    font: 600 0.9375rem/1 var(--font-sans); box-shadow: 0 14px 32px -12px rgba(34, 211, 238, 0.7);
+    transition: box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .aur-btn:hover { transform: translateY(-1px); box-shadow: 0 20px 40px -12px rgba(34, 211, 238, 0.9); }
+  .aur-alt { margin-top: var(--space-3); font-size: 0.8125rem; text-align: center; color: rgba(226, 236, 255, 0.55); }
+  .aur-note { margin-top: var(--space-8); text-align: center; font-size: 0.9375rem; color: rgba(226, 236, 255, 0.6); }
+
+  /* ===================== 02 · Premium tech — Frosted bento ===================== */
+  .ed-frost { background: linear-gradient(180deg, #eef3fb, #e6ebf6); color: #0d1526; }
+  .fro-bg {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(58% 60% at 12% 6%, rgba(59, 130, 246, 0.22), transparent 60%),
+      radial-gradient(50% 55% at 94% 2%, rgba(168, 85, 247, 0.16), transparent 60%),
+      radial-gradient(62% 60% at 72% 104%, rgba(34, 211, 238, 0.16), transparent 60%);
+  }
+  .fro-panel {
+    position: relative; padding: clamp(18px, 3vw, 30px); border-radius: 30px;
+    background: rgba(255, 255, 255, 0.64); border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 44px 90px -56px rgba(20, 40, 90, 0.55);
+    backdrop-filter: blur(22px) saturate(150%);
+  }
+  .fro-nav {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    padding: 10px 10px 10px 20px; margin-bottom: clamp(24px, 4vw, 40px); border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(13, 21, 38, 0.07);
+    box-shadow: 0 10px 26px -20px rgba(20, 40, 90, 0.5);
+  }
+  .fro-mark { font: 600 1.0625rem/1 var(--font-display); letter-spacing: -0.02em; }
+  .fro-navlinks { display: flex; gap: 20px; font: 500 0.875rem/1 var(--font-sans); color: #52627a; }
+  .fro-navlinks b { color: #0d1526; font-weight: 600; }
+  .fro-navcta { padding: 10px 18px; border-radius: var(--r-pill); background: #0d1526; color: #ffffff; font: 600 0.8125rem/1 var(--font-sans); }
+  .fro-bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-4); }
+  .fro-tile {
+    padding: var(--space-6); border-radius: 22px; border: 1px solid rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.72); box-shadow: 0 22px 44px -38px rgba(20, 40, 90, 0.6);
+    animation: edUp 0.7s var(--ease-out) both;
+  }
+  .fro-tile--hero { grid-column: span 8; }
+  .fro-tile--stat { grid-column: span 2; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+  .fro-tile--p { grid-column: span 4; display: flex; flex-direction: column; }
+  .fro-eyebrow { display: block; margin-bottom: var(--space-4); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: #52627a; }
+  .fro-h1 {
+    margin-bottom: var(--space-4); font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.05; letter-spacing: -0.035em;
+    background: linear-gradient(92deg, #0d1526, #3b82f6 60%, #a855f7);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .fro-lede { font-size: 1rem; line-height: 1.6; color: #52627a; }
+  .fro-stat b { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #0d1526; }
+  .fro-stat span { margin-top: 6px; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; color: #67788f; }
+  .fro-kind { margin-bottom: var(--space-3); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: #67788f; }
+  .fro-name { margin-bottom: var(--space-3); font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+  .fro-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: var(--space-5); }
+  .fro-price b {
+    font-family: var(--font-display); font-size: clamp(1.9rem, 3vw, 2.4rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+    background: linear-gradient(92deg, #3b82f6, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .fro-price span { font-size: 0.8125rem; line-height: 1.35; color: #52627a; }
+  .fro-feats { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .fro-feats li { position: relative; padding-left: var(--space-4); font-size: 0.875rem; color: #3f4c60; }
+  .fro-feats li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(92deg, #3b82f6, #a855f7); }
+  .fro-feats b { color: #0d1526; font-weight: 600; }
+  .fro-link { margin-top: auto; font: 600 0.9375rem/1 var(--font-sans); color: #1d4ed8; text-decoration: none; }
+  .fro-link:hover { text-decoration: underline; }
+
+  /* ===================== 03 · Professional tradie — Slate ===================== */
+  .ed-slate { background: #ffffff; color: #0b1220; }
+  .sla-head { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: end; padding-bottom: clamp(28px, 4vw, 48px); border-bottom: 2px solid #0b1220; }
+  .sla-eyebrow { display: block; margin-bottom: var(--space-5); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: #1d4ed8; }
+  .sla-h1 { margin-bottom: var(--space-5); font-family: var(--font-display); font-weight: 600; font-size: clamp(2.1rem, 4.6vw, 3.5rem); line-height: 1.03; letter-spacing: -0.035em; }
+  .sla-lede { max-width: 52ch; font-size: 1.0625rem; line-height: 1.6; color: #47536b; }
+  .sla-board { border: 1px solid #0b1220; padding: var(--space-6); }
+  .sla-board__cap { display: block; margin-bottom: var(--space-4); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: #1d4ed8; }
+  .sla-board dl { display: grid; gap: 0; }
+  .sla-board dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid #e2e6ee; }
+  .sla-board dl > div:first-child { border-top: 0; padding-top: 0; }
+  .sla-board dt { font: 500 0.9375rem/1.3 var(--font-sans); color: #0b1220; }
+  .sla-board dd { margin: 0; text-align: right; font-family: var(--font-display); font-weight: 600; font-size: 1.125rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sla-board dd small { display: block; font-family: var(--font-sans); font-weight: 400; font-size: 0.75rem; color: #67788f; }
+  .sla-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sla-col { padding: clamp(24px, 3vw, 40px) clamp(20px, 3vw, 36px); border-left: 1px solid #e2e6ee; }
+  .sla-col:first-child { border-left: 0; padding-left: 0; }
+  .sla-col:last-child { padding-right: 0; }
+  .sla-num { display: block; margin-bottom: var(--space-5); font: 600 0.8125rem/1 var(--font-mono); letter-spacing: 0.12em; color: #1d4ed8; }
+  .sla-kind { display: block; margin-bottom: var(--space-3); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: #67788f; }
+  .sla-name { margin-bottom: var(--space-4); font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.025em; }
+  .sla-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding-bottom: var(--space-5); margin-bottom: var(--space-5); border-bottom: 1px solid #e2e6ee; }
+  .sla-price b { font-family: var(--font-display); font-size: clamp(2rem, 3.2vw, 2.6rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .sla-price span { font-size: 0.8125rem; color: #47536b; }
+  .sla-feats { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .sla-feats li { position: relative; padding-left: var(--space-4); font-size: 0.9375rem; color: #47536b; }
+  .sla-feats li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 2px; background: #1d4ed8; }
+  .sla-feats b { color: #0b1220; font-weight: 600; }
+  .sla-link { font: 600 0.9375rem/1 var(--font-sans); color: #1d4ed8; text-decoration: none; }
+  .sla-link:hover { text-decoration: underline; }
+
+  /* ===================== 04 · Professional tradie — Yard ===================== */
+  .ed-yard { background: #f7f4ee; color: #1b1a17; }
+  .ed-yard::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55;
+    background-image: repeating-linear-gradient(0deg, rgba(27, 26, 23, 0.055) 0 1px, transparent 1px 8px);
+  }
+  .yrd-top { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; margin-bottom: clamp(28px, 4vw, 48px); }
+  .yrd-badge {
+    display: inline-block; margin-bottom: var(--space-5); padding: 8px 14px; border: 2px solid #1b1a17; border-radius: 8px;
+    font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.13em; text-transform: uppercase;
+  }
+  .yrd-h1 { margin-bottom: var(--space-5); font-family: var(--font-display); font-weight: 600; font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.03; letter-spacing: -0.035em; }
+  .yrd-lede { max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; color: #4a4740; }
+  .yrd-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-6); }
+  .yrd-chips span { padding: 7px 12px; border: 1px solid #1b1a17; border-radius: 999px; font: 500 0.8125rem/1 var(--font-sans); }
+  .yrd-board { border: 2px solid #1b1a17; border-radius: 10px; background: #fffdf8; box-shadow: 6px 6px 0 #1b1a17; padding: var(--space-6); }
+  .yrd-board__cap { display: block; margin-bottom: var(--space-4); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: #4a4740; }
+  .yrd-row { display: flex; align-items: baseline; gap: var(--space-3); padding: var(--space-3) 0; border-top: 1px solid #d8d3c8; }
+  .yrd-row:first-of-type { border-top: 0; }
+  .yrd-row span { font: 500 0.9375rem/1.3 var(--font-sans); }
+  .yrd-row i { flex: 1; border-bottom: 2px dotted #1b1a17; transform: translateY(-3px); }
+  .yrd-row b { font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .yrd-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .yrd-card { display: flex; flex-direction: column; padding: var(--space-6); border: 2px solid #1b1a17; border-radius: 10px; background: #fffdf8; transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+  .yrd-card:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 #1b1a17; }
+  .yrd-kind { margin-bottom: var(--space-3); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.13em; text-transform: uppercase; color: #4a4740; }
+  .yrd-name { margin-bottom: var(--space-4); font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; }
+  .yrd-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: var(--space-5); padding-bottom: var(--space-5); border-bottom: 2px solid #1b1a17; }
+  .yrd-price b { font-family: var(--font-display); font-size: clamp(1.9rem, 3vw, 2.4rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .yrd-price span { font-size: 0.8125rem; color: #4a4740; }
+  .yrd-feats { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .yrd-feats li { position: relative; padding-left: var(--space-4); font-size: 0.9375rem; color: #4a4740; }
+  .yrd-feats li::before { content: ""; position: absolute; left: 0; top: 0.58em; width: 8px; height: 8px; background: #1b1a17; }
+  .yrd-feats b { color: #1b1a17; font-weight: 600; }
+  .yrd-btn { margin-top: auto; display: inline-flex; justify-content: center; padding: 13px 18px; border: 2px solid #1b1a17; border-radius: 8px; background: #1b1a17; color: #fffdf8; text-decoration: none; font: 600 0.9375rem/1 var(--font-sans); }
+  .yrd-btn:hover { background: #fffdf8; color: #1b1a17; }
+
+  /* ===================== 05 · Go wild — neon / brutalist ===================== */
+  .ed-wild { background: #07070b; color: #f7f7ff; padding-top: clamp(72px, 10vw, 140px); }
+  .wld-marquee { position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; overflow: hidden; border-bottom: 1px solid rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.03); padding: 12px 0; }
+  .wld-track { display: flex; flex-shrink: 0; gap: 40px; padding-right: 40px; white-space: nowrap; animation: wldScroll 26s linear infinite; }
+  .wld-track span { font: 600 0.8125rem/1 var(--font-mono); letter-spacing: 0.22em; text-transform: uppercase; color: rgba(247, 247, 255, 0.72); }
+  @keyframes wldScroll { to { transform: translateX(-100%); } }
+  .wld-wrap { position: relative; }
+  .wld-h1 {
+    margin: clamp(24px, 4vw, 48px) 0 var(--space-6); font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.6rem, 9vw, 6.5rem); line-height: 0.94; letter-spacing: -0.045em; max-width: 16ch;
+  }
+  .wld-h1 em {
+    font-style: normal;
+    background: linear-gradient(92deg, #00e5ff, #ff2ec4 55%, #ffd000);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .wld-outline { display: block; color: transparent; -webkit-text-stroke: 2px rgba(247, 247, 255, 0.55); }
+  .wld-lede { max-width: 52ch; font-size: 1.0625rem; line-height: 1.6; color: rgba(247, 247, 255, 0.7); }
+  .wld-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-5); margin: clamp(32px, 5vw, 56px) 0; }
+  .wld-card {
+    position: relative; display: flex; flex-direction: column; padding: var(--space-6); border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.04);
+    transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+  }
+  .wld-card--a { grid-column: span 5; transform: rotate(-2deg); }
+  .wld-card--b { grid-column: span 3; transform: rotate(1.5deg); }
+  .wld-card--c { grid-column: span 4; transform: rotate(-1deg); }
+  .wld-card:hover { border-color: #00e5ff; transform: rotate(0deg) translateY(-6px); }
+  .wld-card--b:hover { border-color: #ff2ec4; }
+  .wld-card--c:hover { border-color: #ffd000; }
+  .wld-kind { margin-bottom: var(--space-3); font: 600 0.6875rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247, 247, 255, 0.6); }
+  .wld-name { margin-bottom: var(--space-3); font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+  .wld-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: var(--space-4); }
+  .wld-price b { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: #00e5ff; }
+  .wld-card--b .wld-price b { color: #ff2ec4; }
+  .wld-card--c .wld-price b { color: #ffd000; }
+  .wld-price span { font-size: 0.8125rem; color: rgba(247, 247, 255, 0.65); }
+  .wld-feats { display: grid; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .wld-feats li { font-size: 0.875rem; color: rgba(247, 247, 255, 0.7); }
+  .wld-feats b { color: #ffffff; font-weight: 600; }
+  .wld-btn { margin-top: auto; align-self: flex-start; padding: 12px 16px; border-radius: 8px; border: 1px solid currentColor; color: #00e5ff; text-decoration: none; font: 600 0.875rem/1 var(--font-sans); }
+  .wld-card--b .wld-btn { color: #ff2ec4; }
+  .wld-card--c .wld-btn { color: #ffd000; }
+  .wld-band {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); flex-wrap: wrap;
+    padding: var(--space-5) var(--space-6); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(92deg, rgba(0, 229, 255, 0.14), rgba(255, 46, 196, 0.14));
+  }
+  .wld-band b { font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.75rem); font-weight: 600; letter-spacing: -0.03em; }
+  .wld-band span { font: 500 0.9375rem/1.4 var(--font-sans); color: rgba(247, 247, 255, 0.72); }
+
+  /* ===================== responsive ===================== */
+  @media (max-width: 1023px) {
+    .fro-tile--hero { grid-column: span 12; }
+    .fro-tile--stat { grid-column: span 6; }
+    .fro-tile--p { grid-column: span 6; }
+  }
+  @media (max-width: 809px) {
+    .aur-grid, .sla-cols, .yrd-cards { grid-template-columns: 1fr; }
+    .sla-head, .yrd-top { grid-template-columns: 1fr; }
+    .sla-col { border-left: 0; border-top: 1px solid #e2e6ee; padding-left: 0; padding-right: 0; }
+    .sla-col:first-child { border-top: 0; }
+    .aur-navlinks, .fro-navlinks { display: none; }
+    .wld-card--a, .wld-card--b, .wld-card--c { grid-column: span 12; transform: none; }
+    .fro-tile--stat { grid-column: span 12; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aur-bg::before, .aur-bg::after, .wld-track { animation: none; }
+  }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link" href="/phones">Phones</a>
+      <a class="nav__link" href="/ai">AI Calls</a>
+      <a class="nav__link" href="/shop-os">Shop OS</a>
+      <a class="nav__link" href="/wholesale">Trade supply</a>
+      <a class="nav__link" href="/pricing">Pricing</a>
+      <a class="nav__link" href="/about">About</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
+      </div>
+      <div class="themer" data-themer>
+        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
+          <span class="themer__btn-dot"></span>
+        </button>
+        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
+          <p class="themer__title">Colour theme</p>
+          <div class="themer__grid" data-themer-grid>
+            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
+            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
+            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
+          </div>
+          <div class="themer__row">
+            <label for="themerCustom">Custom accent</label>
+            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
+          </div>
+          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
+          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
+        </div>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+    </div>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/phones">Phones</a></li>
+        <li><a href="/ai">AI Calls</a></li>
+        <li><a href="/shop-os">Shop OS</a></li>
+        <li><a href="/wholesale">Trade supply</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Design directions</span>
+          <h1 class="display">Five ways to sell the same shop.</h1>
+        </div>
+        <div class="head__body">
+          <p class="lede">Five layouts of the Repeater front page, built on the same three products, the same real prices and the same wording. Two premium-tech treatments, two professional-trade treatments, and one that goes all the way. Nothing here is linked from the site and it is marked noindex; it is a preview for picking a direction.</p>
+        </div>
+      </div>
+      <div class="ed-toc">
+        <a href="#premium-aurora"><b>01</b> Premium tech — Aurora glass</a>
+        <a href="#premium-frost"><b>02</b> Premium tech — Frosted bento</a>
+        <a href="#tradie-slate"><b>03</b> Professional tradie — Slate</a>
+        <a href="#tradie-yard"><b>04</b> Professional tradie — Yard</a>
+        <a href="#wild"><b>05</b> Go wild — Neon</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 01 · Premium tech — Aurora glass ================= -->
+  <section class="ed ed-aurora" id="premium-aurora">
+    <span class="ed-tag">01 · Premium tech — Aurora glass</span>
+    <div class="aur-bg" aria-hidden="true"></div>
+    <div class="ed-wrap">
+      <nav class="aur-nav" aria-label="Concept navigation">
+        <span class="aur-mark">Repeater</span>
+        <span class="aur-navlinks"><b>Phones</b><span>AI Calls</span><span>Shop OS</span><span>Trade supply</span></span>
+        <span class="aur-navcta">Book a call</span>
+      </nav>
+      <header class="aur-hero">
+        <span class="aur-eyebrow">Fleet phones &middot; AI call answering &middot; Repair Shop OS</span>
+        <h2 class="aur-h1">Phones, calls and the shop behind them.</h2>
+        <p class="aur-lede">Three products, sold separately and priced on the page: the phones your crew can't kill, the AI that answers when nobody can, and the operating system that runs the shop behind both.</p>
+        <div class="aur-trust">
+          <span>2+ devices minimum</span><span>24-month term</span><span>Answers 24/7</span><span>Phones stay Repeater's</span>
+        </div>
+      </header>
+      <div class="aur-grid">
+        <article class="aur-card">
+          <span class="aur-kind">For tradies</span>
+          <h3 class="aur-name">Fleet phones</h3>
+          <p class="aur-price"><b>$622</b><span>all-in per device, 24-month term</span></p>
+          <ul class="aur-feats">
+            <li>Two to ten handsets per crew</li>
+            <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+            <li>MDM-managed and PPSR-registered</li>
+          </ul>
+          <a class="aur-btn" href="/phones">See the phones</a>
+          <p class="aur-alt">Repairs included on Managed Fleet, from $5.60 a week per device</p>
+        </article>
+        <article class="aur-card aur-card--hot">
+          <span class="aur-kind">For anyone whose calls are work</span>
+          <h3 class="aur-name">AI call answering</h3>
+          <p class="aur-price"><b>Quoted</b><span>to your call volume and setup</span></p>
+          <ul class="aur-feats">
+            <li>Answers every call, in your business's name, 24/7</li>
+            <li><b>Takes bookings</b> straight into the diary</li>
+            <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+          </ul>
+          <a class="aur-btn" href="/ai#demo-call">Hear it live</a>
+          <p class="aur-alt">The walkthrough call is the demo &mdash; no signup</p>
+        </article>
+        <article class="aur-card">
+          <span class="aur-kind">For repair shops</span>
+          <h3 class="aur-name">Repair Shop OS</h3>
+          <p class="aur-price"><b>$49</b><span>from, per month, AUD GST-excl.</span></p>
+          <ul class="aur-feats">
+            <li>Bookings, workshop, inventory and the books in one panel</li>
+            <li>B2B wholesale and marketing, wired in</li>
+            <li>Free trial, no card to start</li>
+          </ul>
+          <a class="aur-btn" href="/shop-os">See the OS</a>
+          <p class="aur-alt">Starter from $49 &middot; Business from $149 &middot; Enterprise from $399</p>
+        </article>
+      </div>
+      <p class="aur-note">Trade supply of parts &mdash; screens, batteries and boards, on trade terms &mdash; runs behind all three.</p>
+    </div>
+  </section>
+
+  <!-- ================= 02 · Premium tech — Frosted bento ================= -->
+  <section class="ed ed-frost" id="premium-frost">
+    <span class="ed-tag">02 · Premium tech — Frosted bento</span>
+    <div class="fro-bg" aria-hidden="true"></div>
+    <div class="ed-wrap">
+      <div class="fro-panel">
+        <nav class="fro-nav" aria-label="Concept navigation">
+          <span class="fro-mark">Repeater</span>
+          <span class="fro-navlinks"><b>Phones</b><span>AI Calls</span><span>Shop OS</span><span>Trade supply</span></span>
+          <span class="fro-navcta">Book a call</span>
+        </nav>
+        <div class="fro-bento">
+          <div class="fro-tile fro-tile--hero">
+            <span class="fro-eyebrow">Three products, one call</span>
+            <h2 class="fro-h1">Phones, calls and the shop behind them.</h2>
+            <p class="fro-lede">Three products, sold separately and priced on the page: the phones your crew can't kill, the AI that answers when nobody can, and the operating system that runs the shop behind both.</p>
+          </div>
+          <div class="fro-tile fro-tile--stat fro-stat"><b>2+</b><span>devices minimum</span></div>
+          <div class="fro-tile fro-tile--stat fro-stat"><b>24</b><span>month term</span></div>
+          <article class="fro-tile fro-tile--p">
+            <span class="fro-kind">For tradies</span>
+            <h3 class="fro-name">Fleet phones</h3>
+            <p class="fro-price"><b>$622</b><span>all-in per device, 24-month term</span></p>
+            <ul class="fro-feats">
+              <li>Two to ten handsets per crew</li>
+              <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+              <li>MDM-managed and PPSR-registered</li>
+            </ul>
+            <a class="fro-link" href="/phones">See the phones &rarr;</a>
+          </article>
+          <article class="fro-tile fro-tile--p">
+            <span class="fro-kind">For anyone whose calls are work</span>
+            <h3 class="fro-name">AI call answering</h3>
+            <p class="fro-price"><b>Quoted</b><span>to your call volume and setup</span></p>
+            <ul class="fro-feats">
+              <li>Answers every call, in your business's name, 24/7</li>
+              <li><b>Takes bookings</b> straight into the diary</li>
+              <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+            </ul>
+            <a class="fro-link" href="/ai#demo-call">Hear it live &rarr;</a>
+          </article>
+          <article class="fro-tile fro-tile--p">
+            <span class="fro-kind">For repair shops</span>
+            <h3 class="fro-name">Repair Shop OS</h3>
+            <p class="fro-price"><b>$49</b><span>from, per month, AUD GST-excl.</span></p>
+            <ul class="fro-feats">
+              <li>Bookings, workshop, inventory and the books in one panel</li>
+              <li>B2B wholesale and marketing, wired in</li>
+              <li>Free trial, no card to start</li>
+            </ul>
+            <a class="fro-link" href="/shop-os">See the OS &rarr;</a>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 · Professional tradie — Slate ================= -->
+  <section class="ed ed-slate" id="tradie-slate">
+    <span class="ed-tag">03 · Professional tradie — Slate</span>
+    <div class="ed-wrap">
+      <div class="sla-head">
+        <div>
+          <span class="sla-eyebrow">Repeater &middot; Melbourne</span>
+          <h2 class="sla-h1">Phones, calls and the shop behind them.</h2>
+          <p class="sla-lede">Three products, sold separately and priced on the page. Tell us what you run and we set up the one that is yours.</p>
+        </div>
+        <aside class="sla-board">
+          <span class="sla-board__cap">The figures</span>
+          <dl>
+            <div><dt>Fleet phones</dt><dd>$622 <small>all-in per device, on signing</small></dd></div>
+            <div><dt>Managed Fleet</dt><dd>from $5.60 <small>a week per device</small></dd></div>
+            <div><dt>AI call answering</dt><dd>Quoted <small>to your call volume</small></dd></div>
+            <div><dt>Repair Shop OS</dt><dd>from $49 <small>per month, AUD GST-excl.</small></dd></div>
+          </dl>
+        </aside>
+      </div>
+      <div class="sla-cols">
+        <article class="sla-col">
+          <span class="sla-num">01 &middot; For tradies</span>
+          <span class="sla-kind">Fleet phones</span>
+          <p class="sla-price"><b>$622</b> <span>all-in per device, 24-month term</span></p>
+          <ul class="sla-feats">
+            <li>Two to ten handsets per crew</li>
+            <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+            <li>MDM-managed and PPSR-registered</li>
+          </ul>
+          <a class="sla-link" href="/phones">See the phones &rarr;</a>
+        </article>
+        <article class="sla-col">
+          <span class="sla-num">02 &middot; For anyone whose calls are work</span>
+          <span class="sla-kind">AI call answering</span>
+          <p class="sla-price"><b>Quoted</b> <span>to your call volume and setup</span></p>
+          <ul class="sla-feats">
+            <li>Answers every call, in your business's name, 24/7</li>
+            <li><b>Takes bookings</b> straight into the diary</li>
+            <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+          </ul>
+          <a class="sla-link" href="/ai#demo-call">Hear it live &rarr;</a>
+        </article>
+        <article class="sla-col">
+          <span class="sla-num">03 &middot; For repair shops</span>
+          <span class="sla-kind">Repair Shop OS</span>
+          <p class="sla-price"><b>$49</b> <span>from, per month, AUD GST-excl.</span></p>
+          <ul class="sla-feats">
+            <li>Bookings, workshop, inventory and the books in one panel</li>
+            <li>B2B wholesale and marketing, wired in</li>
+            <li>Free trial, no card to start</li>
+          </ul>
+          <a class="sla-link" href="/shop-os">See the OS &rarr;</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 04 · Professional tradie — Yard ================= -->
+  <section class="ed ed-yard" id="tradie-yard">
+    <span class="ed-tag">04 · Professional tradie — Yard</span>
+    <div class="ed-wrap">
+      <div class="yrd-top">
+        <div>
+          <span class="yrd-badge">Fleet phones &middot; AI calls &middot; Shop OS</span>
+          <h2 class="yrd-h1">Three products, one counter.</h2>
+          <p class="yrd-lede">Same shop, written down. Every price on the board, one phone plan per client, minimum two devices. Trade supply of parts runs behind all three.</p>
+          <div class="yrd-chips"><span>Minimum two devices</span><span>24-month term</span><span>Phones stay Repeater's</span></div>
+        </div>
+        <div class="yrd-board">
+          <span class="yrd-board__cap">On the board</span>
+          <div class="yrd-row"><span>Fleet phones</span><i></i><b>$622</b></div>
+          <div class="yrd-row"><span>Managed Fleet</span><i></i><b>from $5.60/wk</b></div>
+          <div class="yrd-row"><span>AI call answering</span><i></i><b>Quoted</b></div>
+          <div class="yrd-row"><span>Repair Shop OS</span><i></i><b>from $49/mo</b></div>
+        </div>
+      </div>
+      <div class="yrd-cards">
+        <article class="yrd-card">
+          <span class="yrd-kind">For tradies</span>
+          <h3 class="yrd-name">Fleet phones</h3>
+          <p class="yrd-price"><b>$622</b> <span>all-in per device, 24-month term</span></p>
+          <ul class="yrd-feats">
+            <li>Two to ten handsets per crew</li>
+            <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+            <li>MDM-managed and PPSR-registered</li>
+          </ul>
+          <a class="yrd-btn" href="/phones">See the phones</a>
+        </article>
+        <article class="yrd-card">
+          <span class="yrd-kind">For anyone whose calls are work</span>
+          <h3 class="yrd-name">AI call answering</h3>
+          <p class="yrd-price"><b>Quoted</b> <span>to your call volume and setup</span></p>
+          <ul class="yrd-feats">
+            <li>Answers every call, in your business's name, 24/7</li>
+            <li><b>Takes bookings</b> straight into the diary</li>
+            <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+          </ul>
+          <a class="yrd-btn" href="/ai#demo-call">Hear it live</a>
+        </article>
+        <article class="yrd-card">
+          <span class="yrd-kind">For repair shops</span>
+          <h3 class="yrd-name">Repair Shop OS</h3>
+          <p class="yrd-price"><b>$49</b> <span>from, per month, AUD GST-excl.</span></p>
+          <ul class="yrd-feats">
+            <li>Bookings, workshop, inventory and the books in one panel</li>
+            <li>B2B wholesale and marketing, wired in</li>
+            <li>Free trial, no card to start</li>
+          </ul>
+          <a class="yrd-btn" href="/shop-os">See the OS</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 05 · Go wild — Neon ================= -->
+  <section class="ed ed-wild" id="wild">
+    <span class="ed-tag">05 · Go wild — Neon</span>
+    <div class="wld-marquee" aria-hidden="true">
+      <div class="wld-track">
+        <span>Fleet phones</span><span>&#215;</span><span>AI call answering</span><span>&#215;</span><span>Repair Shop OS</span><span>&#215;</span><span>Trade supply</span><span>&#215;</span>
+      </div>
+      <div class="wld-track">
+        <span>Fleet phones</span><span>&#215;</span><span>AI call answering</span><span>&#215;</span><span>Repair Shop OS</span><span>&#215;</span><span>Trade supply</span><span>&#215;</span>
+      </div>
+    </div>
+    <div class="ed-wrap wld-wrap">
+      <h2 class="wld-h1">Phones, calls and <em>the shop</em> <span class="wld-outline">behind them.</span></h2>
+      <p class="wld-lede">Three products, sold separately and priced on the page: the phones your crew can't kill, the AI that answers when nobody can, and the operating system that runs the shop behind both.</p>
+      <div class="wld-grid">
+        <article class="wld-card wld-card--a">
+          <span class="wld-kind">For tradies</span>
+          <h3 class="wld-name">Fleet phones</h3>
+          <p class="wld-price"><b>$622</b><span>all-in per device, 24-month term</span></p>
+          <ul class="wld-feats">
+            <li>Two to ten handsets per crew</li>
+            <li><b>Managed Fleet</b> adds repairs, call-outs and loaner swaps</li>
+            <li>MDM-managed and PPSR-registered</li>
+          </ul>
+          <a class="wld-btn" href="/phones">See the phones</a>
+        </article>
+        <article class="wld-card wld-card--b">
+          <span class="wld-kind">For anyone whose calls are work</span>
+          <h3 class="wld-name">AI call answering</h3>
+          <p class="wld-price"><b>Quoted</b><span>to your call volume and setup</span></p>
+          <ul class="wld-feats">
+            <li>Answers every call, in your business's name, 24/7</li>
+            <li><b>Takes bookings</b> straight into the diary</li>
+            <li>Hear it now &mdash; Jarvis calls you and walks you through it</li>
+          </ul>
+          <a class="wld-btn" href="/ai#demo-call">Hear it live</a>
+        </article>
+        <article class="wld-card wld-card--c">
+          <span class="wld-kind">For repair shops</span>
+          <h3 class="wld-name">Repair Shop OS</h3>
+          <p class="wld-price"><b>$49</b><span>from, per month, AUD GST-excl.</span></p>
+          <ul class="wld-feats">
+            <li>Bookings, workshop, inventory and the books in one panel</li>
+            <li>B2B wholesale and marketing, wired in</li>
+            <li>Free trial, no card to start</li>
+          </ul>
+          <a class="wld-btn" href="/shop-os">See the OS</a>
+        </article>
+      </div>
+      <div class="wld-band">
+        <b>Three products. One call.</b>
+        <span>Tell us what you do and we'll point you at the right one.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Design directions</span>
+      <h2>Five directions. One shop.</h2>
+      <p>Same three products, same prices, five treatments. Tell us which way to take it and we build the real thing.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/contact">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Fleet phones for tradies, AI call answering, Repair Shop OS and the services around them &mdash; supplied from Melbourne.</p>
+        <p class="foot__abn">ABN 50 702 477 361</p>
+      </div>
+      <div class="foot__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/phones">Fleet phones</a></li>
+          <li><a href="/ai">AI call answering</a></li>
+          <li><a href="/shop-os">Repair Shop OS</a></li>
+          <li><a href="/wholesale">Trade supply</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/contact">Book a call</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
