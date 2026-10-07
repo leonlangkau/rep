@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Element test — 20 show plates on the Repeater system</title>
+  <meta name="description" content="Twenty numbered variants of the Repeater show plate — the dark product panel from the AI page — built only from the existing design-system tokens, in different structures and weights, mostly dark.">
+  <meta name="robots" content="noindex,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Repeater">
+  <meta property="og:title" content="Element test — 20 show plates on the Repeater system">
+  <meta property="og:description" content="Twenty numbered variants of the Repeater show plate, built only from the existing design-system tokens.">
+  <meta property="og:url" content="https://repeater.com.au/test1">
+  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
+  <meta property="og:locale" content="en_AU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Element test — 20 show plates on the Repeater system">
+  <meta name="twitter:description" content="Twenty numbered variants of the Repeater show plate, built only from the existing design-system tokens.">
+  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
+  <link rel="canonical" href="https://repeater.com.au/test1">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <script>
+  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
+     render-blocking: a deferred script would let the page paint in the default
+     palette and then snap to the chosen one, which reads as a broken toggle
+     rather than a saved preference. It stores already-derived token values, so
+     none of the contrast logic is duplicated here. */
+  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
+  if(t)d.setAttribute("data-theme",t);
+  var a=localStorage.getItem("rep:accent");
+  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script defer src="/assets/facts.js"></script>
+  <script defer src="/assets/site.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Element test — 20 show plates on the Repeater system",
+    "url": "https://repeater.com.au/test1",
+    "isPartOf": { "@type": "WebSite", "name": "Repeater", "url": "https://repeater.com.au/" }
+  }
+  </script>
+  <style>
+  /* ==========================================================================
+     /test1 — twenty show-plate elements.
+
+     A preview page, not part of the site's design system: it loads no second
+     stylesheet and does not touch site.css. Every rule is scoped to .t1-* and
+     uses either the existing tokens or literal values, so tokens.test keeps its
+     "every custom property used in markup is declared" guarantee.
+
+     The plates are the .show__plate idea — a dark product panel. They are mostly
+     dark on purpose and take their base from --band, which is a design token, so
+     the whole set re-tints with the theme switcher rather than pinning a colour.
+     ========================================================================== */
+
+  .t1-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+  .t1-cell { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .t1-cap { display: flex; align-items: baseline; gap: var(--space-3); }
+  .t1-num { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; color: var(--accent-strong); }
+  .t1-name { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+  .t1-size { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--fg-3); }
+
+  .t1-plate { position: relative; overflow: hidden; background: var(--band); color: var(--band-fg); border-radius: var(--r-lg); padding: var(--space-5); box-shadow: var(--shadow-lg); }
+  .t1-plate--sm { border-radius: var(--r-md); padding: var(--space-4); }
+  .t1-plate--flat { box-shadow: none; }
+  .t1-plate--tight { padding: var(--space-4) var(--space-5); }
+
+  .t1-lab { font-family: var(--font-mono); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--band-fg-2); }
+  .t1-big { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+
+  /* 02 · dense rows */
+  .t1-rows { display: grid; gap: 1px; background: var(--band-line); border-radius: var(--r-sm); overflow: hidden; }
+  .t1-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); background: rgba(255, 255, 255, 0.03); padding: var(--space-2) var(--space-3); font-size: 0.8125rem; }
+  .t1-row span { color: var(--band-fg-2); }
+  .t1-row b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* 03 · tile wall */
+  .t1-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
+  .t1-tile { border: 1px solid var(--band-line); border-radius: var(--r-sm); padding: var(--space-4); background: rgba(255, 255, 255, 0.05); }
+  .t1-tile b { display: block; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .t1-tile span { display: block; margin-top: 2px; font-size: 0.6875rem; color: var(--band-fg-2); }
+
+  /* 04 · key/value grid */
+  .t1-kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--band-line); border-radius: var(--r-sm); overflow: hidden; }
+  .t1-kv dl { margin: 0; background: #101319; padding: var(--space-4); }
+  .t1-kv dt { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--band-fg-2); }
+  .t1-kv dd { margin: var(--space-2) 0 0; font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+  /* 05 · activity log */
+  .t1-log { display: grid; gap: var(--space-4); }
+  .t1-log li { display: flex; align-items: baseline; gap: var(--space-4); font-size: 0.8125rem; }
+  .t1-log em { font-style: normal; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--band-fg-2); flex: none; width: 52px; }
+  .t1-log span { flex: 1; }
+  .t1-log b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .t1-lv { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+
+  /* 06 · progress */
+  .t1-prog { display: grid; gap: var(--space-5); }
+  .t1-prog__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-2); font-size: 0.8125rem; }
+  .t1-prog__top b { font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .t1-prog__track { height: 7px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.10); overflow: hidden; }
+  .t1-prog__fill { height: 100%; border-radius: var(--r-pill); }
+
+  /* 07 · gauge */
+  .t1-gauge { display: flex; align-items: center; gap: var(--space-6); }
+  .t1-ring { flex: none; width: 106px; height: 106px; border-radius: 50%; display: grid; place-items: center;
+    background: conic-gradient(var(--accent) 0 78%, rgba(255, 255, 255, 0.10) 78% 100%); }
+  .t1-ring__in { width: 74px; height: 74px; border-radius: 50%; background: var(--band); display: grid; place-items: center; text-align: center; }
+  .t1-ring__in b { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .t1-ring__in span { display: block; font-family: var(--font-mono); font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--band-fg-2); }
+  .t1-legend { display: grid; gap: var(--space-3); font-size: 0.8125rem; }
+  .t1-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: var(--space-2); }
+
+  /* 08 · column chart */
+  .t1-chart { display: flex; align-items: flex-end; gap: var(--space-3); height: 132px; }
+  .t1-chart__col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); height: 100%; }
+  .t1-chart__bar { width: 100%; border-radius: var(--r-xs); background: linear-gradient(180deg, var(--accent), rgba(79, 140, 255, 0.28)); align-self: flex-end; }
+  .t1-chart__col span { font-family: var(--font-mono); font-size: 0.5625rem; color: var(--band-fg-2); }
+
+  /* 09 · table */
+  .t1-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+  .t1-table th { text-align: left; font-family: var(--font-mono); font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--band-fg-2); font-weight: 600; padding: 0 var(--space-3) var(--space-3); border-bottom: 1px solid var(--band-line); }
+  .t1-table td { padding: var(--space-3); border-bottom: 1px solid var(--band-line); }
+  .t1-table tr:last-child td { border-bottom: 0; }
+  .t1-table td b { font-variant-numeric: tabular-nums; }
+
+  /* 10 · device frame */
+  .t1-device { width: 210px; margin: 0 auto; border: 1px solid var(--band-line); border-radius: 26px; padding: var(--space-3); background: #0b0d12; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03); }
+  .t1-device__notch { width: 62px; height: 5px; border-radius: var(--r-pill); background: var(--band-line); margin: 0 auto var(--space-3); }
+  .t1-device__screen { border-radius: 16px; background: rgba(255, 255, 255, 0.04); padding: var(--space-3); display: grid; gap: var(--space-2); }
+  .t1-device__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font-size: 0.75rem; }
+  .t1-device__row i { font-style: normal; color: var(--band-fg-2); }
+
+  /* 11 · stat pair */
+  .t1-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--band-line); border-radius: var(--r-sm); overflow: hidden; }
+  .t1-stat { background: #101319; padding: var(--space-5); }
+  .t1-stat b { display: block; font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 600; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+  .t1-stat span { display: block; margin-top: var(--space-2); font-size: 0.75rem; color: var(--band-fg-2); }
+  .t1-stat em { font-style: normal; margin-left: var(--space-2); font-size: 0.75rem; }
+
+  /* 12 · transcript */
+  .t1-chat { display: grid; gap: var(--space-4); }
+  .t1-bub { max-width: 84%; border-radius: var(--r-md); padding: var(--space-3) var(--space-4); font-size: 0.8125rem; line-height: 1.5; }
+  .t1-bub--them { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--band-line); border-bottom-left-radius: var(--r-xs); }
+  .t1-bub--us { margin-left: auto; background: var(--accent); color: var(--fg-on-accent); border-bottom-right-radius: var(--r-xs); }
+  .t1-wave { display: flex; align-items: center; gap: 3px; height: 22px; margin-top: var(--space-2); }
+  .t1-wave i { width: 3px; border-radius: var(--r-pill); background: var(--accent); }
+
+  /* 13 · quote */
+  .t1-quote { display: grid; gap: var(--space-3); }
+  .t1-quote__line { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); font-size: 0.8125rem; }
+  .t1-quote__line span { color: var(--band-fg-2); }
+  .t1-quote__line b { font-variant-numeric: tabular-nums; }
+  .t1-quote__tot { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--band-line); }
+  .t1-quote__tot b { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+
+  /* 14 · checklist */
+  .t1-check { display: grid; gap: var(--space-3); }
+  .t1-check li { display: flex; align-items: center; gap: var(--space-3); font-size: 0.8125rem; }
+  .t1-check i { flex: none; width: 16px; height: 16px; border-radius: var(--r-xs); border: 1px solid var(--band-line); position: relative; }
+  .t1-check li.is-done i { background: var(--accent); border-color: var(--accent); }
+  .t1-check li.is-done i::after { content: ""; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: solid var(--band); border-width: 0 2px 2px 0; transform: rotate(42deg); }
+  .t1-check li.is-todo span { color: var(--band-fg-2); }
+
+  /* 15 · toggles */
+  .t1-set { display: grid; gap: 1px; background: var(--band-line); border-radius: var(--r-sm); overflow: hidden; }
+  .t1-set__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); background: rgba(255, 255, 255, 0.03); padding: var(--space-3) var(--space-4); font-size: 0.8125rem; }
+  .t1-switch { flex: none; width: 38px; height: 22px; border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.14); position: relative; }
+  .t1-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #ffffff; transition: transform var(--dur-base) var(--ease-out); }
+  .t1-switch.is-on { background: var(--accent); }
+  .t1-switch.is-on::after { transform: translateX(16px); }
+
+  /* 16 · split dashboard */
+  .t1-split { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 1px; background: var(--band-line); border-radius: var(--r-sm); overflow: hidden; }
+  .t1-split__side { background: #0b0d12; padding: var(--space-4); display: grid; gap: var(--space-3); align-content: start; }
+  .t1-split__side a { font-size: 0.8125rem; color: var(--band-fg-2); text-decoration: none; }
+  .t1-split__side a.is-active { color: var(--band-fg); font-weight: 600; }
+  .t1-split__main { background: rgba(255, 255, 255, 0.03); padding: var(--space-5); display: grid; gap: var(--space-4); }
+
+  /* 17 · ticker */
+  .t1-ticker { display: flex; gap: 32px; padding: 2px 0; overflow: hidden; }
+  .t1-ticker__track { display: flex; gap: 32px; flex: none; white-space: nowrap; animation: t1scroll 22s linear infinite; }
+  .t1-ticker__track span { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--band-fg-2); }
+  .t1-ticker b { color: var(--band-fg); }
+
+  /* 18 · badges */
+  .t1-badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .t1-pill { padding: 4px 11px; border-radius: var(--r-pill); font-family: var(--font-mono); font-size: 0.625rem; font-weight: 600; letter-spacing: 0.06em; border: 1px solid var(--band-line); color: var(--band-fg-2); }
+  .t1-pill--accent { background: rgba(79, 140, 255, 0.18); color: #a8c6ff; border-color: transparent; }
+  .t1-pill--ok { background: rgba(27, 171, 73, 0.20); color: #7fe0a3; border-color: transparent; }
+  .t1-pill--warn { background: rgba(227, 179, 36, 0.20); color: #ffdd8a; border-color: transparent; }
+  .t1-pill--dan { background: rgba(224, 56, 0, 0.20); color: #ff9a78; border-color: transparent; }
+
+  /* 19 · sparkline */
+  .t1-spark { display: grid; gap: var(--space-4); }
+  .t1-spark svg { width: 100%; height: 84px; display: block; }
+  .t1-spark__meta { display: flex; gap: var(--space-6); font-size: 0.8125rem; }
+  .t1-spark__meta b { font-variant-numeric: tabular-nums; }
+
+  /* 20 · terminal */
+  .t1-term { font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.9; }
+  .t1-term div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .t1-term em { font-style: normal; color: var(--band-fg-2); }
+  .t1-term b { font-weight: 600; }
+  .t1-caret { display: inline-block; width: 7px; height: 13px; background: var(--accent); vertical-align: -2px; animation: t1blink 1.1s steps(2, start) infinite; }
+
+  @keyframes t1scroll { to { transform: translateX(-100%); } }
+  @keyframes t1blink { 50% { opacity: 0; } }
+
+  @media (max-width: 1023px) {
+    .t1-grid { grid-template-columns: minmax(0, 1fr); }
+    .t1-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .t1-split { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .t1-ticker__track, .t1-caret { animation: none; }
+  }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link" href="/phones">Phones</a>
+      <a class="nav__link" href="/ai">AI Calls</a>
+      <a class="nav__link" href="/shop-os">Shop OS</a>
+      <a class="nav__link" href="/wholesale">Trade supply</a>
+      <a class="nav__link" href="/pricing">Pricing</a>
+      <a class="nav__link" href="/about">About</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
+      </div>
+      <div class="themer" data-themer>
+        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
+          <span class="themer__btn-dot"></span>
+        </button>
+        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
+          <p class="themer__title">Colour theme</p>
+          <div class="themer__grid" data-themer-grid>
+            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
+            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
+            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
+          </div>
+          <div class="themer__row">
+            <label for="themerCustom">Custom accent</label>
+            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
+          </div>
+          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
+          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
+        </div>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+    </div>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/phones">Phones</a></li>
+        <li><a href="/ai">AI Calls</a></li>
+        <li><a href="/shop-os">Shop OS</a></li>
+        <li><a href="/wholesale">Trade supply</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Element test</span>
+          <h1 class="display">Twenty plates, one system.</h1>
+        </div>
+        <div class="head__body">
+          <p class="lede">Twenty numbered variants of the <b>show plate</b> &mdash; the dark product panel from the AI page &mdash; each a different structure or weight. Every plate is built from the existing design-system tokens, so it re-tints with the theme switcher rather than pinning a colour. It is a preview: not linked from the site and marked noindex.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="t1-grid">
+
+        <!-- 01 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">01</span><span class="t1-name">The original plate</span><span class="t1-size">bar &middot; tiles &middot; rows</span></div>
+          <div class="t1-plate show__plate">
+            <div class="show__bar"><span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span><span class="show__title">What it handles</span></div>
+            <div class="show__tiles">
+              <div class="show__tile"><b>24/7</b><span>answers</span></div>
+              <div class="show__tile"><b>0</b><span>missed calls</span></div>
+              <div class="show__tile"><b>1</b><span>booked job</span></div>
+            </div>
+            <div class="show__rows">
+              <div class="show__row"><span>Answers calls</span><i>as your business</i><span class="show__tag">always on</span></div>
+              <div class="show__row"><span>Takes bookings</span><i>to the diary</i><span class="show__tag">no callback</span></div>
+              <div class="show__row"><span>Answers questions</span><i>price, hours, area</i><span class="show__tag">your wording</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">02</span><span class="t1-name">Dense rows</span><span class="t1-size">compact</span></div>
+          <div class="t1-plate t1-plate--tight">
+            <div class="t1-lab" style="margin-bottom:var(--space-3)">This week</div>
+            <div class="t1-rows">
+              <div class="t1-row"><span>Calls answered</span><b>128</b></div>
+              <div class="t1-row"><span>Calls missed</span><b>0</b></div>
+              <div class="t1-row"><span>Bookings taken</span><b>41</b></div>
+              <div class="t1-row"><span>Handsets live</span><b>6</b></div>
+              <div class="t1-row"><span>Repairs open</span><b>2</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">03</span><span class="t1-name">Tile wall</span><span class="t1-size">4 up</span></div>
+          <div class="t1-plate">
+            <div class="t1-tiles">
+              <div class="t1-tile"><b>$622</b><span>per device</span></div>
+              <div class="t1-tile"><b>2+</b><span>devices</span></div>
+              <div class="t1-tile"><b>24</b><span>months</span></div>
+              <div class="t1-tile"><b>0</b><span>buyout</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">04</span><span class="t1-name">Key/value grid</span><span class="t1-size">2 &times; 4</span></div>
+          <div class="t1-plate t1-plate--sm">
+            <div class="t1-kv">
+              <dl><dt>Uptime</dt><dd>99.9%</dd></dl>
+              <dl><dt>Answer time</dt><dd>1 ring</dd></dl>
+              <dl><dt>Live handsets</dt><dd>6</dd></dl>
+              <dl><dt>Open repairs</dt><dd>2</dd></dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">05</span><span class="t1-name">Activity log</span><span class="t1-size">timeline</span></div>
+          <div class="t1-plate">
+            <div class="t1-lab" style="margin-bottom:var(--space-4)">Today</div>
+            <ul class="t1-log">
+              <li><em>14:06</em><span class="t1-lv" style="background:var(--ok)"></span><span>Booking taken &mdash; hot water, Richmond</span><b>#4182</b></li>
+              <li><em>13:24</em><span class="t1-lv" style="background:var(--info)"></span><span>Call answered &mdash; after-hours</span><b>2m 10s</b></li>
+              <li><em>11:02</em><span class="t1-lv" style="background:var(--ok)"></span><span>Repair finished &mdash; screen, iPhone 14</span><b>$0</b></li>
+              <li><em>09:15</em><span class="t1-lv" style="background:var(--warn)"></span><span>Loaner issued &mdash; Pixel 8</span><b>1 day</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 06 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">06</span><span class="t1-name">Progress</span><span class="t1-size">bars</span></div>
+          <div class="t1-plate">
+            <div class="t1-prog">
+              <div>
+                <div class="t1-prog__top"><span>Calls answered</span><b>98%</b></div>
+                <div class="t1-prog__track"><div class="t1-prog__fill" style="width:98%;background:var(--accent)"></div></div>
+              </div>
+              <div>
+                <div class="t1-prog__top"><span>Repairs inside cap</span><b>82%</b></div>
+                <div class="t1-prog__track"><div class="t1-prog__fill" style="width:82%;background:var(--ok)"></div></div>
+              </div>
+              <div>
+                <div class="t1-prog__top"><span>Devices on the plan</span><b>60%</b></div>
+                <div class="t1-prog__track"><div class="t1-prog__fill" style="width:60%;background:var(--info)"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">07</span><span class="t1-name">Gauge</span><span class="t1-size">ring</span></div>
+          <div class="t1-plate">
+            <div class="t1-gauge">
+              <div class="t1-ring"><div class="t1-ring__in"><div><b>78%</b><span>inside cap</span></div></div></div>
+              <div class="t1-legend">
+                <div><i style="background:var(--accent)"></i>Used this quarter</div>
+                <div><i style="background:rgba(255,255,255,.10)"></i>Headroom</div>
+                <div style="color:var(--band-fg-2)">2 of 6 devices at the cap</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">08</span><span class="t1-name">Column chart</span><span class="t1-size">8 bars</span></div>
+          <div class="t1-plate">
+            <div class="t1-lab" style="margin-bottom:var(--space-5)">Calls per day</div>
+            <div class="t1-chart">
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:48%"></div><span>M</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:62%"></div><span>T</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:55%"></div><span>W</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:80%"></div><span>T</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:96%"></div><span>F</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:34%"></div><span>S</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:22%"></div><span>S</span></div>
+              <div class="t1-chart__col"><div class="t1-chart__bar" style="height:70%"></div><span>M</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 09 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">09</span><span class="t1-name">Data table</span><span class="t1-size">tabular</span></div>
+          <div class="t1-plate t1-plate--tight">
+            <table class="t1-table">
+              <thead><tr><th>Device</th><th>Site</th><th>Repairs</th><th>Cap</th></tr></thead>
+              <tbody>
+                <tr><td>iPhone 14</td><td>Richmond</td><td><b>2</b></td><td><b>2 / 2</b></td></tr>
+                <tr><td>Pixel 8</td><td>Richmond</td><td><b>1</b></td><td><b>1 / 2</b></td></tr>
+                <tr><td>Galaxy A55</td><td>Hawthorn</td><td><b>0</b></td><td><b>0 / 2</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">10</span><span class="t1-name">Device frame</span><span class="t1-size">handset</span></div>
+          <div class="t1-plate t1-plate--flat">
+            <div class="t1-device">
+              <div class="t1-device__notch"></div>
+              <div class="t1-device__screen">
+                <div class="t1-device__row"><span>Today</span><i>Fri</i></div>
+                <div class="t1-device__row"><i>07:30</i><span>Northcote</span></div>
+                <div class="t1-device__row"><i>10:15</i><span>Richmond</span></div>
+                <div class="t1-device__row"><i>13:00</i><span>Hawthorn</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">11</span><span class="t1-name">Stat pair</span><span class="t1-size">display</span></div>
+          <div class="t1-plate t1-plate--sm">
+            <div class="t1-stats">
+              <div class="t1-stat"><b>128</b><span>Calls answered this week<em style="color:#7fe0a3">+12%</em></span></div>
+              <div class="t1-stat"><b>41</b><span>Jobs booked<em style="color:#7fe0a3">+5</em></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">12</span><span class="t1-name">Call transcript</span><span class="t1-size">chat</span></div>
+          <div class="t1-plate">
+            <div class="t1-chat">
+              <div class="t1-bub t1-bub--them">Hi, my hot water's gone. Can anyone come today?</div>
+              <div class="t1-bub t1-bub--us">I can book you for 2pm today in Richmond. Two options, and both include the call-out.</div>
+              <div class="t1-bub t1-bub--them">Great &mdash; 2pm works.</div>
+              <div class="t1-wave" aria-hidden="true">
+                <i style="height:8px"></i><i style="height:16px"></i><i style="height:22px"></i><i style="height:12px"></i><i style="height:19px"></i><i style="height:7px"></i><i style="height:15px"></i><i style="height:21px"></i><i style="height:10px"></i><i style="height:17px"></i><i style="height:6px"></i><i style="height:13px"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 13 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">13</span><span class="t1-name">Quote</span><span class="t1-size">line items</span></div>
+          <div class="t1-plate">
+            <div class="t1-lab" style="margin-bottom:var(--space-4)">Fleet quote</div>
+            <div class="t1-quote">
+              <div class="t1-quote__line"><span>Device &times; 6</span><b>$3,432</b></div>
+              <div class="t1-quote__line"><span>Establishment</span><b>$300</b></div>
+              <div class="t1-quote__line"><span>Fleet administration</span><b>$110</b></div>
+              <div class="t1-quote__tot"><span>Day one, all-in</span><b>$3,842</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 14 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">14</span><span class="t1-name">Checklist</span><span class="t1-size">states</span></div>
+          <div class="t1-plate">
+            <ul class="t1-check">
+              <li class="is-done"><i></i><span>Setup call booked</span></li>
+              <li class="is-done"><i></i><span>Number ported</span></li>
+              <li class="is-done"><i></i><span>Wording agreed</span></li>
+              <li class="is-todo"><i></i><span>Handsets despatched</span></li>
+              <li class="is-todo"><i></i><span>MDM enrolled</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 15 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">15</span><span class="t1-name">Settings</span><span class="t1-size">toggles</span></div>
+          <div class="t1-plate t1-plate--tight">
+            <div class="t1-set">
+              <div class="t1-set__row"><span>Answer after hours</span><span class="t1-switch is-on"></span></div>
+              <div class="t1-set__row"><span>Take bookings live</span><span class="t1-switch is-on"></span></div>
+              <div class="t1-set__row"><span>Text a summary</span><span class="t1-switch"></span></div>
+              <div class="t1-set__row"><span>Send to the diary</span><span class="t1-switch is-on"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 16 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">16</span><span class="t1-name">Split panel</span><span class="t1-size">sidebar</span></div>
+          <div class="t1-plate t1-plate--flat">
+            <div class="t1-split">
+              <div class="t1-split__side">
+                <span class="t1-lab">Shop OS</span>
+                <a href="/shop-os" class="is-active">Today</a>
+                <a href="/shop-os">Bookings</a>
+                <a href="/shop-os">Workshop</a>
+                <a href="/shop-os">Inventory</a>
+              </div>
+              <div class="t1-split__main">
+                <div class="t1-big" style="font-size:1.75rem">6 jobs in</div>
+                <div class="t1-rows">
+                  <div class="t1-row"><span>Waiting on parts</span><b>2</b></div>
+                  <div class="t1-row"><span>Ready to collect</span><b>3</b></div>
+                  <div class="t1-row"><span>Booked this afternoon</span><b>4</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 17 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">17</span><span class="t1-name">Ticker</span><span class="t1-size">marquee</span></div>
+          <div class="t1-plate t1-plate--flat" style="padding:var(--space-4) 0">
+            <div class="t1-ticker" aria-hidden="true">
+              <div class="t1-ticker__track">
+                <span><b>Fleet phones</b> &middot; $622</span><span><b>AI calls</b> &middot; answered 24/7</span><span><b>Shop OS</b> &middot; from $49</span><span><b>Trade supply</b> &middot; behind all three</span>
+              </div>
+              <div class="t1-ticker__track">
+                <span><b>Fleet phones</b> &middot; $622</span><span><b>AI calls</b> &middot; answered 24/7</span><span><b>Shop OS</b> &middot; from $49</span><span><b>Trade supply</b> &middot; behind all three</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 18 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">18</span><span class="t1-name">Badge cloud</span><span class="t1-size">pills</span></div>
+          <div class="t1-plate">
+            <div class="t1-badges">
+              <span class="t1-pill t1-pill--accent">LIVE</span>
+              <span class="t1-pill t1-pill--ok">ANSWERED</span>
+              <span class="t1-pill">24-MONTH</span>
+              <span class="t1-pill t1-pill--warn">AT CAP</span>
+              <span class="t1-pill">MDM</span>
+              <span class="t1-pill t1-pill--dan">LOST DEVICE</span>
+              <span class="t1-pill">PPSR</span>
+              <span class="t1-pill t1-pill--accent">2 SERVICE EVENTS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 19 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">19</span><span class="t1-name">Sparkline</span><span class="t1-size">svg</span></div>
+          <div class="t1-plate">
+            <div class="t1-lab" style="margin-bottom:var(--space-4)">Calls answered, 30 days</div>
+            <div class="t1-spark">
+              <svg viewBox="0 0 300 84" preserveAspectRatio="none" aria-hidden="true">
+                <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="0,64 30,58 60,60 90,44 120,50 150,32 180,36 210,22 240,28 270,16 300,20"/>
+                <polygon fill="rgba(79,140,255,0.16)" points="0,64 30,58 60,60 90,44 120,50 150,32 180,36 210,22 240,28 270,16 300,20 300,84 0,84"/>
+              </svg>
+              <div class="t1-spark__meta">
+                <div><span class="t1-lab">Best day</span><br><b>96</b></div>
+                <div><span class="t1-lab">Average</span><br><b>58</b></div>
+                <div><span class="t1-lab">Trend</span><br><b>+12%</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 20 -->
+        <div class="t1-cell">
+          <div class="t1-cap"><span class="t1-num">20</span><span class="t1-name">Terminal</span><span class="t1-size">mono log</span></div>
+          <div class="t1-plate t1-plate--sm">
+            <div class="t1-term">
+              <div><em>$</em> repeater dial <b>0412 000 000</b></div>
+              <div><em>&rarr;</em> ringing &middot; answered in 1</div>
+              <div><em>&rarr;</em> intent: <b>booking</b> &middot; suburb: <b>Richmond</b></div>
+              <div><em>&rarr;</em> despatch: 2pm &middot; cap: <b>1 / 2</b></div>
+              <div><em>ok</em> call logged &middot; summary sent</div>
+              <div><em>$</em> <span class="t1-caret"></span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Element test</span>
+      <h2>Pick the plates worth keeping.</h2>
+      <p>Every plate on this page is drawn from the same tokens as the rest of the site. Tell us which ones earn a place and we fold them into the real pages.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/contact">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Fleet phones for tradies, AI call answering, Repair Shop OS and the services around them &mdash; supplied from Melbourne.</p>
+        <p class="foot__abn">ABN 50 702 477 361</p>
+      </div>
+      <div class="foot__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/phones">Fleet phones</a></li>
+          <li><a href="/ai">AI call answering</a></li>
+          <li><a href="/shop-os">Repair Shop OS</a></li>
+          <li><a href="/wholesale">Trade supply</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/contact">Book a call</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
