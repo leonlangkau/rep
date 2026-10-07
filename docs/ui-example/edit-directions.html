@@ -34,8 +34,6 @@
   if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
   </script>
   <link rel="stylesheet" href="/assets/site.css">
-  <script defer src="/assets/facts.js"></script>
-  <script defer src="/assets/site.js"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,13 +45,17 @@
   </script>
   <style>
   /* ==========================================================================
-     /edit — five design directions, self-contained.
+     edit-directions.html — five design directions, self-contained.
 
-     This page is a preview, not part of the site's design system: it does not
-     load a second stylesheet and it does not touch site.css. Everything here is
-     scoped to .ed-* and uses either the existing tokens or literal values, so
-     tokens.test keeps its "every custom property used in markup is declared"
-     guarantee.
+     Archived design exploration. This was briefly served at /edit and has been
+     moved out of public/ so it is not deployed; it lives here as a plain
+     reference file alongside the other layout examples. Serve this folder
+     (see README.md) to view it.
+
+     It is not part of the site's design system: it loads no second stylesheet
+     and it does not touch site.css. Everything here is scoped to .ed-* and uses
+     either the existing tokens or literal values, so tokens.test keeps its
+     "every custom property used in markup is declared" guarantee.
 
      ReactBits (reactbits.dev) is a React/npm library, so nothing is installed.
      Its signature treatments are recreated in plain CSS instead:

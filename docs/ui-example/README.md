@@ -12,6 +12,7 @@ Cloudflare Pages never publishes.
 | `index.html` | Shop-style home: the copy shrinks, and the **three products are the hero** — equal cards, real prices, one CTA each |
 | `phones.html` | The /phones fix: **PA-1 / PA-2 side by side**, day-one price as the headline, every cap in a scannable list, fine print under each card, plus a fees table |
 | `ai.html` | The /ai page with the **numpad**: type the number, hit OK, Jarvis calls you with the walkthrough (live on the site already — `POST /api/ai-demo-call`) |
+| `edit-directions.html` | **Five design directions** for the front page — the same three products and prices in five treatments: Aurora glass and Frosted bento (premium tech), Slate and Yard (professional trade), and Neon (go wild). Archived here after a brief spell live at `/edit`. ReactBits looks recreated in vanilla CSS |
 | `assets/shop.css` | The NEW components only (`.product`, `.plan`, `.plans`, `.planstrip`, `.hero--shop`, numpad already merged in `site.css`) — merge these into `site.css` in the rebuild |
 | `assets/site.css` | The live stylesheet, verbatim (font URLs made relative for this folder) |
 
