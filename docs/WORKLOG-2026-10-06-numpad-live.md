@@ -89,3 +89,22 @@ register; use the OpenAI Realtime bridge; Ripple voice.
 - The AGI-loop beep is removed too (RECORD FILE no longer takes the beep arg).
 - FSR suites: 119 voice checks green. Asterisk image rebuilt with the OpenAI
   TLS/SDES endpoint; sipguard.sh gained an OpenAI-media ACCEPT (RTP range).
+
+## Oct 8 (overnight) — tour v5 "beat them all" pass
+- Beat-sheet from 3 competitor recordings (Johnni ×2, Vareo) + 8 Sophiie demos:
+  fsr repo docs/VOICE-BEAT-SHEET.md (scorecard + gaps + maintenance rule).
+- TOUR v5 in fsr webhook.js: Vareo-structure greeting (identity -> AI+recorded
+  disclosure -> demo frame -> "am I speaking with the boss?"), ANSWER PLAYBOOK
+  with verbatim scripts (costs, identity, stack, are-you-real, injection,
+  bookings-land, urgent, SMS offer), question-ending recovery script that never
+  hangs up on a decline, verbatim goodbye + end_call, no roleplay/meta/tech-echo
+  leakage, slang whitelist.
+- KEY LESSON: verbatim scripts obey ~always; free-form rules ("never say X")
+  leak. Scripts now cover every conversion-critical beat.
+- tools/voice-eval/: extract_persona.mjs + eval_tour.py — text-only realtime
+  session (gpt-realtime-2.1-mini) runs the production instructions through a
+  14-turn breaker script and judges each turn. Verified across 6 runs; all
+  beats green. Realtime 2.1 gotchas: session.update needs session.type,
+  output_modalities (not modalities); response.instructions override OK; no
+  response.modalities; text turns via conversation.item.create input_text.
+- Custom Voices hook: VOICE_TOUR_RT_VOICE_ID -> {id} object on realtime tours.
