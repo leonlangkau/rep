@@ -60,6 +60,16 @@ const checkoutJs = read("public/assets/checkout.js");
 check("checkout.js carries the same three figures (no drift)",
   ["$49", "$149", "$399"].every((v) => checkoutJs.includes(v)));
 
+/* ================= AI call answering pricing ================= */
+
+console.log("\n--- AI call answering pricing ---");
+const ai = read("public/ai/index.html");
+check("Standard is $99 a month", /\$99/.test(ai));
+check("Premium is $139 a month", /\$139/.test(ai));
+check("Standard includes 100 answered minutes", /100 answered minutes/.test(ai));
+check("Premium includes 200 answered minutes", /200 answered minutes/.test(ai));
+check("extra minutes are $0.14", /\$0\.14/.test(ai));
+
 /* ================= payment honesty ================= */
 
 console.log("\n--- the checkout page never claims a payment ---");
@@ -118,6 +128,9 @@ check("trade supply is framed as depth behind the three products, not as what Re
 
 check("the old parts-counter hero is gone",
   !/Stock the counter/.test(home));
+
+check("the home AI card shows the published price, not 'Quoted'",
+  /\$99<\/b><span>from, per month, AUD<\/span>/.test(home) && !/>Quoted</.test(home));
 
 /* ================= facts.js ================= */
 

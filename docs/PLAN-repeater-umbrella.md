@@ -82,8 +82,8 @@ stays *"Apply for a trade account"* only inside the trade-supply pages.
 
 `/pricing` needs a decision: it is currently *trade* pricing (volume breaks, trade
 terms). With three products it becomes ambiguous. **Plan: keep `/pricing` as trade pricing**,
-and price the OS on `/shop-os/pricing`. Phones and AI calls are quoted per enquiry, because
-neither has published pricing yet.
+and price the OS on `/shop-os/pricing`. Phones are quoted per enquiry, because they
+have no published pricing yet.
 
 ## 4. The OS pricing page — real numbers, already written
 

@@ -16,9 +16,9 @@ apply. Confidence here is *understatement with numbers*, not adjectives.
 Concretely:
 
 - **Prices on the page.** Every hard figure is printed. Nothing is "contact
-  us for pricing" except where the price genuinely depends on volume (AI
-  answering is quoted per business — say that plainly and give the setup-call
-  path, don't dance around it).
+  us for pricing" except where the price genuinely depends on account or scope
+  (trade pricing is released to approved accounts — say that plainly and give
+  the apply path, don't dance around it).
 - **Terms are fixed.** One phone plan per client, 24-month term, minimum two
   devices, caps and fees printed in a table. Fixed terms read as strength;
   flabby "we'll work something out" reads as weakness.
@@ -55,7 +55,7 @@ Concretely:
   ABOUT more than we speak ABOUT ourselves.
 - Australian English (organise, colour, metre). en-AU locale everywhere.
 - Honest hedges only where truth demands them: "usually same day", "quoted
-  against your call volume". Never hedge what is fixed; never fix what is
+  against the scope". Never hedge what is fixed; never fix what is
   hedged.
 
 ## The three-line self-description (the spine of every page)

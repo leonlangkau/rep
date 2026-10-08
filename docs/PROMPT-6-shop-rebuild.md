@@ -26,7 +26,7 @@ introduce new colours, fonts, frameworks or motion). The UI example under
   hero: three equal cards (`.products`/`.product`), each with its kind, name,
   real price, three feature bullets and ONE CTA:
   - Fleet phones — `$622` all-in per device, 24-month term → "See the phones"
-  - AI call answering — `Quoted` to your call volume and setup → "Hear it live"
+  - AI call answering — `$99` from, per month, AUD → "Hear it live"
     (links to `/ai#demo-call`)
   - Repair Shop OS — `$49` from, per month, AUD → "See the OS"
   Trade supply stays one line under the cards ("runs behind all three").
@@ -69,7 +69,7 @@ introduce new colours, fonts, frameworks or motion). The UI example under
 - PA-8 Fleet Connect: coming soon, not open.
 - Repair Shop OS: Starter **from $49**, Business **from $149**, Enterprise
   **from $399** per month, AUD, free trial, no card to start.
-- AI call answering: quoted per business. Never print a made-up figure.
+- AI call answering: Standard $99 a month (100 answered minutes), Premium $139 (200), then $0.14 a minute.
 - Minimum two devices; one phone plan per client; solo tradie → Five Star
   Repairs walk-in.
 

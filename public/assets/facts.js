@@ -62,9 +62,9 @@
     PHONES_TERM: PLACEHOLDER,       /* minimum term */
     PHONES_EXCESS: PLACEHOLDER,     /* excess per repair, if any */
 
-    /* --- AI call answering (pillar 2). Shape is known, numbers are not. --- */
-    AI_PRICE: PLACEHOLDER,          /* monthly price */
-    AI_TRIAL: PLACEHOLDER,          /* trial length, if any */
+    /* --- AI call answering (pillar 2) is priced on its own page: Standard
+       $99 / Premium $139 a month. Like the Repair Shop OS tiers, the numbers
+       live in the markup, so they are not duplicated as placeholders here. --- */
 
     PLACEHOLDER: PLACEHOLDER
   };
