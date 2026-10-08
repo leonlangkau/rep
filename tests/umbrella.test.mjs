@@ -10,7 +10,7 @@
  *      payment action it cannot honour.
  *   2. The Repair Shop OS pricing figures are real (from aphelion's live page)
  *      and must not drift: Starter $49 / Business $149 / Enterprise $399, AUD,
- *      GST-exclusive, free trial, no card.
+ *      free trial, no card.
  *   3. The checkout page must never claim a payment happened. Those words
  *      ("order confirmed", "payment successful") belong to a verified backend
  *      webhook, not the browser.
@@ -53,8 +53,7 @@ check("Starter is from $49", /from \$49/.test(pricing));
 check("Business is from $149", /from \$149/.test(pricing));
 check("Enterprise is from $399", /from \$399/.test(pricing));
 check("every plan is AUD", (pricing.match(/AUD\/mo/g) || []).length === 3);
-check("the qualifier names GST-exclusion and the free trial",
-  /GST exclusive/.test(pricing) && /free trial/.test(pricing));
+check("the pricing states the free trial and no card", /free trial/.test(pricing) && /no card to start/.test(pricing));
 check("no card to start is stated", /no card to start/.test(pricing));
 
 const checkoutJs = read("public/assets/checkout.js");

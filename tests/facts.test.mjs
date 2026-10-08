@@ -80,7 +80,6 @@ if (R) {
   check("EMAIL_FLEET matches the same source", R.EMAIL_FLEET === "fleet@repeater.com.au");
   check("TERMS_DAYS matches trade_accounts.terms_days (7/14/30/60)",
     JSON.stringify(R.TERMS_DAYS) === JSON.stringify([7, 14, 30, 60]));
-  check("GST is declared exclusive", R.GST === "exclusive");
   check("currency is AUD and locale is en-AU", R.CURRENCY === "AUD" && R.LOCALE === "en-AU");
   check("timezone is Australia/Melbourne", R.TIMEZONE === "Australia/Melbourne");
   check("TAGLINE leads with the three products in the order the plan fixes",

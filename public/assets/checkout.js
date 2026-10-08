@@ -64,7 +64,7 @@
 
     var msg = $("#checkoutMessage");
     if (msg && !msg.value) {
-      msg.value = "I'd like to start on the " + plan.name + " plan (" + plan.price + " AUD/mo, GST-exclusive).";
+      msg.value = "I'd like to start on the " + plan.name + " plan (" + plan.price + " AUD/mo).";
     }
 
     $$("[data-plan-link]").forEach(function (a) {

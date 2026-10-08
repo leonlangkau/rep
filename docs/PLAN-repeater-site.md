@@ -382,7 +382,6 @@ window.REPEATER = {
   ADDRESS:    "[OWNER TO CONFIRM]",
   DISPATCH_SLA:"[OWNER TO CONFIRM]",  // e.g. "same-day before 2pm"
   TERMS_DAYS: [7, 14, 30, 60],        // confirmed: trade_accounts.terms_days comment
-  GST:        "exclusive",            // confirmed: trade_accounts.gst_exclusive defaults 1
   CURRENCY:   "AUD",
   LOCALE:     "en-AU"
 };
@@ -409,7 +408,7 @@ degraded state or apologise for it in the copy.
 
 `GET /api/catalogue` reads `products` + `price_breaks` from `DB_REPEATER`. Empty or
 unbound → `{ok:true,categories:[],products:[]}`, **never a 500**. Public prices are
-**GST-exclusive** and, where a `price_list_id` is required, withheld until the account
+**in AUD** and, where a `price_list_id` is required, withheld until the account
 exists — respect `trade_accounts.credit_limit` and the price-resolution order recorded
 in `007_b2b_wholesale.sql`:
 
@@ -727,7 +726,7 @@ with dark accents (deliberately *not* the dark canvas both references use),
 | 5 | **ABN** | §11.4 domain binding — legally required on an AU B2B site | muted `[OWNER TO CONFIRM]`, `facts.test.mjs` fails on a custom domain |
 | 6 | Trade phone, service/postal address | footer, `/contact`, JSON-LD | ditto. Only `orders@`/`fleet@repeater.com.au` are evidenced |
 | 7 | Dispatch SLA + delivery coverage | hero trust line, `/wholesale` `.steps` | ditto |
-| 8 | Trade-tier names + entitlements | `.tiers` on `/pricing` | Net 7/14/30/60 and GST-exclusive *are* evidenced from `trade_accounts`; names are not |
+| 8 | Trade-tier names + entitlements | `.tiers` on `/pricing` | Net 7/14/30/60 *are* evidenced from `trade_accounts`; names are not |
 | 9 | Logo (SVG) + `og:image` 1200×630 | favicon, nav, social cards | text wordmark; `og:image` is required — aphelion omits it, FSR doesn't, we do |
 | 10 | Team portraits, product photography | `.team`, `.show` | monogram tiles + CSS-drawn UI (§5) |
 | 11 | Testimonials, client logos, headline stats | `.proof`, `.marquee`, `.stats`, `.bars` | **not sent to an agent** — Leo enters these in aphelion **Admin → References**; the site picks them up via `GET /api/proof`, and empty means the block is removed from the DOM |

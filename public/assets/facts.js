@@ -18,9 +18,8 @@
  * REPLACES a placeholder with a real value, it never introduces one.
  *
  * WHICH VALUES ARE REAL: EMAIL_ORDERS and EMAIL_FLEET are evidenced in
- * aphelion/tests/sending-domains.test.mjs. TERMS_DAYS and GST are evidenced by
- * aphelion/migrations/007_b2b_wholesale.sql (trade_accounts.terms_days, and
- * gst_exclusive defaulting to 1. Australian B2B quotes are GST-exclusive).
+ * aphelion/tests/sending-domains.test.mjs. TERMS_DAYS is evidenced by
+ * aphelion/migrations/007_b2b_wholesale.sql (trade_accounts.terms_days).
  * Everything else is unknown and stays a placeholder until Leo supplies it.
  */
 (function () {
@@ -39,7 +38,6 @@
     EMAIL_ORDERS: "orders@repeater.com.au",
     EMAIL_FLEET: "fleet@repeater.com.au",
     TERMS_DAYS: [7, 14, 30, 60],
-    GST: "exclusive",
     CURRENCY: "AUD",
     LOCALE: "en-AU",
     TIMEZONE: "Australia/Melbourne",
@@ -131,7 +129,7 @@
     }
   }
 
-  /** Format money in AUD, GST-exclusive, the only way this site prints a price. */
+  /** Format money in AUD, the only way this site prints a price. */
   function money(n) {
     try {
       return new Intl.NumberFormat("en-AU", {

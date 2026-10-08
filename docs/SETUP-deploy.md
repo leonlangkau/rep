@@ -30,7 +30,7 @@ inventing or placeholdering a warranty period:
 
 `DISPATCH_SLA` · `DELIVERY` · `WARRANTY` · `MIN_ORDER`
 
-Real and evidenced: `orders@` / `fleet@repeater.com.au`, GST-exclusive pricing, and the
+Real and evidenced: `orders@` / `fleet@repeater.com.au` and the
 7/14/30/60 day terms (from `aphelion/migrations/007_b2b_wholesale.sql`).
 
 `tests/facts.test.mjs` refuses to let those placeholders reach a live domain.

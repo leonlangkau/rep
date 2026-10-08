@@ -81,7 +81,7 @@ The `repeater` database already contains the wholesale tables created by
 Wholesale tab reads and writes them. **Never recreate, alter or drop them here.**
 
 Likewise: never expose `cost_plus_rules`, `negotiated_prices` or another account's pricing
-in a public response. `/api/catalogue` publishes quantity breaks only, GST-exclusive.
+in a public response. `/api/catalogue` publishes quantity breaks only.
 
 The one exception to "never alter them" is `migrations/003_revolut_payments.sql`, which
 adds the two **neutral** processor columns to `orders` (`processor_order_id`,

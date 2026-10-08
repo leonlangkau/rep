@@ -11,7 +11,7 @@
  * WHAT IS PUBLISHED, AND WHAT IS NOT.
  *   Published: product identity (name, brand, category, condition), whether it
  *   is in stock, and its quantity-break ladder — the published trade price for
- *   each break, GST-exclusive, exactly as 007_b2b_wholesale.sql defines it.
+ *   each break, exactly as 007_b2b_wholesale.sql defines it.
  *   Withheld: anything account-specific. `negotiated_prices`, `price_lists` and
  *   `cost_plus_rules` are never read by this file, so an account's own pricing
  *   and our cost base cannot leak through this endpoint even by accident.

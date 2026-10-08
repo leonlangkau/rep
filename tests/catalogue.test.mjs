@@ -99,7 +99,7 @@ function seeded() {
   check("in_stock is false when stock is 0 (shown as 'on order', not hidden)",
     !!battery && battery.in_stock === false);
 
-  check("quantity breaks come back sorted by min_qty, GST-exclusive",
+  check("quantity breaks come back sorted by min_qty",
     screen.breaks.length === 3 &&
     screen.breaks[0].min_qty === 1 && screen.breaks[0].unit_price_ex === 171 &&
     screen.breaks[2].min_qty === 25 && screen.breaks[2].unit_price_ex === 148);

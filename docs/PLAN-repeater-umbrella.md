@@ -44,7 +44,7 @@ problem, so the page should not read as trades-only.
 **3 · The Repair Shop OS.**
 Already built and live (`aphelion.ltd/shop-os`): bookings, workshop, inventory, accounting,
 marketing, B2B wholesale and wealth in one panel, sold to other repair shops with real
-pricing — **Starter $49 / Business $149 / Enterprise $399 AUD per month, GST-exclusive, free
+pricing — **Starter $49 / Business $149 / Enterprise $399 AUD per month, free
 trial, no card to start.** Leo decided 2026-10-03 to **rebuild the page inside Repeater**.
 
 Plus **trade supply** as depth, not a pillar: the existing parts/trade-account business.
@@ -80,7 +80,7 @@ stays *"Apply for a trade account"* only inside the trade-supply pages.
 | `/about` | — | **reframe** — umbrella story, not just a parts counter |
 | `/blog` `/contact` `/apply` `/privacy` `/terms` `/404` | — | copy touch-ups |
 
-`/pricing` needs a decision: it is currently *trade* pricing (volume breaks, GST-exclusive
+`/pricing` needs a decision: it is currently *trade* pricing (volume breaks, trade
 terms). With three products it becomes ambiguous. **Plan: keep `/pricing` as trade pricing**,
 and price the OS on `/shop-os/pricing`. Phones and AI calls are quoted per enquiry, because
 neither has published pricing yet.
@@ -95,7 +95,7 @@ Copy the tiers from `aphelion/public/shop-os/pricing.html` rather than inventing
 | Business | up to 3 | from **$149** AUD/mo | + B2B wholesale (trade accounts, quotes, orders), marketing (blog, deals, AI writer), priority support |
 | Enterprise | unlimited | from **$399** AUD/mo | + wealth dashboard + lender pack, onboarding + data import, dedicated support |
 
-Keep the honest qualifier verbatim in spirit: *"Indicative prices in AUD, GST exclusive,
+Keep the honest qualifier verbatim in spirit: *"Indicative prices in AUD,
 billed monthly, confirmed on quote. Every plan starts with a free trial — you only pay after
 it ends."*
 

@@ -37,8 +37,7 @@ never invent or "improve" them.
   - **PA-2 Managed Fleet (device + care):** $622 day one per device · **fleet
     administration fee $27.50 per device, capped at $110 per plan for the whole term,
     collected in equal weekly instalments alongside the weekly fee** · **weekly care fee
-    per device: 2–4 $5.60 · 5–9 $5.10 · 10–19 $4.70 · 20–49 $4.30 · 50+ $3.90** (all +
-    GST) · the $622 day-one never discounts · standard per-phone
+    per device: 2–4 $5.60 · 5–9 $5.10 · 10–19 $4.70 · 20–49 $4.30 · 50+ $3.90** (all in AUD) · the $622 day-one never discounts · standard per-phone
     total at 2–4 devices: **$1,231.90** ($622 + $27.50 admin + $5.60 × 104) ·
     **pay-in-full option: 10% off the standard total for your tier, per device on
     signing** — computed LIVE from the exact fleet size (admin = min(n×$27.50, $110)/n,
@@ -72,7 +71,7 @@ never invent or "improve" them.
   ($20/wk), PA-4 Data Admin ($15/wk), PA-5 Ads Management ($100/wk, spend stays on the
   client's own ad accounts), PA-6 AI Receptionist ($167/month + $300 setup, 500 answered
   minutes/mo then $0.25/min), PA-7 Security Review ($400–800 quoted setup + optional
-  $12/wk monitoring, Essential Eight based). All prices + GST.
+  $12/wk monitoring, Essential Eight based). All prices in AUD.
 - **Bundle tiers exist (MSA cl 6): 2 products 5.5% → all 6 17.5%.** Present them as a
   discount line on each product's own terms. NEVER use the words package, bundle or
   add-on in customer-facing copy.
@@ -141,7 +140,7 @@ The only permitted additions are new HTML blocks styled with existing classes.
      current model." State plainly: devices are ordered on cleared funds and arrive
      within days of signing; deliberate damage is quoted before any work; theft and
      loss remain the client's risk per the agreement. Pay-in-full option under the
-     card: "$1,109 + GST for the full 24 months, paid once — saves you $123. Bigger
+     card: "$1,109 for the full 24 months, paid once — saves you $123. Bigger
      fleets prepay less — 10% off your tier's total."
    - **Managed Fleet stepper (PA-2 block):** quantity control starting at 2 devices with
      plus/minus buttons. As the count changes, the per-device weekly fee steps per §0
@@ -150,7 +149,7 @@ The only permitted additions are new HTML blocks styled with existing classes.
      and the pay-in-full figure (10% off that tier's standard total). Tier table
      displayed below the stepper so every step is visible without interaction. Headline
      for the section: "from $5.60 a week per device" (the real 2-device price) — never
-     the 50+-device price, per ACCC misleading-price rules. Show all amounts with GST.
+     the 50+-device price, per ACCC misleading-price rules. Show all amounts in AUD.
      Solo tradies (1 device) are steered to FSR walk-in repairs.
    - **Fleet Connect (PA-8) — coming-soon card:** static card between PA-2 and the
      services list. Copy: "Device + Care + SIM. One plan, one weekly fee. Coming soon."

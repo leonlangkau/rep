@@ -115,7 +115,7 @@
 
     host.innerHTML =
       '<div class="table-wrap"><table><thead>' + head + "</thead><tbody>" + body + "</tbody></table></div>" +
-      '<p class="breaks__note">All prices are GST-exclusive, in AUD. Quantity breaks apply automatically to the volume on the line.</p>';
+      '<p class="breaks__note">All prices are in AUD. Quantity breaks apply automatically to the volume on the line.</p>';
 
     show(host);
     showSectionOf(host);

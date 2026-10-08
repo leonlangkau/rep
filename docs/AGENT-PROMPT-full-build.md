@@ -69,7 +69,7 @@ HARD RULES (violating any of these is a catastrophic failure):
   this has already caused a collision (FSR 068 was taken mid-work and became 070).
 
 - NEVER expose cost_plus_rules, negotiated_prices, or another account's pricing in a
-  public response. Public catalogue shows quantity breaks only, GST-exclusive.
+  public response. Public catalogue shows quantity breaks only.
 
 - HOUSE CODE STYLE. Public JS: classic script, IIFE, "use strict", var/function (not
   const/arrow), own $/$$ helpers, promise chains not async, boot via
@@ -190,7 +190,7 @@ Gates green → commit → push.
 TASK 5 — Phase 4: catalogue, wholesale, pricing
 ────────────────────────────────────────────────────────────
 `functions/api/catalogue.js` reading `products` + `price_breaks` from DB_REPEATER →
-`{ok,categories[],products[]}`, GST-exclusive, quantity breaks only. Degrade to
+`{ok,categories[],products[]}`, quantity breaks only. Degrade to
 `{ok:true,categories:[],products:[]}` when unbound. `public/assets/catalogue.js` renders
 the grid and the `.breaks` table.
 LEO HAS CONFIRMED `products` IS EMPTY — so the empty state is the page's normal design,
@@ -200,7 +200,7 @@ too and test it with seeded rows in `tests/catalogue.test.mjs`, so the page star
 working the moment Leo loads products. Don't apologise for the empty state in the copy —
 for B2B wholesale, gated pricing is a feature.
 Build `/catalogue`, `/wholesale` (the `.steps` explainer: apply → price list → order →
-terms, plus the GST-exclusive and Net 7/14/30/60 facts, which ARE evidenced from
+terms, plus the Net 7/14/30/60 facts, which ARE evidenced from
 007_b2b_wholesale.sql), and `/pricing` (`.tiers` — tier NAMES and entitlements are
 "[OWNER TO CONFIRM]", so render the block with muted placeholders rather than invented
 prices).

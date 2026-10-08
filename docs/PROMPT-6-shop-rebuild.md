@@ -28,7 +28,7 @@ introduce new colours, fonts, frameworks or motion). The UI example under
   - Fleet phones — `$622` all-in per device, 24-month term → "See the phones"
   - AI call answering — `Quoted` to your call volume and setup → "Hear it live"
     (links to `/ai#demo-call`)
-  - Repair Shop OS — `$49` from, per month, AUD GST-excl. → "See the OS"
+  - Repair Shop OS — `$49` from, per month, AUD → "See the OS"
   Trade supply stays one line under the cards ("runs behind all three").
   Keep the existing post-hero blocks that still earn their place (how it
   works, FAQ, CTA band) and rewrite their copy in the VOICE.md register.
@@ -68,7 +68,7 @@ introduce new colours, fonts, frameworks or motion). The UI example under
   10% off for prepaid term; phones stay Repeater's property.
 - PA-8 Fleet Connect: coming soon, not open.
 - Repair Shop OS: Starter **from $49**, Business **from $149**, Enterprise
-  **from $399** per month, AUD, GST-exclusive, free trial, no card to start.
+  **from $399** per month, AUD, free trial, no card to start.
 - AI call answering: quoted per business. Never print a made-up figure.
 - Minimum two devices; one phone plan per client; solo tradie → Five Star
   Repairs walk-in.
