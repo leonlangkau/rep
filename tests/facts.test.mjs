@@ -82,8 +82,8 @@ if (R) {
     JSON.stringify(R.TERMS_DAYS) === JSON.stringify([7, 14, 30, 60]));
   check("currency is AUD and locale is en-AU", R.CURRENCY === "AUD" && R.LOCALE === "en-AU");
   check("timezone is Australia/Melbourne", R.TIMEZONE === "Australia/Melbourne");
-  check("TAGLINE leads with the three products in the order the plan fixes",
-    R.TAGLINE === "Fleet phones for tradies, AI call answering, and Repair Shop OS.");
+  check("TAGLINE leads with the four products in the order the plan fixes",
+    R.TAGLINE === "Fleet phones for tradies, AI call answering, Repair Shop OS and websites.");
 
   console.log("\n--- unresolved facts ---");
   const unresolvedKeys = R.placeholderKeys().filter((k) => k !== "PLACEHOLDER");

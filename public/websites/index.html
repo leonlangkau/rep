@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Websites, built on Cloudflare Pages. Repeater</title>
+  <meta name="description" content="Websites for trades and small business: a landing page, a shop, or a full site with a backend. One-off build from $199, and $9 a month hosting on your own Cloudflare account.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Repeater">
+  <meta property="og:title" content="Websites, built on Cloudflare Pages. Repeater">
+  <meta property="og:description" content="Websites for trades and small business: a landing page, a shop, or a full site with a backend. One-off build from $199, and $9 a month hosting on your own Cloudflare account.">
+  <meta property="og:url" content="https://repeater.com.au/websites">
+  <meta property="og:image" content="https://repeater.com.au/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_AU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Websites, built on Cloudflare Pages. Repeater">
+  <meta name="twitter:description" content="Websites for trades and small business: a landing page, a shop, or a full site with a backend. One-off build from $199, and $9 a month hosting on your own Cloudflare account.">
+  <meta name="twitter:image" content="https://repeater.com.au/assets/img/og.png">
+  <link rel="canonical" href="https://repeater.com.au/websites">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin.woff2" crossorigin>
+  <script>
+  /* Reapply the stored theme before first paint. Deliberately tiny, inline and
+     render-blocking: a deferred script would let the page paint in the default
+     palette and then snap to the chosen one, which reads as a broken toggle
+     rather than a saved preference. It stores already-derived token values, so
+     none of the contrast logic is duplicated here. */
+  (function(){try{var d=document.documentElement,t=localStorage.getItem("rep:theme");
+  if(t)d.setAttribute("data-theme",t);
+  var a=localStorage.getItem("rep:accent");
+  if(a){var o=JSON.parse(a);for(var k in o){if(k.indexOf("--")===0)d.style.setProperty(k,o[k]);}}}catch(e){}})();
+  </script>
+  <link rel="stylesheet" href="/assets/site.css">
+  <script defer src="/assets/facts.js"></script>
+  <script defer src="/assets/site.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "name": "Websites",
+        "serviceType": "Website design, build and hosting",
+        "url": "https://repeater.com.au/websites",
+        "description": "Websites built for trades and small business: a landing page, a shop, or a full site with a backend, hosted on the customer's own Cloudflare Pages account.",
+        "provider": {
+          "@type": "Organization",
+          "name": "Repeater",
+          "url": "https://repeater.com.au/",
+          "email": "orders@repeater.com.au"
+        },
+        "areaServed": { "@type": "Country", "name": "Australia" },
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Landing page",
+            "price": "199",
+            "priceCurrency": "AUD",
+            "description": "A single landing page, written and built."
+          },
+          {
+            "@type": "Offer",
+            "name": "Shop",
+            "price": "599",
+            "priceCurrency": "AUD",
+            "description": "A shop front with listings, checkout and enquiry wiring."
+          },
+          {
+            "@type": "Offer",
+            "name": "Full website",
+            "price": "1999",
+            "priceCurrency": "AUD",
+            "description": "A full multi-page website, planned and built."
+          },
+          {
+            "@type": "Offer",
+            "name": "Backend add-on",
+            "price": "5999",
+            "priceCurrency": "AUD",
+            "description": "An add-on to the full website: accounts, logins, a database and an admin panel."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What do I actually own?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The site and the hosting account are yours. We build it on your own Cloudflare account, so you are never renting the site back from us."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does the $9 a month cover?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hosting for one site on Cloudflare Pages. It includes the DDoS protection Cloudflare gives every account for free, and it does not change with how many people visit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the backend add-on?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For sites that need to do more than show: accounts, logins, a database and an admin panel. It is priced from $5999 on top of the full website, quoted to what you actually need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which tier do I need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A landing page is one page that says what you do. A shop adds listings and checkout. A full website is the whole site with its own pages. Tell us what the business does and we will say which one fits."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+      Repeater
+    </a>
+    <nav class="nav__links nav__links--desk" aria-label="Primary">
+      <a class="nav__link" href="/phones">Phones</a>
+      <a class="nav__link" href="/ai">AI Calls</a>
+      <a class="nav__link" href="/shop-os">Shop OS</a>
+      <a class="nav__link nav__link--here" href="/websites">Websites</a>
+      <a class="nav__link" href="/wholesale">Trade supply</a>
+      <a class="nav__link" href="/pricing">Pricing</a>
+      <a class="nav__link" href="/about">About</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__cta">
+        <a class="btn btn--accent btn--sm" href="/contact">Book a call</a>
+      </div>
+      <div class="themer" data-themer>
+        <button class="themer__btn" type="button" aria-label="Colour theme" aria-expanded="false" aria-controls="themerPanel" data-themer-btn>
+          <span class="themer__btn-dot"></span>
+        </button>
+        <div class="themer__panel" id="themerPanel" role="group" aria-label="Colour theme">
+          <p class="themer__title">Colour theme</p>
+          <div class="themer__grid" data-themer-grid>
+            <button class="themer__swatch" type="button" data-theme-set="" aria-pressed="true" aria-label="Trade (default)" style="--sw-bg:#ffffff;--sw-ac:#4f8cff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="ink" aria-pressed="false" aria-label="Ink" style="--sw-bg:#121212;--sw-ac:#6fa4ff"></button>
+            <button class="themer__swatch" type="button" data-theme-set="harbour" aria-pressed="false" aria-label="Harbour" style="--sw-bg:#ffffff;--sw-ac:#2563eb"></button>
+            <button class="themer__swatch" type="button" data-theme-set="bone" aria-pressed="false" aria-label="Bone" style="--sw-bg:#fbfaf7;--sw-ac:#b45309"></button>
+            <button class="themer__swatch" type="button" data-theme-set="grove" aria-pressed="false" aria-label="Grove" style="--sw-bg:#ffffff;--sw-ac:#15803d"></button>
+          </div>
+          <div class="themer__row">
+            <label for="themerCustom">Custom accent</label>
+            <input id="themerCustom" type="color" value="#4f8cff" data-themer-custom>
+          </div>
+          <button class="themer__reset" type="button" data-themer-reset>Reset to default</button>
+          <p class="themer__note">Your accent is used exactly as picked for fills and large type, and nudged to the nearest legible shade for links and small text.</p>
+        </div>
+      </div>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navPanel"><span></span></button>
+    </div>
+  </div>
+  <div class="wrap nav__panel" id="navPanel">
+    <div>
+      <ul>
+        <li><a href="/phones">Phones</a></li>
+        <li><a href="/ai">AI Calls</a></li>
+        <li><a href="/shop-os">Shop OS</a></li>
+        <li><a href="/websites">Websites</a></li>
+        <li><a href="/wholesale">Trade supply</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <a class="btn btn--accent btn--block" href="/contact">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero__in">
+      <div class="hero__copy">
+        <span class="eyebrow hero__eyebrow">Websites</span>
+        <h1 class="display">A site that earns its keep.</h1>
+        <p class="lede hero__lede">A landing page, a shop, or a full site with a backend. Built on Cloudflare Pages, so it loads fast on any connection, stays up on its own, and costs $9 a month to host on your own account.</p>
+        <div class="btn-row">
+          <a class="btn btn--accent" href="#prices">See the prices</a>
+          <a class="btn btn--line" href="/contact">Talk it through</a>
+        </div>
+        <div class="hero__trust">
+          <span>Priced <b>on the page</b></span>
+          <span class="dot"></span>
+          <span><b>You own</b> the account</span>
+          <span class="dot"></span>
+          <span>Hosting <b>$9 a month</b></span>
+        </div>
+      </div>
+
+      <div class="hero__plate rv">
+        <div class="show__plate">
+          <div class="show__bar">
+            <span class="show__dot"></span><span class="show__dot"></span><span class="show__dot"></span>
+            <span class="show__title">What you can have built</span>
+          </div>
+          <div class="show__tiles">
+            <div class="show__tile"><b>$199</b><span>a page</span></div>
+            <div class="show__tile"><b>$599</b><span>a shop</span></div>
+            <div class="show__tile"><b>$1999</b><span>a full site</span></div>
+          </div>
+          <div class="show__rows">
+            <div class="show__row"><span>Built by us</span><i>written and designed to fit</i><span class="show__tag">one-off</span></div>
+            <div class="show__row"><span>Hosted on Cloudflare</span><i>on your own account</i><span class="show__tag">$9 / mo</span></div>
+            <div class="show__row"><span>Backend add-on</span><i>accounts, database, admin</i><span class="show__tag">from $5999</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">What you get</span>
+          <h2>A site that does its job.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Not a template with your logo dropped in. We write it, build it and put it on your own account, so what you pay for is a site that looks like the business and works on a phone on site.</p>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        <article class="card rv">
+          <span class="card__num">01</span>
+          <h3>Written and built</h3>
+          <p>The words and the layout are done with you, in one go, so the site says what you actually do and who it's for.</p>
+        </article>
+        <article class="card rv" style="--d:80ms">
+          <span class="card__num">02</span>
+          <h3>Fast anywhere</h3>
+          <p>Built on Cloudflare Pages and served from the edge. It loads quickly on a phone on site, not just on the desk at home.</p>
+        </article>
+        <article class="card rv" style="--d:160ms">
+          <span class="card__num">03</span>
+          <h3>Yours to keep</h3>
+          <p>The site and the hosting account are in your name. You are never renting the site back from the people who built it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="prices">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Pricing</span>
+          <h2>Three builds, priced on the page.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Every price is a one-off for the build. Hosting is $9 a month per site, on your own Cloudflare account, and it does not change with how many people visit.</p>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        <article class="tier rv">
+          <p class="tier__name">Landing page</p>
+          <p class="tier__price">$199 <span>one-off, AUD</span></p>
+          <p class="sm muted">One page that says what you do and how to reach you.</p>
+          <ul class="tier__list">
+            <li>A single, mobile-first landing page</li>
+            <li>Written and laid out with you</li>
+            <li>Contact form wired to your inbox</li>
+            <li>Live on your own Cloudflare account</li>
+          </ul>
+          <div class="tier__foot">
+            <a class="btn btn--line btn--block" href="/contact">Start with a page</a>
+          </div>
+        </article>
+        <article class="tier tier--pick rv" style="--d:80ms">
+          <span class="tier__flag">Most asked for</span>
+          <p class="tier__name">Shop</p>
+          <p class="tier__price">$599 <span>one-off, AUD</span></p>
+          <p class="sm muted">A shop front that shows what you sell and takes orders.</p>
+          <ul class="tier__list">
+            <li>Everything in a landing page</li>
+            <li>Product or service listings</li>
+            <li>Checkout and enquiry wiring</li>
+            <li>Built to be found in search</li>
+          </ul>
+          <div class="tier__foot">
+            <a class="btn btn--accent btn--block" href="/contact">Start with a shop</a>
+          </div>
+        </article>
+        <article class="tier rv" style="--d:160ms">
+          <p class="tier__name">Full website</p>
+          <p class="tier__price">$1999 <span>one-off, AUD</span></p>
+          <p class="sm muted">The whole site, not one page, mapped and built properly.</p>
+          <ul class="tier__list">
+            <li>Multiple pages, planned and written</li>
+            <li>Navigation, blog and contact</li>
+            <li>Analytics and search setup</li>
+            <li>Handover with the account in your name</li>
+          </ul>
+          <div class="tier__foot">
+            <a class="btn btn--line btn--block" href="/contact">Start a full site</a>
+          </div>
+        </article>
+      </div>
+      <p class="form-note" style="margin-top:var(--space-8)">Need the site to do more than show? A full backend (accounts, logins, a database and an admin panel) is an add-on on top of the full website, from $5999, quoted to what you actually need. Prices in AUD.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--sunken">
+    <div class="wrap">
+      <div class="head head--split">
+        <div>
+          <span class="eyebrow head__eyebrow">Hosting</span>
+          <h2>$9 a month, on your account.</h2>
+        </div>
+        <div class="head__body">
+          <p class="lede">Hosting runs on Cloudflare Pages, on an account in your name. We set it up and hand it over, so the site is yours from day one and moving it later is a matter of pointing a domain, not asking for the keys.</p>
+        </div>
+      </div>
+      <div class="grid grid--2">
+        <div class="rv">
+          <h3 style="margin-bottom:var(--space-3)">What the $9 covers</h3>
+          <p class="muted">Hosting for one site on Cloudflare Pages, at $9 a month. It does not change with traffic, so a busy month costs the same as a quiet one.</p>
+        </div>
+        <div class="rv" style="--d:80ms">
+          <h3 style="margin-bottom:var(--space-3)">DDoS protection included</h3>
+          <p class="muted">Cloudflare provides its DDoS protection for free on every account, and it comes with the hosting. Nothing extra to buy to keep the site up under attack.</p>
+        </div>
+        <div class="rv" style="--d:160ms">
+          <h3 style="margin-bottom:var(--space-3)">Your account, your domain</h3>
+          <p class="muted">The Cloudflare account and the domain are registered to you. We build on top of them and hand over the logins when the site goes live.</p>
+        </div>
+        <div class="rv" style="--d:240ms">
+          <h3 style="margin-bottom:var(--space-3)">No lock-in</h3>
+          <p class="muted">Because the account is yours, there is nothing to migrate if you stop working with us. The site keeps running exactly as it is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap wrap--narrow">
+      <div class="head">
+        <span class="eyebrow head__eyebrow">Questions</span>
+        <h2>The websites, asked plainly.</h2>
+      </div>
+      <div class="faq">
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What do I actually own?</button>
+          <div class="faq__a"><div><p>The site and the hosting account are yours. We build it on your own Cloudflare account, so you are never renting the site back from us.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What does the $9 a month cover?</button>
+          <div class="faq__a"><div><p>Hosting for one site on Cloudflare Pages. It includes the DDoS protection Cloudflare gives every account for free, and it does not change with how many people visit.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">What is the backend add-on?</button>
+          <div class="faq__a"><div><p>For sites that need to do more than show: accounts, logins, a database and an admin panel. It is priced from $5999 on top of the full website, quoted to what you actually need.</p></div></div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">Which tier do I need?</button>
+          <div class="faq__a"><div><p>A landing page is one page that says what you do. A shop adds listings and checkout. A full website is the whole site with its own pages. Tell us what the business does and we'll say which one fits.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="sec sec--band cta">
+  <div class="wrap cta__in">
+    <div>
+      <span class="eyebrow">Websites</span>
+      <h2>The site you'd send a customer to.</h2>
+      <p>Tell us what the business does and which tier fits, and we'll quote the build.</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="/contact">Book a call</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__in">
+      <div class="foot__brand-col">
+        <span class="foot__brand">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5.5" y="17.5" width="5" height="9" rx="2.5" fill="#4f8cff"/><rect x="13.5" y="11" width="5" height="15.5" rx="2.5" fill="#4f8cff"/><rect x="21.5" y="4.5" width="5" height="22" rx="2.5" fill="#4f8cff"/></svg>
+          Repeater
+        </span>
+        <p class="foot__about">Fleet phones for tradies, AI call answering, Repair Shop OS, websites and the services around them, supplied from Melbourne.</p>
+        <p class="foot__abn">ABN 50 702 477 361</p>
+      </div>
+      <div class="foot__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/phones">Fleet phones</a></li>
+          <li><a href="/ai">AI call answering</a></li>
+          <li><a href="/shop-os">Repair Shop OS</a></li>
+          <li><a href="/websites">Websites</a></li>
+          <li><a href="/wholesale">Trade supply</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:orders@repeater.com.au">orders@repeater.com.au</a></li>
+          <li><a href="mailto:fleet@repeater.com.au">fleet@repeater.com.au</a></li>
+          <li><a href="/contact">Book a call</a></li>
+          <li><a href="/apply">Apply for a trade account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Repeater &middot; Melbourne, Australia</span>
+      <span class="mono">repeater.com.au</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

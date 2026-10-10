@@ -70,6 +70,17 @@ check("Standard includes 100 answered minutes", /100 answered minutes/.test(ai))
 check("Premium includes 200 answered minutes", /200 answered minutes/.test(ai));
 check("extra minutes are $0.14", /\$0\.14/.test(ai));
 
+/* ================= Websites pricing ================= */
+
+console.log("\n--- Websites pricing ---");
+const web = read("public/websites/index.html");
+check("a landing page is $199", /\$199/.test(web));
+check("a shop is $599", /\$599/.test(web));
+check("a full website is $1999", /\$1999/.test(web));
+check("the backend add-on is $5999", /\$5999/.test(web));
+check("hosting reads as $9 a month", /\$9 a month/.test(web));
+check("the three builds are each one-off AUD", (web.match(/one-off, AUD/g) || []).length === 3);
+
 /* ================= payment honesty ================= */
 
 console.log("\n--- the checkout page never claims a payment ---");
@@ -110,21 +121,23 @@ check("the fallback note is present in the markup (honest with JS off)",
 console.log("\n--- the umbrella home ---");
 const home = read("public/index.html");
 
-check("the hero names all three products",
-  /Fleet phones/.test(home) && /AI call answering/.test(home) && /Repair Shop OS/.test(home));
+check("the hero names all four products",
+  /Fleet phones/.test(home) && /AI call answering/.test(home) && /Repair Shop OS/.test(home) && /Websites/.test(home));
 
-// Order matters: phones, then AI calls, then Repair Shop OS. In the shop hero
-// the three products ARE the cards, so their titles are the pinned sequence.
+// Order matters: phones, then AI calls, then Repair Shop OS, then Websites. In
+// the shop hero the four products ARE the cards, so their titles are the pinned
+// sequence.
 {
   const names = [...home.matchAll(/<h2 class="product__name">([^<]+)<\/h2>/g)]
     .map((m) => m[1].trim());
-  check("the hero's three product cards are phones, AI, OS in that order",
-    names.length === 3 && names[0] === "Fleet phones" &&
-    names[1] === "AI call answering" && names[2] === "Repair Shop OS");
+  check("the hero's four product cards are phones, AI, OS, websites in that order",
+    names.length === 4 && names[0] === "Fleet phones" &&
+    names[1] === "AI call answering" && names[2] === "Repair Shop OS" &&
+    names[3] === "Websites");
 }
 
-check("trade supply is framed as depth behind the three products, not as what Repeater is",
-  /Trade supply of parts/.test(home) && /runs behind all three/.test(home));
+check("trade supply is framed as depth behind the four products, not as what Repeater is",
+  /Trade supply of parts/.test(home) && /runs behind all four/.test(home));
 
 check("the old parts-counter hero is gone",
   !/Stock the counter/.test(home));
@@ -136,7 +149,7 @@ check("the home AI card shows the published price, not 'Quoted'",
 
 console.log("\n--- facts.js umbrella line ---");
 const facts = read("public/assets/facts.js");
-check("TAGLINE names the three products in order",
-  /TAGLINE: "Fleet phones for tradies, AI call answering, and Repair Shop OS\."/.test(facts));
+check("TAGLINE names the four products in order",
+  /TAGLINE: "Fleet phones for tradies, AI call answering, Repair Shop OS and websites\."/.test(facts));
 
 done();

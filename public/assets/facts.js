@@ -30,9 +30,9 @@
   var REPEATER = {
     NAME: "Repeater",
     DOMAIN: "repeater.com.au",
-    /* The umbrella pitch: three products, in the order the plan fixes them.
+    /* The umbrella pitch: four products, in the order the plan fixes them.
        Shown in the footer and the JSON-LD; keep it in step with the pages. */
-    TAGLINE: "Fleet phones for tradies, AI call answering, and Repair Shop OS.",
+    TAGLINE: "Fleet phones for tradies, AI call answering, Repair Shop OS and websites.",
 
     /* --- Evidence-backed --- */
     EMAIL_ORDERS: "orders@repeater.com.au",

@@ -23,6 +23,7 @@ const ROUTES = [
   ["/ai", "monthly", "0.9"],
   ["/shop-os", "monthly", "0.9"],
   ["/shop-os/pricing", "monthly", "0.8"],
+  ["/websites", "monthly", "0.9"],
   ["/catalogue", "weekly", "0.7"],
   ["/wholesale", "monthly", "0.7"],
   ["/pricing", "monthly", "0.7"],

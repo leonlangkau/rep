@@ -228,6 +228,7 @@ const EXPECTED_ACTIVE = {
   "public/shop-os/index.html": "Shop OS",
   "public/shop-os/pricing/index.html": "Shop OS",
   "public/shop-os/checkout/index.html": "Shop OS",
+  "public/websites/index.html": "Websites",
 };
 
 for (const p of pages) {

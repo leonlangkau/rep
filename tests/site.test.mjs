@@ -51,6 +51,7 @@ const ROUTES = [
   ["/shop-os", "public/shop-os/index.html"],
   ["/shop-os/pricing", "public/shop-os/pricing/index.html"],
   ["/shop-os/checkout", "public/shop-os/checkout/index.html"],
+  ["/websites", "public/websites/index.html"],
   ["/catalogue", "public/catalogue/index.html"],
   ["/wholesale", "public/wholesale/index.html"],
   ["/pricing", "public/pricing/index.html"],
